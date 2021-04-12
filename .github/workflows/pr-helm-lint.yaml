@@ -1,0 +1,29 @@
+name: Helm Lint
+
+on:
+  pull_request:
+
+jobs:
+  helm-lint:
+    runs-on: 'ubuntu-latest'
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: "Get Helm Charts changed"
+        uses: jitterbit/get-changed-files@v1
+        id: updated_files
+        with:
+          format: csv
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: "Dump updated Helm Charts folders to a file"
+        run: |
+          echo "${{ steps.updated_files.outputs.all }}" | tr "," "\n" | awk -F\/ '/\// && !/^\./ {print $1"/"$2}' | sort | uniq > changed_charts
+
+      - name: "Helm Lint"
+        run: |
+          while read chart; do
+            helm lint "./${chart}/" || false
+          done <<EOF
+            $(cat changed_charts)
+          EOF
