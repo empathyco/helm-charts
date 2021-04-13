@@ -1,2 +1,2 @@
 # empathy-helm-charts
-Public Helm Charts maintained by Empathyco
+Public Helm Charts maintained by Empathyco.
