@@ -2,6 +2,11 @@ name: Helm Lint
 
 on:
   pull_request:
+    branches:
+      - main
+    paths:
+      - 'charts/**'
+      - '!charts/**/README.md'
 
 jobs:
   helm-lint:
@@ -48,12 +53,12 @@ jobs:
             set -e
 
             if [ ${rc} -ne 0 ]; then
-              echo "Version specified in charts/${chart}/Chart.yaml does not follow semantic versioning."
+              echo "Version specified in charts/${chart}/Chart.yaml is ${version}, which does not follow semantic versioning."
               echo "It must be a valid next semantic version. For this case, valid semantic versions are:"
               echo ""
-              echo "- ${major_main_next}"
-              echo "- ${minor_main_next}"
-              echo "- ${patch_main_next}"
+              echo "- Next valid patch: ${patch_main_next}"
+              echo "- Next valid minor: ${minor_main_next}"
+              echo "- Next valid major: ${major_main_next}"
               exit 1
             fi
           done <<EOF
