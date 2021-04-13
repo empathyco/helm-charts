@@ -8,6 +8,9 @@ on:
       - 'charts/**'
       - '!charts/**/README.md'
 
+env:
+  HELM_VERSION: "v3.5.3"
+
 jobs:
   helm-lint:
     runs-on: 'ubuntu-latest'
@@ -20,6 +23,11 @@ jobs:
         with:
           ref: main
           path: main
+
+      - name: "Install Helm"
+        uses: azure/setup-helm@v1
+        with:
+          version: "${{ env.HELM_VERSION }}"
 
       - name: "Get Helm Charts changed"
         uses: jitterbit/get-changed-files@v1
