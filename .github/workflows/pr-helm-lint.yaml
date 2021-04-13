@@ -48,7 +48,7 @@ jobs:
 
             # Chart version in current PR must be one of the valid versions
             set +e
-            echo ${version} | grep -w "${major_main_next} ${minor_main_next} ${patch_main_next}"
+            echo "${major_main_next},${minor_main_next},${patch_main_next}" | tr "," "\n" | grep -w "${version}" > /dev/null
             rc=$?
             set -e
 
