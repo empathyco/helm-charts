@@ -23,7 +23,11 @@ jobs:
       - name: "Helm Lint"
         run: |
           while read chart; do
-            helm lint "./${chart}/" || false
+            if [ -d ${chart} ]; then
+              helm lint "./${chart}/" || false
+            else
+              echo "Skipping ${chart} as it seems it has been deleted."
+            fi
           done <<EOF
             $(cat changed_charts)
           EOF
