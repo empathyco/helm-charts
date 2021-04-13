@@ -42,9 +42,12 @@ jobs:
             patch_main_next=${major_main}.${minor_main}.$(echo ${patch_main} + 1 | bc)
 
             # Chart version in current PR must be one of the valid versions
+            set +e
             echo ${version} | grep -w "${major_main_next} ${minor_main_next} ${patch_main_next}"
+            rc=$?
+            set -e
 
-            if [ $? -ne 0 ]; then
+            if [ ${rc} -ne 0 ]; then
               echo "Version specified in charts/${chart}/Chart.yaml does not follow semantic versioning."
               echo "It must be a valid next semantic version. For this case, valid semantic versions are:"
               echo ""
