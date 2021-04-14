@@ -10,6 +10,6 @@ We are open to contributors, you can contribute to Empathy Helm Charts through c
 $ helm repo add empathy-public https://empathyco.github.io/empathy-helm-charts
 $ helm install --name my-release empathy/<chartName>
 ```
-[![asciicast]()https://asciinema.org/a/Fga8HWa8IcjlE1D6WQVoqr9Bo.svg](https://asciinema.org/a/Fga8HWa8IcjlE1D6WQVoqr9Bo)
+[![asciicast](https://asciinema.org/a/Fga8HWa8IcjlE1D6WQVoqr9Bo.svg)](https://asciinema.org/a/Fga8HWa8IcjlE1D6WQVoqr9Bo)
 
 A complete list of supported Helm Charts can be found [here](chart_list.md).
