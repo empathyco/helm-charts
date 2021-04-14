@@ -44,31 +44,35 @@ jobs:
             # Get Chart version in the current PR branch
             version=$(awk -F\: '/^version:/ {print $(NF)}' charts/${chart}/Chart.yaml|tr -d " ")
 
-            # Get Chart version in main branch
-            version_main=$(awk -F\: '/^version:/ {print $(NF)}' main/charts/${chart}/Chart.yaml|tr -d " ")
+            # Get Chart version in main branch if the chart exists
+            if [[ -f main/charts/${chart}/Chart.yaml ]]; then
+              version_main=$(awk -F\: '/^version:/ {print $(NF)}' main/charts/${chart}/Chart.yaml|tr -d " ")
 
-            # Calculate valid next versions
-            major_main=$(echo ${version_main}| awk -F. '{print $1}')
-            major_main_next=$(echo ${major_main} + 1 | bc).0.0
-            minor_main=$(echo ${version_main}| awk -F. '{print $2}')
-            minor_main_next=${major_main}.$(echo ${minor_main} + 1 | bc).0
-            patch_main=$(echo ${version_main}| awk -F. '{print $3}')
-            patch_main_next=${major_main}.${minor_main}.$(echo ${patch_main} + 1 | bc)
+              # Calculate valid next versions
+              major_main=$(echo ${version_main}| awk -F. '{print $1}')
+              major_main_next=$(echo ${major_main} + 1 | bc).0.0
+              minor_main=$(echo ${version_main}| awk -F. '{print $2}')
+              minor_main_next=${major_main}.$(echo ${minor_main} + 1 | bc).0
+              patch_main=$(echo ${version_main}| awk -F. '{print $3}')
+              patch_main_next=${major_main}.${minor_main}.$(echo ${patch_main} + 1 | bc)
 
-            # Chart version in current PR must be one of the valid versions
-            set +e
-            echo "${major_main_next},${minor_main_next},${patch_main_next}" | tr "," "\n" | grep -w "${version}" > /dev/null
-            rc=$?
-            set -e
+              # Chart version in current PR must be one of the valid versions
+              set +e
+              echo "${major_main_next},${minor_main_next},${patch_main_next}" | tr "," "\n" | grep -w "${version}" > /dev/null
+              rc=$?
+              set -e
 
-            if [ ${rc} -ne 0 ]; then
-              echo "Version specified in charts/${chart}/Chart.yaml is ${version}, which does not follow semantic versioning."
-              echo "It must be a valid next semantic version. For this case, valid semantic versions are:"
-              echo ""
-              echo "- Next valid patch: ${patch_main_next}"
-              echo "- Next valid minor: ${minor_main_next}"
-              echo "- Next valid major: ${major_main_next}"
-              exit 1
+              if [ ${rc} -ne 0 ]; then
+                echo "Version specified in charts/${chart}/Chart.yaml is ${version}, which does not follow semantic versioning."
+                echo "It must be a valid next semantic version. For this case, valid semantic versions are:"
+                echo ""
+                echo "- Next valid patch: ${patch_main_next}"
+                echo "- Next valid minor: ${minor_main_next}"
+                echo "- Next valid major: ${major_main_next}"
+                exit 1
+              fi
+            else
+              echo "Chart ${chart} does not exist in branch main, hence skipping semantic version check."
             fi
           done <<EOF
             $(cat changed_charts)
