@@ -24,9 +24,10 @@ $ helm repo add empathy-public https://empathyco.github.io/helm-charts
 We are open to contributors, you can contribute to Empathy Helm Charts through code, documentation or bug reports. More information about contributing can be found [here](CONTRIBUTING.md).
 
 Following the list complete list of supported Helm Charts:
-
-{{ range (file.ReadDir "/Users/marce/repos/helm-charts/charts") -}}
-{{- if (file.IsDir "charts/.") -}}
-* {{ . }}{{"\n"}}
+{{- "\n" -}}
+{{- $CHARTS := (printf "%v%v" (env.Getenv "GITHUB_WORKSPACE") "/charts") -}}
+{{- range (file.ReadDir $CHARTS | coll.Sort) -}}
+{{- if (file.IsDir (printf "%v%v" $CHARTS "/.")) }}
+* {{ . }}
 {{- end -}}
 {{- end -}}
