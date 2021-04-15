@@ -3,9 +3,9 @@ entries:
   cerebro:
   - apiVersion: v2
     appVersion: 0.9.4
-    created: "2021-04-15T12:42:48.653737798Z"
+    created: "2021-04-15T15:34:07.148853276Z"
     description: A Helm chart for Cerebro - a web admin tool that replaces Kopf.
-    digest: a197cab1ed9ca02e0b71c5a98e332347715ea51b9f609833c153f0cd8ac5f9e0
+    digest: 8fe546e296112988358b637f02945c75a38093303e50f10bd8a822af9b2fcf32
     home: https://github.com/lmenezes/cerebro
     icon: https://github.com/lmenezes/cerebro/blob/master/public/img/logo.png
     maintainers:
@@ -18,4 +18,4 @@ entries:
     urls:
     - https://github.com/empathyco/helm-charts/releases/download/cerebro-0.0.2/cerebro-0.0.2.tgz
     version: 0.0.2
-generated: "2021-04-15T12:42:48.653743899Z"
+generated: "2021-04-15T15:34:07.148865576Z"
