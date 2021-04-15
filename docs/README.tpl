@@ -1,20 +1,31 @@
-Empathy Helm Charts
-===================
+# Empathy Helm Charts
 
-This repository is intended for sharing Helm Charts maintained by [Empathyco](https://www.empathy.co/).
+This repository is intended for sharing [Helm Charts](https://helm.sh/) maintained by [Empathyco](https://www.empathy.co/).
 
-We are open to contributors, you can contribute to Empathy Helm Charts through code, documentation or bug reports. More information about contributing can be found [here](CONTRIBUTING.md).
-
-# Use this repo
-```sh
+## TL;DR
+```bash
 $ helm repo add empathy-public https://empathyco.github.io/helm-charts
 $ helm install --name my-release empathy-public/<chartName>
 ```
 ![helm-repo-add](docs/helm-repo-add.gif )
 
-Here's the list complete list of supported Helm Charts:
-{{"\n"}}
-{{- range (file.ReadDir "/Users/marce/repos/helm-charts/charts") -}}
+## Install Helm
+
+Please refer to the official [Helm install guide](https://github.com/helm/helm#install) and ensure that the `helm` binary can be invoked from your `$PATH`. Using tools like [helmenv](https://github.com/little-angry-clouds/kubernetes-binaries-managers/tree/master/cmd/helmenv) can help you using multiple versions of Helm, depending on the version of the Chart you want to work with.
+
+## Use this repo
+
+Run the following command to add this repository to your Helm environment, so you can start downloading and installing charts from here:
+```bash
+$ helm repo add empathy-public https://empathyco.github.io/helm-charts
+```
+
+## Contributing
+We are open to contributors, you can contribute to Empathy Helm Charts through code, documentation or bug reports. More information about contributing can be found [here](CONTRIBUTING.md).
+
+Following the list complete list of supported Helm Charts:
+
+{{ range (file.ReadDir "/Users/marce/repos/helm-charts/charts") -}}
 {{- if (file.IsDir "charts/.") -}}
 * {{ . }}{{"\n"}}
 {{- end -}}
