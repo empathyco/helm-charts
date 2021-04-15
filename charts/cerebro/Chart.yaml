@@ -9,5 +9,5 @@ sources:
   - https://github.com/lmenezes/cerebro
   - https://github.com/lmenezes/cerebro-docker
 maintainers:
-  - name: Empathy Platform Team
+  - name: Empathy Platform Team 
     email: ops@empathy.co

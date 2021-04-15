@@ -11,6 +11,7 @@ on:
 
 env:
   HELM_VERSION: "v3.5.3"
+  GOMPLATE_VERSION: "v3.9.0"
 
 jobs:
   helm-lint:
@@ -30,6 +31,11 @@ jobs:
         with:
           version: "${{ env.HELM_VERSION }}"
 
+      - name: "Install gomplate binary"
+        run: |
+          wget -qO gomplate https://github.com/hairyhenderson/gomplate/releases/download/${{ env.GOMPLATE_VERSION }}/gomplate_linux-amd64-slim
+          chmod u+x gomplate
+
       - name: "Get Helm Charts changed"
         uses: jitterbit/get-changed-files@v1
         id: updated_files
@@ -39,7 +45,7 @@ jobs:
 
       - name: "Dump updated Helm Charts folders and validate semantic versioning"
         run: |
-          echo "${{ steps.updated_files.outputs.all }}" | tr "," "\n" | awk -F\/ '/\// && !/^\./ {print $2}' | sort | uniq > changed_charts
+          echo "${{ steps.updated_files.outputs.all }}" | tr "," "\n" | awk -F\/ '/^charts/ && /\// && !/^\./ {print $2}' | sort | uniq > changed_charts
           while read chart; do
             # Get Chart version in the current PR branch
             version=$(awk -F\: '/^version:/ {print $(NF)}' charts/${chart}/Chart.yaml|tr -d " ")
@@ -89,3 +95,13 @@ jobs:
           done <<EOF
             $(cat changed_charts)
           EOF
+
+      - name: "Generate README.md from template docs/README.tpl to update list of Charts"
+        run: |
+          ${GITHUB_WORKSPACE}/gomplate -f ${GITHUB_WORKSPACE}/docs/README.tpl -o ${GITHUB_WORKSPACE}/README.md
+
+      - name: "Commit updated README.md to the branch if changed"
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "[Automatic] - Update chart list"
+          file_pattern: README.md
