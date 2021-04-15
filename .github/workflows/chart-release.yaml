@@ -47,7 +47,7 @@ jobs:
 
       - name: "Generate README.md from template docs/README.tpl to update list of Charts"
         run: |
-          ${{ env.GITHUB_WORKSPACE }}/gomplate -f docs/README.tpl -o ${{ env.GITHUB_WORKSPACE }}/README.md
+          ${GITHUB_WORKSPACE}/gomplate -f ${GITHUB_WORKSPACE}/docs/README.tpl -o ${GITHUB_WORKSPACE}/README.md
 
       - name: "Commit updated README.md to the branch if changed"
         uses: stefanzweifel/git-auto-commit-action@v4
