@@ -27,7 +27,7 @@ Following the list complete list of supported Helm Charts:
 {{- "\n" -}}
 {{- $CHARTS := (printf "%v%v" (env.Getenv "GITHUB_WORKSPACE") "/charts") -}}
 {{- range (file.ReadDir $CHARTS | coll.Sort) -}}
-{{- if (file.IsDir (printf "%v%v" $CHARTS "/.")) }}
+{{- if (file.IsDir (printf "%v/%v" $CHARTS .)) }}
 * {{ . }}
 {{- end -}}
 {{- end -}}
