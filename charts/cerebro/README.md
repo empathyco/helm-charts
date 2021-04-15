@@ -17,8 +17,8 @@ Cerebro is an open source (MIT License) elasticsearch web admin tool built using
 To install the chart with the release name `my-release`, run:
 
 ```bash
-$ helm repo add empathy https://empathyco.github.io/empathy-helm-charts
-$ helm install --name my-release empathy/cerebro
+$ helm repo add empathy-public https://empathyco.github.io/helm-charts
+$ helm install --name my-release empathy-public/cerebro
 ```
 
 After a few seconds, you should see service statuses being written to the configured output.
@@ -85,13 +85,13 @@ Specify each parameter using the `--set key=value[,key=value]` argument to `helm
 
 ```bash
 $ helm install --name my-release \
-    empathy/cerebro
+    empathy-public/cerebro
 ```
 
 Alternatively, a YAML file that specifies the values for the parameters can be provided while installing the chart. For example,
 
 ```bash
-$ helm install --name my-release -f values.yaml empathy/cerebro
+$ helm install --name my-release -f values.yaml empathy-public/cerebro
 ```
 
 > **Tip**: You can use the default [values.yaml](values.yaml)
