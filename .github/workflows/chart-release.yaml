@@ -11,6 +11,7 @@ on:
 
 env:
   HELM_VERSION: "v3.5.3"
+  GOMPLATE_VERSION: "v3.9.0"
 
 jobs:
   helm-release:
@@ -31,6 +32,11 @@ jobs:
         with:
           version: "${{ env.HELM_VERSION }}"
 
+      - name: "Install gomplate"
+        run: |
+          wget -qO gomplate https://github.com/hairyhenderson/gomplate/releases/download/${{ env.GOMPLATE_VERSION }}/gomplate_linux-amd64-slim
+          chmod u+x gomplate
+
       - name: "Run chart-releaser"
         uses: helm/chart-releaser-action@v1.2.0
         with:
@@ -38,3 +44,13 @@ jobs:
           charts_repo_url: https://empathyco.github.io/empathy-helm-charts/
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: "Generate README.md from template docs/README.tpl to update list of Charts"
+        run: |
+          ${{ env.GITHUB_WORKSPACE }}/gomplate -f docs/README.tpl -o ${{ env.GITHUB_WORKSPACE }}/README.md
+
+      - name: "Commit updated README.md to the branch if changed"
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "[Automatic] - Update chart list"
+          file_pattern: README.md
