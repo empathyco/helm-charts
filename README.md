@@ -30,3 +30,5 @@ We are open to contributors, you can contribute to Empathy Helm Charts through c
 Following the list complete list of supported Helm Charts:
 
 * cerebro
+* elasticsearch-data
+* elasticsearch-master
