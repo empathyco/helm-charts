@@ -1,0 +1,20 @@
+{{- if .Values.prometheus.enabled -}}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    {{- include "data.labels" . | nindent 4 }}
+    {{- toYaml .Values.prometheus.annotations  | nindent 4}}
+  name: {{ include "data.fullname" . }}
+spec:
+  endpoints:
+  - honorLabels: true
+    port: metrics
+  selector:
+    matchLabels:
+      {{- include "data.selectorLabels" . | nindent 6 }}
+  namespaceSelector:
+    matchNames:
+    - {{ .Release.Namespace }}
+
+{{- end -}}
