@@ -26,14 +26,10 @@ busybox:
 
 # -- Elasticsearch configuration added in a configMap and passed to the Elasticsearch pods as Env. Vars.
 elastic_config:
-  # -- Elasticsearch cluster.name and should be unique per cluster in the namespace
-  cluster.name: test-es
   # -- Minimum number of master eligible nodes that need to join a newly elected master in order for an election to complete and for the elected node to accept its mastership.
   discovery.zen.minimum_master_nodes: "1"
   # -- Elasticsearch network.bind_host, network address(es) to which the node should bind in order to listen for incoming connections.
   network.bind_host: "0.0.0.0"
-  # -- Elasticsearch Zen discovery static unicast hosts
-  discovery.zen.ping.unicast.hosts: master-discovery
   # -- Elasticsearch master node role
   node.master: "true"
   # -- Elasticsearch ingest node role

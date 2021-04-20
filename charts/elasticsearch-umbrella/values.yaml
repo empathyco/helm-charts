@@ -1,3 +1,8 @@
+global:
+  elastic_config:
+    # -- Elasticsearch cluster.name and should be unique per cluster in the namespace. Note that it should be the same as elasticsearch-data.elastic_config."cluster.name" so both subcharts belong to the same cluster.
+    cluster.name: test-es
+
 elasticsearch-master:
 
   # -- Kubernetes replica count for the Deployment (i.e. how many pods)
@@ -24,14 +29,10 @@ elasticsearch-master:
 
   # -- Elasticsearch configuration added in a configMap and passed to the Elasticsearch pods as Env. Vars.
   elastic_config:
-    # -- Elasticsearch cluster.name and should be unique per cluster in the namespace. Note that it should be the same as elasticsearch-data.elastic_config."cluster.name" so both subcharts belong to the same cluster.
-    cluster.name: test-es
     # -- Minimum number of master eligible nodes that need to join a newly elected master in order for an election to complete and for the elected node to accept its mastership.
     discovery.zen.minimum_master_nodes: "1"
     # -- Elasticsearch network.bind_host, network address(es) to which the node should bind in order to listen for incoming connections.
     network.bind_host: "0.0.0.0"
-    # -- Elasticsearch Zen discovery static unicast hosts. Please note that the "elasticsearch-umbrella" part of the example should be the same as the release name.
-    discovery.zen.ping.unicast.hosts: elasticsearch-umbrella-elasticsearch-master-discovery
     # -- Elasticsearch master node role
     node.master: "true"
     # -- Elasticsearch ingest node role
@@ -41,7 +42,7 @@ elasticsearch-master:
     # -- Elasticsearch ml node role
     node.ml: "false"
     # -- Elasticsearch JVM options
-    ES_JAVA_OPTS: "-Xms2048m -Xmx2048m"
+    ES_JAVA_OPTS: "-Xms512m -Xmx512m"
     # -- Elasticsearch enable compression between nodes
     transport.tcp.compress: "true"
     # -- Elasticsearch enable memory lock to avoid swapping
@@ -115,12 +116,12 @@ elasticsearch-master:
       # -- CPU limits for the Deployment
       cpu: 1000m
       # -- Memory limits for the Deployment
-      memory: 3Gi
+      memory: 1Gi
     requests:
       # -- CPU requests for the Deployment
       cpu: 1000m
       # -- Memory requests for the Deployment
-      memory: 3Gi
+      memory: 1Gi
 
   # -- Configurable nodeSelector so that you can target specific nodes for your Elasticsearch cluster
   nodeSelector: {}
@@ -196,12 +197,8 @@ elasticsearch-data:
 
   # -- Elasticsearch configuration added in a configMap and passed to the Elasticsearch pods as Env. Vars.
   elastic_config:
-    # -- Elasticsearch cluster.name and should be unique per cluster in the namespace. Note that it should be the same as elasticsearch-master.elastic_config."cluster.name" so both subcharts belong to the same cluster.
-    cluster.name: test-es
     # -- Elasticsearch network.bind_host, network address(es) to which the node should bind in order to listen for incoming connections.
     network.bind_host: "0.0.0.0"
-    # -- Elasticsearch Zen discovery static unicast hosts. Please note that the "elasticsearch-umbrella" part of the example should be the same as the release name.
-    discovery.zen.ping.unicast.hosts: elasticsearch-umbrella-elasticsearch-master-discovery
     # -- Elasticsearch master node role
     node.master: "false"
     # -- Elasticsearch ingest node role
@@ -211,7 +208,7 @@ elasticsearch-data:
     # -- Elasticsearch ml node role
     node.ml: "false"
     # -- Elasticsearch JVM options
-    ES_JAVA_OPTS: "-Xms2048m -Xmx2048m"
+    ES_JAVA_OPTS: "-Xms512m -Xmx512m"
     # -- Elasticsearch enable compression between nodes
     transport.tcp.compress: "true"
     # -- Elasticsearch enable memory lock to avoid swapping
@@ -289,12 +286,12 @@ elasticsearch-data:
       # -- CPU limits for the StatefulSet
       cpu: 1000m
       # -- Memory limits for the StatefulSet
-      memory: 3Gi
+      memory: 1Gi
     requests:
       # -- CPU requests for the StatefulSet
       cpu: 1000m
       # -- Memory requests for the StatefulSet
-      memory: 3Gi
+      memory: 1Gi
 
   # -- Configurable nodeSelector so that you can target specific nodes for your Elasticsearch cluster
   nodeSelector: {}

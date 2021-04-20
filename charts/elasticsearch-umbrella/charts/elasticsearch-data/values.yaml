@@ -36,12 +36,8 @@ volume:
 
 # -- Elasticsearch configuration added in a configMap and passed to the Elasticsearch pods as Env. Vars.
 elastic_config:
-  # -- Elasticsearch cluster.name and should be unique per cluster in the namespace
-  cluster.name: test-es
   # -- Elasticsearch network.bind_host, network address(es) to which the node should bind in order to listen for incoming connections.
   network.bind_host: "0.0.0.0"
-  # -- Elasticsearch Zen discovery static unicast hosts
-  discovery.zen.ping.unicast.hosts: master-discovery
   # -- Elasticsearch master node role
   node.master: "false"
   # -- Elasticsearch ingest node role
