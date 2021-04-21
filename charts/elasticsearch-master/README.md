@@ -47,11 +47,10 @@ The command removes all the Kubernetes components associated with the chart and 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | busybox.image | string | `"busybox:1.31"` | Image for busybox initContainers (sysctlInitContainer in official Elasticsearch Helm chart) |
-| elastic_config | object | `{"ES_JAVA_OPTS":"-Xms2048m -Xmx2048m","bootstrap.memory_lock":"true","cluster.name":"test-es","discovery.zen.minimum_master_nodes":"1","discovery.zen.ping.unicast.hosts":"es-master-elasticsearch-master-discovery","network.bind_host":"0.0.0.0","node.data":"false","node.ingest":"false","node.master":"true","node.ml":"false","transport.tcp.compress":"true"}` | Elasticsearch configuration added in a configMap and passed to the Elasticsearch pods as Env. Vars. |
+| elastic_config | object | `{"ES_JAVA_OPTS":"-Xms2048m -Xmx2048m","bootstrap.memory_lock":"true","cluster.name":"test-es","discovery.zen.minimum_master_nodes":"1","network.bind_host":"0.0.0.0","node.data":"false","node.ingest":"false","node.master":"true","node.ml":"false","transport.tcp.compress":"true"}` | Elasticsearch configuration added in a configMap and passed to the Elasticsearch pods as Env. Vars. |
 | elastic_config."bootstrap.memory_lock" | string | `"true"` | Elasticsearch enable memory lock to avoid swapping |
 | elastic_config."cluster.name" | string | `"test-es"` | Elasticsearch cluster.name and should be unique per cluster in the namespace. If using the elasticsearch-data Helm chart, this value should be the same for both charts in order to belong to the same cluster. |
 | elastic_config."discovery.zen.minimum_master_nodes" | string | `"1"` | Minimum number of master eligible nodes that need to join a newly elected master in order for an election to complete and for the elected node to accept its mastership. |
-| elastic_config."discovery.zen.ping.unicast.hosts" | string | `"es-master-elasticsearch-master-discovery"` | Elasticsearch Zen discovery static unicast hosts |
 | elastic_config."network.bind_host" | string | `"0.0.0.0"` | Elasticsearch network.bind_host, network address(es) to which the node should bind in order to listen for incoming connections. Please note that the "es-master" part of the example should be the same as this chart release name, and that the elasticsearch-data charts should use the same value for discovery.zen.ping.unicast.hosts to connect. |
 | elastic_config."node.data" | string | `"false"` | Elasticsearch data node role |
 | elastic_config."node.ingest" | string | `"false"` | Elasticsearch ingest node role |

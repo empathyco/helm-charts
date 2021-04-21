@@ -43,15 +43,14 @@ The command removes all the Kubernetes components associated with the chart and 
 	- Both charts must have the same `elastic_config."cluster.name"` value so that they belong to the same Elasticsearch cluster
 	- Both charts must have the same `elastic_config."discovery.zen.ping.unicast.hosts"` value to connect. This value depends on the Elasticsearch-master chart release name as `<RELEASE_NAME>-elasticsearch-master-discovery`.
 
-## Configuration
+## Values
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | busybox.image | string | `"busybox:1.31"` | Image for busybox initContainers (sysctlInitContainer in official Elasticsearch Helm chart) |
-| elastic_config | object | `{"ES_JAVA_OPTS":"-Xms2048m -Xmx2048m","bootstrap.memory_lock":"true","cluster.name":"test-es","discovery.zen.ping.unicast.hosts":"es-master-elasticsearch-master-discovery","logger.org.elasticsearch.discovery.gce":"TRACE","network.bind_host":"0.0.0.0","node.attr.type":"search","node.data":"true","node.ingest":"true","node.master":"false","node.ml":"false","transport.tcp.compress":"true"}` | Elasticsearch configuration added in a configMap and passed to the Elasticsearch pods as Env. Vars. |
+| elastic_config | object | `{"ES_JAVA_OPTS":"-Xms2048m -Xmx2048m","bootstrap.memory_lock":"true","cluster.name":"test-es","logger.org.elasticsearch.discovery.gce":"TRACE","network.bind_host":"0.0.0.0","node.attr.type":"search","node.data":"true","node.ingest":"true","node.master":"false","node.ml":"false","transport.tcp.compress":"true"}` | Elasticsearch configuration added in a configMap and passed to the Elasticsearch pods as Env. Vars. |
 | elastic_config."bootstrap.memory_lock" | string | `"true"` | Elasticsearch enable memory lock to avoid swapping |
 | elastic_config."cluster.name" | string | `"test-es"` | Elasticsearch cluster.name and should be unique per cluster in the namespace. If using the elasticsearch-master Helm chart, this value should be the same for both charts in order to belong to the same cluster. |
-| elastic_config."discovery.zen.ping.unicast.hosts" | string | `"es-master-elasticsearch-master-discovery"` | Elasticsearch Zen discovery static unicast hosts. Please note that the "es-master" part of the example should be the same as the elasticsearch-master chart release name, and that both charts should use the same value for discovery.zen.ping.unicast.hosts to connect.  |
 | elastic_config."logger.org.elasticsearch.discovery.gce" | string | `"TRACE"` | Elasticsearch GCE discovery log level |
 | elastic_config."network.bind_host" | string | `"0.0.0.0"` | Elasticsearch network.bind_host, network address(es) to which the node should bind in order to listen for incoming connections. |
 | elastic_config."node.attr.type" | string | `"search"` | Elasticsearch node attribute type |
@@ -70,6 +69,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingress.enabled | bool | `false` | Enable Kubernetes Ingress to expose Elasticsearch pods |
 | ingress.hosts | list | `[]` | Host and path for Kubernetes Ingress. See values.yaml for an example |
 | ingress.tls | list | `[]` | TLS secret for exposing Elasticsearch with https. See values.yaml for an example |
+| masterFullname | string | `"es-test-elasticsearch-master"` | Fullname of the master, necessary to connect |
 | nameOverride | string | `""` | Overrides the clusterName when used in the naming of resources |
 | nodeSelector | object | `{}` | Configurable nodeSelector so that you can target specific nodes for your Elasticsearch cluster |
 | podAnnotations | object | `{}` | Configurable annotations applied to all Elasticsearch pods |
@@ -84,7 +84,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | replicaCount | int | `3` | Kubernetes replica count for the StatefulSet (i.e. how many pods) |
 | resources.limits.cpu | string | `"1000m"` | CPU limits for the StatefulSet |
 | resources.limits.memory | string | `"3Gi"` | Memory limits for the StatefulSet |
-| resources.requests.cpu | string | `"100m"` | CPU requests for the StatefulSet |
+| resources.requests.cpu | string | `"1000m"` | CPU requests for the StatefulSet |
 | resources.requests.memory | string | `"3Gi"` | Memory requests for the StatefulSet |
 | securityContext | object | `{"capabilities":{"add":["IPC_LOCK","SYS_RESOURCE"]}}` | Allows you to set the securityContext for the container |
 | service.port | int | `9200` | Kubernetes service port, used by Ingress to expose Elasticsearch pods |

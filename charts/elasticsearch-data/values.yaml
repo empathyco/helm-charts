@@ -20,7 +20,7 @@ nameOverride: ""
 # -- Overrides the clusterName and nodeGroup when used in the naming of resources. This should only be used when using a single nodeGroup, otherwise you will have name conflicts
 fullnameOverride: ""
 # -- Fullname of the master, necessary to connect
-masterFullname: es-test
+masterFullname: es-test-elasticsearch-master
 
 busybox:
   # -- Image for busybox initContainers (sysctlInitContainer in official Elasticsearch Helm chart)
