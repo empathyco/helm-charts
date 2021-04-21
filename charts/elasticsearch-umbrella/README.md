@@ -43,18 +43,16 @@ The command removes all the Kubernetes components associated with the chart and 
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://empathyco.github.io/helm-charts/ | elasticsearch-data | 0.1.0 |
-| https://empathyco.github.io/helm-charts/ | elasticsearch-master | 0.1.0 |
+|  | elasticsearch-data | 0.1.0 |
+|  | elasticsearch-master | 0.1.0 |
 
-## Values
+## Configuration
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | elasticsearch-data.busybox.image | string | `"busybox:1.31"` | Image for busybox initContainers (sysctlInitContainer in official Elasticsearch Helm chart) |
-| elasticsearch-data.elastic_config | object | `{"ES_JAVA_OPTS":"-Xms2048m -Xmx2048m","bootstrap.memory_lock":"true","cluster.name":"test-es","discovery.zen.ping.unicast.hosts":"elasticsearch-umbrella-elasticsearch-master-discovery","logger.org.elasticsearch.discovery.gce":"TRACE","network.bind_host":"0.0.0.0","node.attr.type":"search","node.data":"true","node.ingest":"true","node.master":"false","node.ml":"false","transport.tcp.compress":"true"}` | Elasticsearch configuration added in a configMap and passed to the Elasticsearch pods as Env. Vars. |
+| elasticsearch-data.elastic_config | object | `{"ES_JAVA_OPTS":"-Xms2048m -Xmx2048m","bootstrap.memory_lock":"true","logger.org.elasticsearch.discovery.gce":"TRACE","network.bind_host":"0.0.0.0","node.attr.type":"search","node.data":"true","node.ingest":"true","node.master":"false","node.ml":"false","transport.tcp.compress":"true"}` | Elasticsearch configuration added in a configMap and passed to the Elasticsearch pods as Env. Vars. |
 | elasticsearch-data.elastic_config."bootstrap.memory_lock" | string | `"true"` | Elasticsearch enable memory lock to avoid swapping |
-| elasticsearch-data.elastic_config."cluster.name" | string | `"test-es"` | Elasticsearch cluster.name and should be unique per cluster in the namespace. Note that it should be the same as elasticsearch-master.elastic_config."cluster.name" so both subcharts belong to the same cluster. |
-| elasticsearch-data.elastic_config."discovery.zen.ping.unicast.hosts" | string | `"elasticsearch-umbrella-elasticsearch-master-discovery"` | Elasticsearch Zen discovery static unicast hosts. Please note that the "elasticsearch-umbrella" part of the example should be the same as the release name. |
 | elasticsearch-data.elastic_config."logger.org.elasticsearch.discovery.gce" | string | `"TRACE"` | Elasticsearch GCE discovery log level |
 | elasticsearch-data.elastic_config."network.bind_host" | string | `"0.0.0.0"` | Elasticsearch network.bind_host, network address(es) to which the node should bind in order to listen for incoming connections. |
 | elasticsearch-data.elastic_config."node.attr.type" | string | `"search"` | Elasticsearch node attribute type |
@@ -100,11 +98,9 @@ The command removes all the Kubernetes components associated with the chart and 
 | elasticsearch-data.volume.storage | string | `"200Gi"` | Storage resources for statefulSet volumes |
 | elasticsearch-data.volume.storage_class | string | `"standard"` | Storage class for statefulSet volumes |
 | elasticsearch-master.busybox.image | string | `"busybox:1.31"` | Image for busybox initContainers (sysctlInitContainer in official Elasticsearch Helm chart) |
-| elasticsearch-master.elastic_config | object | `{"ES_JAVA_OPTS":"-Xms2048m -Xmx2048m","bootstrap.memory_lock":"true","cluster.name":"test-es","discovery.zen.minimum_master_nodes":"1","discovery.zen.ping.unicast.hosts":"elasticsearch-umbrella-elasticsearch-master-discovery","network.bind_host":"0.0.0.0","node.data":"false","node.ingest":"false","node.master":"true","node.ml":"false","transport.tcp.compress":"true"}` | Elasticsearch configuration added in a configMap and passed to the Elasticsearch pods as Env. Vars. |
+| elasticsearch-master.elastic_config | object | `{"ES_JAVA_OPTS":"-Xms2048m -Xmx2048m","bootstrap.memory_lock":"true","discovery.zen.minimum_master_nodes":"1","network.bind_host":"0.0.0.0","node.data":"false","node.ingest":"false","node.master":"true","node.ml":"false","transport.tcp.compress":"true"}` | Elasticsearch configuration added in a configMap and passed to the Elasticsearch pods as Env. Vars. |
 | elasticsearch-master.elastic_config."bootstrap.memory_lock" | string | `"true"` | Elasticsearch enable memory lock to avoid swapping |
-| elasticsearch-master.elastic_config."cluster.name" | string | `"test-es"` | Elasticsearch cluster.name and should be unique per cluster in the namespace. Note that it should be the same as elasticsearch-data.elastic_config."cluster.name" so both subcharts belong to the same cluster. |
 | elasticsearch-master.elastic_config."discovery.zen.minimum_master_nodes" | string | `"1"` | Minimum number of master eligible nodes that need to join a newly elected master in order for an election to complete and for the elected node to accept its mastership. |
-| elasticsearch-master.elastic_config."discovery.zen.ping.unicast.hosts" | string | `"elasticsearch-umbrella-elasticsearch-master-discovery"` | Elasticsearch Zen discovery static unicast hosts. Please note that the "elasticsearch-umbrella" part of the example should be the same as the release name. |
 | elasticsearch-master.elastic_config."network.bind_host" | string | `"0.0.0.0"` | Elasticsearch network.bind_host, network address(es) to which the node should bind in order to listen for incoming connections. |
 | elasticsearch-master.elastic_config."node.data" | string | `"false"` | Elasticsearch data node role |
 | elasticsearch-master.elastic_config."node.ingest" | string | `"false"` | Elasticsearch ingest node role |
@@ -144,6 +140,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | elasticsearch-master.serviceAccount.create | bool | `true` | Specifies whether a service account should be created |
 | elasticsearch-master.serviceAccount.name | string | `""` | The name of the service account to use. If not set and create is true, a name is generated using the fullname template |
 | elasticsearch-master.tolerations | list | `[]` | Configurable tolerations |
+| global.elastic_config."cluster.name" | string | `"test-es"` | Elasticsearch cluster.name and should be unique per cluster in the namespace. Note that it should be the same as elasticsearch-data.elastic_config."cluster.name" so both subcharts belong to the same cluster. |
 
 ----------------------------------------------
 Autogenerated from chart metadata using [helm-docs v1.5.0](https://github.com/norwoodj/helm-docs/releases/v1.5.0)

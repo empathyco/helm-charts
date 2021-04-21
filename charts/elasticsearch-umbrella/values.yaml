@@ -42,7 +42,7 @@ elasticsearch-master:
     # -- Elasticsearch ml node role
     node.ml: "false"
     # -- Elasticsearch JVM options
-    ES_JAVA_OPTS: "-Xms512m -Xmx512m"
+    ES_JAVA_OPTS: "-Xms2048m -Xmx2048m"
     # -- Elasticsearch enable compression between nodes
     transport.tcp.compress: "true"
     # -- Elasticsearch enable memory lock to avoid swapping
@@ -116,12 +116,12 @@ elasticsearch-master:
       # -- CPU limits for the Deployment
       cpu: 1000m
       # -- Memory limits for the Deployment
-      memory: 1Gi
+      memory: 3Gi
     requests:
       # -- CPU requests for the Deployment
       cpu: 1000m
       # -- Memory requests for the Deployment
-      memory: 1Gi
+      memory: 3Gi
 
   # -- Configurable nodeSelector so that you can target specific nodes for your Elasticsearch cluster
   nodeSelector: {}
@@ -208,7 +208,7 @@ elasticsearch-data:
     # -- Elasticsearch ml node role
     node.ml: "false"
     # -- Elasticsearch JVM options
-    ES_JAVA_OPTS: "-Xms512m -Xmx512m"
+    ES_JAVA_OPTS: "-Xms2048m -Xmx2048m"
     # -- Elasticsearch enable compression between nodes
     transport.tcp.compress: "true"
     # -- Elasticsearch enable memory lock to avoid swapping
@@ -286,12 +286,12 @@ elasticsearch-data:
       # -- CPU limits for the StatefulSet
       cpu: 1000m
       # -- Memory limits for the StatefulSet
-      memory: 1Gi
+      memory: 3Gi
     requests:
       # -- CPU requests for the StatefulSet
       cpu: 1000m
       # -- Memory requests for the StatefulSet
-      memory: 1Gi
+      memory: 3Gi
 
   # -- Configurable nodeSelector so that you can target specific nodes for your Elasticsearch cluster
   nodeSelector: {}

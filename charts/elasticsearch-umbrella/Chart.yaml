@@ -25,7 +25,5 @@ appVersion: 6.6.2
 dependencies:
   - name: elasticsearch-master
     version: "0.1.0"
-    repository: "https://empathyco.github.io/helm-charts/"
   - name: elasticsearch-data
     version: "0.1.0"
-    repository: "https://empathyco.github.io/helm-charts/"
