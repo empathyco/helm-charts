@@ -19,6 +19,8 @@ imagePullSecrets: []
 nameOverride: ""
 # -- Overrides the clusterName and nodeGroup when used in the naming of resources. This should only be used when using a single nodeGroup, otherwise you will have name conflicts
 fullnameOverride: ""
+# -- Fullname of the master, necessary to connect
+masterFullname: es-test
 
 busybox:
   # -- Image for busybox initContainers (sysctlInitContainer in official Elasticsearch Helm chart)
@@ -40,8 +42,6 @@ elastic_config:
   cluster.name: test-es
   # -- Elasticsearch network.bind_host, network address(es) to which the node should bind in order to listen for incoming connections.
   network.bind_host: "0.0.0.0"
-  # -- Elasticsearch Zen discovery static unicast hosts. Please note that the "es-master" part of the example should be the same as the elasticsearch-master chart release name, and that both charts should use the same value for discovery.zen.ping.unicast.hosts to connect. 
-  discovery.zen.ping.unicast.hosts: es-master-elasticsearch-master-discovery
   # -- Elasticsearch master node role
   node.master: "false"
   # -- Elasticsearch ingest node role

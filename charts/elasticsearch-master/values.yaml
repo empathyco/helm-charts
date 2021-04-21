@@ -32,8 +32,6 @@ elastic_config:
   discovery.zen.minimum_master_nodes: "1"
   # -- Elasticsearch network.bind_host, network address(es) to which the node should bind in order to listen for incoming connections. Please note that the "es-master" part of the example should be the same as this chart release name, and that the elasticsearch-data charts should use the same value for discovery.zen.ping.unicast.hosts to connect.
   network.bind_host: "0.0.0.0"
-  # -- Elasticsearch Zen discovery static unicast hosts
-  discovery.zen.ping.unicast.hosts: es-master-elasticsearch-master-discovery
   # -- Elasticsearch master node role
   node.master: "true"
   # -- Elasticsearch ingest node role
