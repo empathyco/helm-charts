@@ -32,3 +32,4 @@ Following the list complete list of supported Helm Charts:
 * cerebro
 * elasticsearch-data
 * elasticsearch-master
+* elasticsearch-umbrella
