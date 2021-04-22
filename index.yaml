@@ -40,4 +40,22 @@ entries:
     urls:
     - https://github.com/empathyco/helm-charts/releases/download/elasticsearch-master-0.1.0/elasticsearch-master-0.1.0.tgz
     version: 0.1.0
-generated: "2021-04-21T16:05:30.709505714Z"
+  elasticsearch-umbrella:
+  - apiVersion: v2
+    appVersion: 6.6.2
+    created: "2021-04-22T13:09:18.465203364Z"
+    dependencies:
+    - name: elasticsearch-master
+      repository: ""
+      version: 0.1.0
+    - name: elasticsearch-data
+      repository: ""
+      version: 0.1.0
+    description: A Helm chart for Kubernetes
+    digest: 6ae49b29c588545e2a02f3b7cb5548d9c4a7553735daa6731a425ec3f1620ea7
+    name: elasticsearch-umbrella
+    type: application
+    urls:
+    - https://github.com/empathyco/helm-charts/releases/download/elasticsearch-umbrella-0.1.0/elasticsearch-umbrella-0.1.0.tgz
+    version: 0.1.0
+generated: "2021-04-22T13:09:18.465210165Z"
