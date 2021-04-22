@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 
 # -- Kubernetes replica count for the Deployment (i.e. how many pods)
-replicaCount: 3
+replicaCount: 1
 
 image:
   # -- Docker repository for Elasticsearch image
@@ -41,7 +41,7 @@ elastic_config:
   # -- Elasticsearch ml node role
   node.ml: "false"
   # -- Elasticsearch JVM options
-  ES_JAVA_OPTS: "-Xms2048m -Xmx2048m"
+  ES_JAVA_OPTS: "-Xms1024m -Xmx1024m"
   # -- Elasticsearch enable compression between nodes
   transport.tcp.compress: "true"
   # -- Elasticsearch enable memory lock to avoid swapping
@@ -113,18 +113,18 @@ resources:
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
   limits:
     # -- CPU limits for the Deployment
-    cpu: 1000m
+    cpu: 500m
     # -- Memory limits for the Deployment
-    memory: 3Gi
+    memory: 2Gi
   requests:
     # -- CPU requests for the Deployment
-    cpu: 1000m
+    cpu: 500m
     # -- Memory requests for the Deployment
-    memory: 3Gi
+    memory: 2Gi
 
 # -- Configurable nodeSelector so that you can target specific nodes for your Elasticsearch cluster
-nodeSelector: {}
-#example/node-type: es-master
+nodeSelector:
+  node_pool: elastic-master
 
 # -- Configurable tolerations
 tolerations: []
@@ -135,31 +135,31 @@ tolerations: []
 
 rbac:
   # -- Whether RBAC rules should be created (Role and Rolebinding)
-  create: false
+  create: true
 
 podSecurityPolicy:
   # -- Create a podSecurityPolicy with minimal permissions to run this Helm chart. Be sure to also set rbac.create to true, otherwise Role and RoleBinding won't be created.
-  create: false
+  create: true
   # -- The name of the podSecurityPolicy to use.
   # If not set and create is true, a name is generated using the fullname template
   name: ""
   # -- Spec to apply to the podSecurityPolicy. See values.yaml for an example
-  spec: {}
-    #privileged: true
-    #allowedCapabilities:
-    #  - NET_BIND_SERVICE
-    #  - IPC_LOCK
-    #  - SYS_RESOURCE
-    #fsGroup:
-    #  rule: RunAsAny
-    #runAsUser:
-    #  rule: RunAsAny
-    #seLinux:
-    #  rule: RunAsAny
-    #supplementalGroups:
-    #  rule: RunAsAny
-    #volumes:
-    #  - secret
-    #  - configMap
-    #  - persistentVolumeClaim
-    #  - emptyDir
+  spec:
+    privileged: true
+    allowedCapabilities:
+     - NET_BIND_SERVICE
+     - IPC_LOCK
+     - SYS_RESOURCE
+    fsGroup:
+     rule: RunAsAny
+    runAsUser:
+     rule: RunAsAny
+    seLinux:
+     rule: RunAsAny
+    supplementalGroups:
+     rule: RunAsAny
+    volumes:
+     - secret
+     - configMap
+     - persistentVolumeClaim
+     - emptyDir
