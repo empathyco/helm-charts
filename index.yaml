@@ -32,6 +32,16 @@ entries:
   elasticsearch-master:
   - apiVersion: v2
     appVersion: 6.6.2
+    created: "2021-04-26T09:17:32.994377926Z"
+    description: A Helm chart for Kubernetes
+    digest: 2854791a484e17cc481b10cd4b982e76aba7334821fdef45115a2fe928d38496
+    name: elasticsearch-master
+    type: application
+    urls:
+    - https://github.com/empathyco/helm-charts/releases/download/elasticsearch-master-0.2.0/elasticsearch-master-0.2.0.tgz
+    version: 0.2.0
+  - apiVersion: v2
+    appVersion: 6.6.2
     created: "2021-04-21T15:34:08.421728046Z"
     description: A Helm chart for Kubernetes
     digest: d4d962a84503ad012cdf957a3aa32983e873868d3ef0831b56c35cb371820e16
@@ -58,4 +68,4 @@ entries:
     urls:
     - https://github.com/empathyco/helm-charts/releases/download/elasticsearch-umbrella-0.1.0/elasticsearch-umbrella-0.1.0.tgz
     version: 0.1.0
-generated: "2021-04-22T13:09:18.465210165Z"
+generated: "2021-04-26T09:17:32.994384826Z"
