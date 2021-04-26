@@ -65,7 +65,7 @@ spec:
                     curl -XGET -s -k --fail http://127.0.0.1:9200${path}
                 }
                 if [ -f "${START_FILE}" ]; then
-                    echo 'Elasticsearch is already running, lets check the node is healthy and there are master.nodes available'
+                    echo 'Elasticsearch is already running, lets check the node is healthy and there are master nodes available'
                     http "/_cluster/health?timeout=0s"
                 else
                     echo 'Waiting for elasticsearch cluster to become ready (request params: "wait_for_status=green&timeout=1s" )'
@@ -184,7 +184,6 @@ spec:
           volumeMounts:
           - mountPath: /master
             name: master
-
         - command:
           - sysctl
           - -w
