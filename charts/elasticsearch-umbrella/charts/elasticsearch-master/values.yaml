@@ -24,6 +24,16 @@ busybox:
   # -- Image for busybox initContainers (sysctlInitContainer in official Elasticsearch Helm chart)
   image: busybox:1.31
 
+volume:
+  # -- Annotations for statefulSet volumes
+  annotations: {}
+  #placement_strategy: es-search-volume-placement
+
+  # -- Storage resources for statefulSet volumes
+  storage: 5Gi
+  # -- Storage class for statefulSet volumes
+  storage_class: standard
+
 # -- Elasticsearch configuration added in a configMap and passed to the Elasticsearch pods as Env. Vars.
 elastic_config:
   # -- Minimum number of master eligible nodes that need to join a newly elected master in order for an election to complete and for the elected node to accept its mastership.
