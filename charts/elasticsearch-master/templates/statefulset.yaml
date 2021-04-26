@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: {{ include "master.fullname" . }}
   labels:
@@ -9,11 +9,7 @@ spec:
   selector:
     matchLabels:
       {{- include "master.selectorLabels" . | nindent 6 }}
-  strategy:
-    rollingUpdate:
-      maxSurge: 0
-      maxUnavailable: 1
-    type: RollingUpdate
+  serviceName: {{ include "master.fullname" . }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -69,7 +65,7 @@ spec:
                     curl -XGET -s -k --fail http://127.0.0.1:9200${path}
                 }
                 if [ -f "${START_FILE}" ]; then
-                    echo 'Elasticsearch is already running, lets check the node is healthy and there are master nodes available'
+                    echo 'Elasticsearch is already running, lets check the node is healthy and there are master.nodes available'
                     http "/_cluster/health?timeout=0s"
                 else
                     echo 'Waiting for elasticsearch cluster to become ready (request params: "wait_for_status=green&timeout=1s" )'
@@ -84,63 +80,9 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
-            - mountPath: /data
-              name: storage
-        - command:
-          - sh
-          - -c
-          - |
-            #!/usr/bin/env bash
-            set -eo pipefail
-
-            http () {
-                local path="$1"
-                if [ -n "${ELASTIC_USERNAME}" ] && [ -n "${ELASTIC_PASSWORD}" ]; then
-                  BASIC_AUTH="-u ${ELASTIC_USERNAME}:${ELASTIC_PASSWORD}"
-                else
-                  BASIC_AUTH=''
-                fi
-                curl -XGET -s -k --fail ${BASIC_AUTH} http://elasticsearch-master:9200${path}
-            }
-
-            cleanup () {
-              while true ; do
-                local master="$(http "/_cat/master?h=node" || echo "")"
-                if [[ $master == "elasticsearch-master"* && $master != "${NODE_NAME}" ]]; then
-                  echo "This node is not master."
-                  break
-                fi
-                echo "This node is still master, waiting gracefully for it to step down"
-                sleep 1
-              done
-
-              exit 0
-            }
-
-            trap cleanup SIGTERM
-
-            sleep infinity &
-            wait $!
-          env:
-          - name: ES_JAVA_OPTS
-            value: "-Xms128m -Xmx128m"
-          - name: NODE_NAME
-            valueFrom:
-              fieldRef:
-                fieldPath: metadata.name
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: IfNotPresent
-          name: graceful-termination-handler
-          resources:
-            limits:
-              cpu: 100m
-              memory: 256Mi
-            requests:
-              cpu: 100m
-              memory: 256Mi
-
-        {{ if .Values.prometheus.enabled }}
-        
+            - mountPath: /usr/share/elasticsearch/master
+              name: master
+        {{ if .Values.prometheus.enabled }}      
         - command:
           - /bin/elasticsearch_exporter
           - --es.uri=http://127.0.0.1:9200
@@ -184,6 +126,19 @@ spec:
 
         {{- end }}
       initContainers:
+        - command:
+          - sh
+          - -c
+          - chown -R 1000:1000 /master
+          image: {{ .Values.busybox.image }}
+          imagePullPolicy: IfNotPresent
+          name: fix-permissions
+          securityContext:
+            privileged: true
+          volumeMounts:
+          - mountPath: /master
+            name: master
+
         - command:
           - sysctl
           - -w
@@ -229,10 +184,6 @@ spec:
           name: increase-fd-unlimited
           securityContext:
             privileged: true
-      volumes:
-      - emptyDir:
-          medium: ""
-        name: storage
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -253,3 +204,19 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+  volumeClaimTemplates:
+    - metadata:
+        {{- with .Values.volume.annotations }}
+        annotations:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+        labels:
+        {{- include "master.labels" . | nindent 10 }}
+        name: master
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: {{ .Values.volume.storage }}
+        storageClassName: {{ .Values.volume.storage_class }}

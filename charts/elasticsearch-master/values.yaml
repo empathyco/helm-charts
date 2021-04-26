@@ -24,6 +24,16 @@ busybox:
   # -- Image for busybox initContainers (sysctlInitContainer in official Elasticsearch Helm chart)
   image: busybox:1.31
 
+volume:
+  # -- Annotations for statefulSet volumes
+  annotations: {}
+  #placement_strategy: es-search-volume-placement
+  
+  # -- Storage resources for statefulSet volumes
+  storage: 5Gi
+  # -- Storage class for statefulSet volumes
+  storage_class: standard
+
 # -- Elasticsearch configuration added in a configMap and passed to the Elasticsearch pods as Env. Vars.
 elastic_config:
   # -- Elasticsearch cluster.name and should be unique per cluster in the namespace. If using the elasticsearch-data Helm chart, this value should be the same for both charts in order to belong to the same cluster.
@@ -145,20 +155,20 @@ podSecurityPolicy:
   name: ""
   # -- Spec to apply to the podSecurityPolicy. See values.yaml for an example
   spec: {}
-    #privileged: true
-    #allowedCapabilities:
+    # privileged: true
+    # allowedCapabilities:
     #  - NET_BIND_SERVICE
     #  - IPC_LOCK
     #  - SYS_RESOURCE
-    #fsGroup:
+    # fsGroup:
     #  rule: RunAsAny
-    #runAsUser:
+    # runAsUser:
     #  rule: RunAsAny
-    #seLinux:
+    # seLinux:
     #  rule: RunAsAny
-    #supplementalGroups:
+    # supplementalGroups:
     #  rule: RunAsAny
-    #volumes:
+    # volumes:
     #  - secret
     #  - configMap
     #  - persistentVolumeClaim
