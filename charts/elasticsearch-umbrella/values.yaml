@@ -1,7 +1,7 @@
 global:
   elastic_config:
     # -- Elasticsearch cluster.name and should be unique per cluster in the namespace. Note that it should be the same as elasticsearch-data.elastic_config."cluster.name" so both subcharts belong to the same cluster.
-    cluster.name: test-es
+    cluster.name: es-test
 
 elasticsearch-master:
 
@@ -26,6 +26,16 @@ elasticsearch-master:
   busybox:
     # -- Image for busybox initContainers (sysctlInitContainer in official Elasticsearch Helm chart)
     image: busybox:1.31
+  
+  volume:
+    # -- Annotations for statefulSet volumes
+    annotations: {}
+    #placement_strategy: es-search-volume-placement
+
+    # -- Storage resources for statefulSet volumes
+    storage: 5Gi
+    # -- Storage class for statefulSet volumes
+    storage_class: standard
 
   # -- Elasticsearch configuration added in a configMap and passed to the Elasticsearch pods as Env. Vars.
   elastic_config:
@@ -149,6 +159,10 @@ elasticsearch-master:
       #privileged: true
       #fsGroup:
       #  rule: RunAsAny
+      #allowedCapabilities:
+      #  - NET_BIND_SERVICE
+      #  - IPC_LOCK
+      #  - SYS_RESOURCE
       #runAsUser:
       #  rule: RunAsAny
       #seLinux:
@@ -180,6 +194,8 @@ elasticsearch-data:
   nameOverride: ""
   # -- Overrides the clusterName and nodeGroup when used in the naming of resources. This should only be used when using a single nodeGroup, otherwise you will have name conflicts
   fullnameOverride: ""
+  # -- Fullname of the master, necessary to connect
+  masterFullname: es-test-elasticsearch-master
 
   busybox:
     # -- Image for busybox initContainers (sysctlInitContainer in official Elasticsearch Helm chart)
@@ -319,6 +335,10 @@ elasticsearch-data:
       #privileged: true
       #fsGroup:
       #  rule: RunAsAny
+      #allowedCapabilities:
+      #  - NET_BIND_SERVICE
+      #  - IPC_LOCK
+      #  - SYS_RESOURCE
       #runAsUser:
       #  rule: RunAsAny
       #seLinux:
