@@ -67,7 +67,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | podSecurityPolicy.name | string | `""` | The name of the podSecurityPolicy to use. If not set and create is true, a name is generated using the fullname template |
 | podSecurityPolicy.spec | object | `{}` | Spec to apply to the podSecurityPolicy. See values.yaml for an example |
 | priorityClassName | string | `""` | Pod priorityClassName |
-| rbac.create | bool | `false` | Whether RBAC rules should be created (Role and Rolebinding) |
+| rbac.create | bool | `true` | Whether RBAC rules should be created (Role and Rolebinding) |
 | replicaCount | int | `1` | Number of replicas |
 | resources | object | `{}` | Settings for Deployment resource |
 | revisionHistoryLimit | int | `3` | How many old ReplicaSets to maintain for the Deployment |
@@ -77,7 +77,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | service.port | int | `80` | Port for kubernetes service |
 | service.type | string | `"ClusterIP"` | Type of Service |
 | serviceAccount.annotations | object | `{}` | Annotations to add to the service account |
-| serviceAccount.create | bool | `false` | Specifies whether a service account should be created |
+| serviceAccount.create | bool | `true` | Specifies whether a service account should be created |
 | serviceAccount.name | string | `""` | The name of the service account to use. If not set and create is true, a name is generated using the fullname template |
 | tolerations | list | `[]` | Settings for tolerations |
 | volumeMounts | list | `[]` | Volume mount defintion |

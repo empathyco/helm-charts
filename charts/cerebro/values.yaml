@@ -125,7 +125,7 @@ volumes: []
 
 serviceAccount:
   # -- Specifies whether a service account should be created
-  create: false
+  create: true
   # -- Annotations to add to the service account
   annotations: {}
   # -- The name of the service account to use.
@@ -134,7 +134,7 @@ serviceAccount:
 
 rbac:
   # -- Whether RBAC rules should be created (Role and Rolebinding)
-  create: false
+  create: true
 
 podSecurityPolicy:
   # -- Create a podSecurityPolicy with minimal permissions to run this Helm chart. Be sure to also set rbac.create to true, otherwise Role and RoleBinding won't be created.
