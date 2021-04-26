@@ -24,6 +24,6 @@ appVersion: 6.6.2
 # A list of the chart requirements 
 dependencies:
   - name: elasticsearch-master
-    version: "0.1.0"
+    version: "0.1.1"
   - name: elasticsearch-data
     version: "0.1.0"
