@@ -35,9 +35,9 @@ Create chart name and version as used by the chart label.
 Return the appropriate apiVersion for rbac.
 */}}
 {{- define "ingress.apiVersion" -}}
-{{- if .Capabilities.APIVersions.Has "networking.k8s.io/v1" }}
+{{- if semverCompare ">=1.19-0" .Capabilities.KubeVersion.Version -}}
 {{- print "networking.k8s.io/v1" -}}
-{{- else if .Capabilities.APIVersions.Has "networking.k8s.io/v1beta1" -}}
+{{- else if semverCompare ">=1.14-0" .Capabilities.KubeVersion.Version -}}
 {{- print "networking.k8s.io/v1beta1" -}}
 {{- else -}}
 {{- print "extensions/v1beta1" -}}
