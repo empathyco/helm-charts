@@ -1,0 +1,17 @@
+{{- if and .Values.serviceAccount.create .Values.rbac.create }}
+apiVersion: {{ include "rbac.apiVersion" . }}
+kind: RoleBinding
+metadata:
+  name: {{ include "cerebro.fullname" . }}
+  labels:
+    {{- include "cerebro.labels" . | nindent 4 }}
+  annotations:
+    {{- include "cerebro.annotations" . | nindent 4 }}
+roleRef:
+  kind: Role
+  name: {{ include "cerebro.fullname" . }}
+  apiGroup: rbac.authorization.k8s.io
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "cerebro.serviceAccountName" . }}
+{{- end }}

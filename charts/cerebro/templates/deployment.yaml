@@ -3,15 +3,13 @@ kind: Deployment
 metadata:
   name: {{ template "cerebro.fullname" . }}
   labels:
-    app: {{ template "cerebro.name" . }}
-    chart: {{ template "cerebro.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    {{- include "cerebro.labels" . | nindent 4 }}
     {{- range $key, $value := .Values.deployment.labels }}
     {{ $key }}: {{ $value | quote }}
     {{- end }}
-{{- if .Values.deployment.annotations }}
   annotations:
+    {{- include "cerebro.annotations" . | nindent 4 }}
+{{- if .Values.deployment.annotations }}
 {{ toYaml .Values.deployment.annotations | indent 4 }}
 {{- end }}
 spec:
@@ -19,22 +17,22 @@ spec:
   revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
   selector:
     matchLabels:
-      app: {{ template "cerebro.name" . }}
-      release: {{ .Release.Name }}
+      {{- include "cerebro.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        app: {{ template "cerebro.name" . }}
-        release: {{ .Release.Name }}
+        {{- include "cerebro.selectorLabels" . | nindent 8 }}
         {{- if .Values.deployment.podLabels }}
         {{- toYaml .Values.deployment.podLabels | nindent 8 }}
         {{- end }}
       annotations:
+        {{- include "cerebro.annotations" . | nindent 8 }}
         checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
         {{- if .Values.deployment.podAnnotations }}
         {{- toYaml .Values.deployment.podAnnotations | nindent 8 }}
         {{- end }}
     spec:
+      serviceAccountName: {{ include "cerebro.serviceAccountName" . }}
       {{- if .Values.securityContext }}
       securityContext:
 {{ toYaml .Values.securityContext | indent 8 }}

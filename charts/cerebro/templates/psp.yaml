@@ -1,0 +1,12 @@
+{{- if .Values.podSecurityPolicy.create -}}
+apiVersion: policy/v1beta1
+kind: PodSecurityPolicy
+metadata:
+  name: {{ include "cerebro.fullname" . }}
+  labels:
+    {{- include "cerebro.labels" . | nindent 4 }}
+  annotations:
+    {{- include "cerebro.annotations" . | nindent 4 }}
+spec:
+{{ toYaml .Values.podSecurityPolicy.spec | indent 2 }}
+{{- end -}}

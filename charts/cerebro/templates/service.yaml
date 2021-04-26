@@ -3,16 +3,14 @@ kind: Service
 metadata:
   name: {{ template "cerebro.fullname" . }}
   labels:
-    app: {{ template "cerebro.name" . }}
-    chart: {{ template "cerebro.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
-{{- if .Values.service.labels }}
-{{ toYaml .Values.service.labels | indent 4 }}
-{{- end }}
-{{- with .Values.service.annotations }}
+    {{- include "cerebro.labels" . | nindent 4 }}
+    {{- if .Values.service.labels }}
+    {{- toYaml .Values.service.labels | indent 4 }}
+    {{- end }}
   annotations:
-{{ toYaml . | indent 4 }}
+    {{- include "cerebro.annotations" . | nindent 4 }}
+{{- if .Values.service.annotations }}
+{{ toYaml .Values.service.annotations | indent 4 }}
 {{- end }}
 spec:
   type: {{ .Values.service.type }}
@@ -22,5 +20,4 @@ spec:
       protocol: TCP
       name: http
   selector:
-    app: {{ template "cerebro.name" . }}
-    release: {{ .Release.Name }}
+    {{- include "cerebro.selectorLabels" . | nindent 6 }}

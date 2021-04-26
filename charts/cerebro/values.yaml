@@ -1,60 +1,91 @@
+# -- Number of replicas
 replicaCount: 1
+# -- How many old ReplicaSets to maintain for the Deployment
 revisionHistoryLimit: 3
 
 image:
+  # -- The image to run
   repository: lmenezes/cerebro
   # Note: when updating the version, ensure `config` and the ConfigMap are kept
   # in sync with the default configuration of the upstream image
+  
+  # -- The image tag to pull
   tag: 0.9.4
+  # -- Image pull policy
   pullPolicy: IfNotPresent
-  # pullSecrets:
+  # -- List of imagePullSecrets names to add to the pod
+  pullSecrets: []
 
 deployment:
+  # -- Additional labels for deployment 
   labels: {}
+  # -- Additional annotations for Deployment
   annotations: {}
+  # -- Additional pod labels
   podLabels: {}
+  # -- Additional pod annotations
   podAnnotations: {}
   livenessProbe:
+    # -- Enable livenessProbe
     enabled: true
   readinessProbe:
+    # -- Enable readinessProbe
     enabled: true
 
 service:
+  # -- Type of Service
   type: ClusterIP
+  # -- Port for kubernetes service
   port: 80
+  # -- Additional annotations to add to the service 
   annotations: {}
+  # -- Additional labels to add to the service
   labels: {}
 
 ingress:
+  # -- Enable Kubernetes Ingress to expose cerebro pods
   enabled: false
+  # -- Additional annotations for Ingress
   annotations: {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
+  
+  # -- Additional labels for Ingress
   labels: {}
+  # -- Path to expose cerebro
   path: /
+  # -- List of hosts to expose cerebro
   hosts:
     - chart-example.local
+  # -- TLS secret for exposing cerebro with https. See values.yaml for an example 
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
 
+# -- Security context for pod
 securityContext:
   runAsNonRoot: true
   runAsUser: 1000
   runAsGroup: 1000
 
+# -- Pod priorityClassName
 priorityClassName: ""
 
+# -- Settings for Deployment resource
 resources: {}
 
+# -- Settings for nodeselector
 nodeSelector: {}
 
+# -- Settings for tolerations
 tolerations: []
 
+# -- Settings for affinity
 affinity: {}
 
-env:
+# -- Map of env vars (key/value )
+env: {}
   # AUTH_TYPE: "basic"
   # BASIC_AUTH_USER: "admin"
 
@@ -62,26 +93,76 @@ env:
 # envFromSecretRef: 'my-secret-ref'
 
 config:
+  # -- Application base path
   basePath: '/'
+  # -- Rest request history size per user
   restHistorySize: 50
+  # -- A list of known hosts
   hosts: []
   #  - host:
   #    name:
 
-  # Secret used to sign session cookies. If empty it will be replaced with a
-  # random 64 length string
+  # -- Secret used to sign session cookies. If empty it will be replaced with a random 64 length string
   secret: ''
+  # -- Validate Elasticsearch cert
   tlsVerify: true
-  ## CA cert to use for cert validation
+  # -- CA cert to use for cert validation
   # tlsCaCert: /opt/cerebro/conf/certs/ca.crt
 
-# volumeMounts:
+# -- Volume mount defintion
+volumeMounts: []
 #   - mountPath: /opt/cerebro/conf/certs/
 #     name: ca_cert_volume
 #     readOnly: true
-# volumes:
+
+# -- Volumes defintion
+volumes: []
 #   - name: ca_cert_volume
 #     secret:
 #       defaultMode: 420
 #       optional: false
 #       secretName: cerebro_ca_cert_secret
+
+serviceAccount:
+  # -- Specifies whether a service account should be created
+  create: false
+  # -- Annotations to add to the service account
+  annotations: {}
+  # -- The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+rbac:
+  # -- Whether RBAC rules should be created (Role and Rolebinding)
+  create: false
+
+podSecurityPolicy:
+  # -- Create a podSecurityPolicy with minimal permissions to run this Helm chart. Be sure to also set rbac.create to true, otherwise Role and RoleBinding won't be created.
+  create: false
+  # -- The name of the podSecurityPolicy to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+  # -- Spec to apply to the podSecurityPolicy. See values.yaml for an example
+  spec: {}
+    #privileged: false
+    #allowPrivilegeEscalation: false
+    #allowedCapabilities:
+    #  - NET_BIND_SERVICE
+    #volumes:
+    #  - 'configMap'
+    #  - 'emptyDir'
+    #  - 'projected'
+    #  - 'secret'
+    #  - 'downwardAPI'
+    #  - 'persistentVolumeClaim'
+    #hostNetwork: false
+    #hostIPC: false
+    #hostPID: false
+    #runAsUser:
+    #  rule: 'MustRunAsNonRoot'
+    #seLinux:
+    #  rule: 'RunAsAny'
+    #fsGroup:
+    #  rule: RunAsAny
+    #supplementalGroups:
+    #  rule: RunAsAny
