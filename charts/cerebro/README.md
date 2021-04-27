@@ -18,7 +18,7 @@ To install the chart with the release name `my-release`, run:
 
 ```bash
 $ helm repo add empathy-public https://empathyco.github.io/helm-charts
-$ helm install --name my-release empathy-public/cerebro
+$ helm install my-release empathy-public/cerebro
 ```
 
 After a few seconds, you should see service statuses being written to the configured output.
@@ -35,63 +35,53 @@ $ helm delete my-release
 
 The command removes all the Kubernetes components associated with the chart and deletes the release.
 
-## Configuration
+## Values
 
-The following table lists the configurable parameters of the cerebro chart and their default values.
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| affinity | object | `{}` | Settings for affinity |
+| config.basePath | string | `"/"` | Application base path |
+| config.hosts | list | `[]` | A list of known hosts |
+| config.restHistorySize | int | `50` | Rest request history size per user |
+| config.secret | string | `""` | Secret used to sign session cookies. If empty it will be replaced with a random 64 length string |
+| config.tlsVerify | bool | `true` | Validate Elasticsearch cert |
+| deployment.annotations | object | `{}` | Additional annotations for Deployment |
+| deployment.labels | object | `{}` | Additional labels for deployment  |
+| deployment.livenessProbe.enabled | bool | `true` | Enable livenessProbe |
+| deployment.podAnnotations | object | `{}` | Additional pod annotations |
+| deployment.podLabels | object | `{}` | Additional pod labels |
+| deployment.readinessProbe.enabled | bool | `true` | Enable readinessProbe |
+| env | object | `{}` | Map of env vars (key/value ) |
+| image.pullPolicy | string | `"IfNotPresent"` | Image pull policy |
+| image.pullSecrets | list | `[]` | List of imagePullSecrets names to add to the pod |
+| image.repository | string | `"lmenezes/cerebro"` | The image to run |
+| image.tag | string | `"0.9.4"` | The image tag to pull |
+| ingress.annotations | object | `{}` | Additional annotations for Ingress |
+| ingress.enabled | bool | `false` | Enable Kubernetes Ingress to expose cerebro pods |
+| ingress.hosts | list | `["chart-example.local"]` | List of hosts to expose cerebro |
+| ingress.labels | object | `{}` | Additional labels for Ingress |
+| ingress.path | string | `"/"` | Path to expose cerebro |
+| ingress.tls | list | `[]` | TLS secret for exposing cerebro with https. See values.yaml for an example  |
+| nodeSelector | object | `{}` | Settings for nodeselector |
+| podSecurityPolicy.create | bool | `false` | Create a podSecurityPolicy with minimal permissions to run this Helm chart. Be sure to also set rbac.create to true, otherwise Role and RoleBinding won't be created. |
+| podSecurityPolicy.name | string | `""` | The name of the podSecurityPolicy to use. If not set and create is true, a name is generated using the fullname template |
+| podSecurityPolicy.spec | object | `{}` | Spec to apply to the podSecurityPolicy. See values.yaml for an example |
+| priorityClassName | string | `""` | Pod priorityClassName |
+| rbac.create | bool | `true` | Whether RBAC rules should be created (Role and Rolebinding) |
+| replicaCount | int | `1` | Number of replicas |
+| resources | object | `{}` | Settings for Deployment resource |
+| revisionHistoryLimit | int | `3` | How many old ReplicaSets to maintain for the Deployment |
+| securityContext | object | `{"runAsGroup":1000,"runAsNonRoot":true,"runAsUser":1000}` | Security context for pod |
+| service.annotations | object | `{}` | Additional annotations to add to the service  |
+| service.labels | object | `{}` | Additional labels to add to the service |
+| service.port | int | `80` | Port for kubernetes service |
+| service.type | string | `"ClusterIP"` | Type of Service |
+| serviceAccount.annotations | object | `{}` | Annotations to add to the service account |
+| serviceAccount.create | bool | `true` | Specifies whether a service account should be created |
+| serviceAccount.name | string | `""` | The name of the service account to use. If not set and create is true, a name is generated using the fullname template |
+| tolerations | list | `[]` | Settings for tolerations |
+| volumeMounts | list | `[]` | Volume mount defintion |
+| volumes | list | `[]` | Volumes defintion |
 
-|             Parameter               |            Description              |                    Default                |
-|-------------------------------------|-------------------------------------|-------------------------------------------|
-| `replicaCount`                      | Number of replicas                  | `1`                                       |
-| `image.repository`                  | The image to run                    | `lmenezes/cerebro`                        |
-| `image.tag`                         | The image tag to pull               | `0.9.4`                                   |
-| `image.pullPolicy`                  | Image pull policy                   | `IfNotPresent`                            |
-| `image.pullSecrets`                 | Specify image pull secrets          | `nil` (does not add image pull secrets to deployed pods) |
-| `init.image.repository`             | The image to run                    | `docker.io/busybox`                       |
-| `init.image.tag`                    | The image tag to pull               | `musl`                                    |
-| `init.image.pullPolicy`             | Image pull policy                   | `IfNotPresent`                            |
-| `deployment.annotations`            | Annotations for deployment          | `{}`                                      |
-| `deployment.podAnnotations`         | Additional pod annotations          | `{}`                                      |
-| `deployment.labels`                 | Additional labels for deployment    | `{}`                                      |
-| `deployment.podLabels`              | Additional pod labels               | `{}`                                      |
-| `deployment.livenessProbe.enabled`  | Enable livenessProbe                | `true`                                    |
-| `deployment.readinessProbe.enabled` | Enable readinessProbe               | `true`                                    |
-| `service.type`                      | Type of Service                     | `ClusterIP`                               |
-| `service.port`                      | Port for kubernetes service         | `80`                                      |
-| `service.annotations`               | Annotations to add to the service   | `{}`                                      |
-| `service.labels`                    | Labels to add to the service        | `{}`                                      |
-| `resources.requests.cpu`            | CPU resource requests               |                                           |
-| `resources.limits.cpu`              | CPU resource limits                 |                                           |
-| `resources.requests.memory`         | Memory resource requests            |                                           |
-| `resources.limits.memory`           | Memory resource limits              |                                           |
-| `ingress`                           | Settings for ingress                | `{}`                                      |
-| `ingress.labels`                    | Labels to add to the ingress        | `{}`                                      |
-| `priorityClassName`                 | priorityClassName                   | `nil`                                     |
-| `nodeSelector`                      | Settings for nodeselector           | `{}`                                      |
-| `tolerations`                       | Settings for toleration             | `{}`                                      |
-| `affinity`                          | Settings for affinity               | `{}`                                      |
-| `env`                               | Map of env vars (key/value   )      | `{}`                                      |
-| `envFromSecretRef`                  | Reference to Secret with env vars   |                                           |
-| `config.basePath`                   | Application base path               | `/`                                       |
-| `config.restHistorySize`            | Rest request history size per user  | `50`                                      |
-| `config.hosts`                      | A list of known hosts               | `[]`                                      |
-| `config.secret`                     | Secret used to sign session cookies | `(random alphanumeric 64 length string)`  |
-| `config.tlsVerify`                  | Validate Elasticsearch cert         | `true`                                    |
-| `config.tlsCaCert`                  | CA cert to use for cert validation  | `See values.yaml`                         |
-| `securityContext`                   | Security context for pod            | `See values.yaml`                         |
-| `volumes`                           | Volumes defintion                   | `See values.yaml`                         |
-| `volumeMounts`                      | Volume mount defintion              | `See values.yaml`                         |
-
-Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
-
-```bash
-$ helm install --name my-release \
-    empathy-public/cerebro
-```
-
-Alternatively, a YAML file that specifies the values for the parameters can be provided while installing the chart. For example,
-
-```bash
-$ helm install --name my-release -f values.yaml empathy-public/cerebro
-```
-
-> **Tip**: You can use the default [values.yaml](values.yaml)
+----------------------------------------------
+Autogenerated from chart metadata using [helm-docs v1.5.0](https://github.com/norwoodj/helm-docs/releases/v1.5.0)

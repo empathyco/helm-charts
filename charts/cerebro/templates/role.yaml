@@ -1,0 +1,30 @@
+{{- if .Values.rbac.create -}}
+apiVersion: {{ include "rbac.apiVersion" . }}
+kind: Role
+metadata:
+  name: {{ include "cerebro.fullname" . }}
+  labels:
+    {{- include "cerebro.labels" . | nindent 4 }}
+  annotations:
+    {{- include "cerebro.annotations" . | nindent 4 }}
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - services
+    verbs:
+      - get
+      - list
+      - watch
+{{- if .Values.podSecurityPolicy.create }}
+  - apiGroups: ['{{ template "podSecurityPolicy.apiGroup" . }}']
+    resources: ['podsecuritypolicies']
+    verbs: ['use']
+    resourceNames: [{{ include "cerebro.fullname" . }}]
+{{- else if .Values.podSecurityPolicy.name }}
+  - apiGroups: ['{{ template "podSecurityPolicy.apiGroup" . }}']
+    resources: ['podsecuritypolicies']
+    verbs: ['use']
+    resourceNames: [{{ .Values.podSecurityPolicy.name }}]
+{{- end -}}
+{{- end -}}
