@@ -10,7 +10,11 @@ pipeline {
     }
     stages {
         stage('Linting Helm Template') {
-            agent { dockerfile true }
+            agent { 
+                dockerfile { 
+                    args '-u 0:0' 
+                } 
+            }
             environment {
                 HELM_EXPERIMENTAL_OCI = 1
             }
