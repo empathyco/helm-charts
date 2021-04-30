@@ -1,8 +1,3 @@
-//HELM VARIABLES
-HELM_REPO = 'https://harbor.internal.shared.empathy.co/chartrepo/empathyco'
-// oci charts only
-HELM_REPO_URL="harbor.internal.shared.empathy.co/platform/public-charts"
-
 pipeline {
     agent { label 'docker' }
     options {
@@ -17,6 +12,8 @@ pipeline {
             }
             environment {
                 HELM_EXPERIMENTAL_OCI = 1
+                HELM_REPO = 'https://harbor.internal.shared.empathy.co/chartrepo/empathyco'
+                HELM_REPO_URL="harbor.internal.shared.empathy.co/platform/public-charts"
             }
             steps {
                 script {
@@ -24,14 +21,13 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: 'harbor-credentials', usernameVariable: 'username', passwordVariable: 'password')]) {
                         sh '''
                             helm registry login ${HELM_REPO_URL} --username ${username} --password ${password}
-                            dirs=(./charts/*/)
-                            for element in "${dirs[@]}"
+                            for element in $(ls ./charts)
                             do
-                                VERSION=$(yq -r .version ${element}Chart.yaml)
-                                helm lint ${element}
-                                helm push ${element} ${HELM_REPO} -v ${VERSION}
-                                helm chart save ${element} ${HELM_REPO_URL}:${VERSION}-chart
-                                helm chart push ${HELM_REPO_URL}:${VERSION}-chart
+                                VERSION=$(yq eval .version ./charts/${element}/Chart.yaml)
+                                helm lint ./charts/${element}
+                                helm push ./charts/${element} ${HELM_REPO} -v ${VERSION} -u ${username} -p ${password}
+                                helm chart save ./charts/${element} ${HELM_REPO_URL}/${element}:${VERSION}-chart
+                                helm chart push ${HELM_REPO_URL}/${element}:${VERSION}-chart
                             done
                         '''
                     }
