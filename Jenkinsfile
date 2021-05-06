@@ -4,11 +4,14 @@ pipeline {
         buildDiscarder(logRotator(numToKeepStr:'30', artifactNumToKeepStr:'10'))
     }
     stages {
-        stage('Linting Helm Template') {
+        stage('Deploy Helm Charts') {
             agent { 
                 dockerfile { 
                     args '-u 0:0' 
                 } 
+            }
+            when {
+                branch 'main'
             }
             environment {
                 HELM_EXPERIMENTAL_OCI = 1
