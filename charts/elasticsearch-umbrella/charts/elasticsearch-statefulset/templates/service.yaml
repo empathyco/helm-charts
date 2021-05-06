@@ -1,0 +1,47 @@
+{{- if .Values.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "statefulset.fullname" . }}
+  labels:
+    {{- include "statefulset.labels" . | nindent 4 }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: 9200
+      targetPort: http
+      protocol: TCP
+      name: http
+{{- if not .Values.isMaster }}
+    - port: 9300
+      targetPort: transport
+      protocol: TCP
+      name: transport
+{{ end }}
+{{- if .Values.prometheus.enabled }}
+    - port: 9114
+      targetPort: metrics
+      protocol: TCP
+      name: metrics
+{{ end }}
+  selector:
+    {{- include "statefulset.selectorLabels" . | nindent 4 }}
+{{- end -}}
+{{- if .Values.isMaster }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "deployment.fullname" . }}-discovery
+  labels:
+    {{- include "deployment.labels" . | nindent 4 }}
+spec:
+  clusterIP: None
+  ports:
+    - port: 9300
+      targetPort: transport
+      protocol: TCP
+      name: transport
+  selector:
+    {{- include "deployment.selectorLabels" . | nindent 4 }}
+{{- end -}}
