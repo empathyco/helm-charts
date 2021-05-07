@@ -1,0 +1,13 @@
+{{- if .Values.enabled -}}
+apiVersion: v1
+data:
+  {{- toYaml .Values.global.elastic_config | nindent 2 }}
+  {{- toYaml .Values.elastic_config | nindent 2 }}
+  discovery.zen.ping.unicast.hosts: {{ .Values.global.masterFullname }}-discovery
+kind: ConfigMap
+metadata:
+  annotations:
+  labels:
+    {{- include "statefulset.labels" . | nindent 4 }}
+  name: {{ include "statefulset.fullname" . }}
+{{- end }}

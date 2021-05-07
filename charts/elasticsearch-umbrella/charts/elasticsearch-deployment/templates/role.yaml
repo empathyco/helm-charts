@@ -1,0 +1,28 @@
+{{- if .Values.enabled -}}
+{{- if .Values.rbac.create -}}
+apiVersion: {{ include "rbac.apiVersion" . }}
+kind: Role
+metadata:
+  name: {{ include "deployment.fullname" . }}
+  labels:
+    heritage: {{ .Release.Service | quote }}
+    release: {{ .Release.Name | quote }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    app: {{ include "deployment.fullname" . }}
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - services
+    verbs:
+      - get
+      - list
+      - watch
+{{- if .Values.podSecurityPolicy.create }}
+  - apiGroups: ['{{ template "podSecurityPolicy.apiGroup" . }}']
+    resources: ['podsecuritypolicies']
+    verbs: ['use']
+    resourceNames: [{{ include "deployment.fullname" . }}]
+{{- end -}}
+{{- end -}}
+{{- end -}}
