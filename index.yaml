@@ -97,6 +97,33 @@ entries:
   elasticsearch-umbrella:
   - apiVersion: v2
     appVersion: 6.6.2
+    created: "2021-05-07T06:29:28.103994118Z"
+    dependencies:
+    - alias: master
+      name: elasticsearch-statefulset
+      repository: ""
+      version: 0.2.0
+    - alias: data
+      name: elasticsearch-statefulset
+      repository: ""
+      version: 0.2.0
+    - alias: index
+      name: elasticsearch-statefulset
+      repository: ""
+      version: 0.2.0
+    - alias: client
+      name: elasticsearch-deployment
+      repository: ""
+      version: 0.2.0
+    description: A Helm chart for Kubernetes
+    digest: 2d10e503968099cd6b0d6e613b1a8985f1138be504b6c4aed3792a92aa49d750
+    name: elasticsearch-umbrella
+    type: application
+    urls:
+    - https://github.com/empathyco/helm-charts/releases/download/elasticsearch-umbrella-0.3.0/elasticsearch-umbrella-0.3.0.tgz
+    version: 0.3.0
+  - apiVersion: v2
+    appVersion: 6.6.2
     created: "2021-04-27T07:51:34.813055666Z"
     dependencies:
     - name: elasticsearch-master
@@ -146,4 +173,4 @@ entries:
     urls:
     - https://github.com/empathyco/helm-charts/releases/download/elasticsearch-umbrella-0.1.0/elasticsearch-umbrella-0.1.0.tgz
     version: 0.1.0
-generated: "2021-04-27T07:51:34.813102871Z"
+generated: "2021-05-07T06:29:28.104416121Z"
