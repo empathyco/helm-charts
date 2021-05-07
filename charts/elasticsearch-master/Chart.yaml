@@ -1,7 +1,7 @@
 apiVersion: v2
 name: elasticsearch-master
 description: A Helm chart for Kubernetes
-
+icon: https://helm.elastic.co/icons/elasticsearch.png
 # A chart can be either an 'application' or a 'library' chart.
 #
 # Application charts are a collection of templates that can be packaged into versioned archives

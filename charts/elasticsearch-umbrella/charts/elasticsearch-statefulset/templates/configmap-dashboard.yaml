@@ -1,4 +1,5 @@
 {{- if .Values.enabled -}}
+{{- if .Values.isMaster -}}
 {{- if .Values.prometheus.enabled -}}
 apiVersion: v1
 data:
@@ -8,8 +9,9 @@ metadata:
   namespace: monitoring
   annotations:
   labels:
-    grafana_dashboard: {{ include "master.fullname" . }}
-    {{- include "master.labels" . | nindent 4 }}
-  name: {{ include "master.fullname" . }}-dashboard
+    grafana_dashboard: {{ include "statefulset.fullname" . }}
+    {{- include "statefulset.labels" . | nindent 4 }}
+  name: {{ include "statefulset.fullname" . }}-dashboard
+{{- end }}
 {{- end }}
 {{- end }}
