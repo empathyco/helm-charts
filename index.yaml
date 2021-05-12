@@ -3,6 +3,24 @@ entries:
   cerebro:
   - apiVersion: v2
     appVersion: 0.9.4
+    created: "2021-05-12T13:14:29.117863708Z"
+    description: A Helm chart for Cerebro - a web admin tool that replaces Kopf.
+    digest: f7adad1cb518a081860dc7cadefaec9373bed7e95ae3915d46084926801c66b2
+    home: https://github.com/lmenezes/cerebro
+    icon: https://github.com/lmenezes/cerebro/blob/master/public/img/logo.png
+    kubeVersion: <=1.22.0-anything
+    maintainers:
+    - email: ops@empathy.co
+      name: Empathy Platform Team
+    name: cerebro
+    sources:
+    - https://github.com/lmenezes/cerebro
+    - https://github.com/lmenezes/cerebro-docker
+    urls:
+    - https://github.com/empathyco/helm-charts/releases/download/cerebro-1.0.2/cerebro-1.0.2.tgz
+    version: 1.0.2
+  - apiVersion: v2
+    appVersion: 0.9.4
     created: "2021-04-27T06:56:33.629687157Z"
     description: A Helm chart for Cerebro - a web admin tool that replaces Kopf.
     digest: ddebf4710dbb92be090a8573fa37c47970c958a83a00523a3fba5e95f0971ef2
@@ -173,4 +191,4 @@ entries:
     urls:
     - https://github.com/empathyco/helm-charts/releases/download/elasticsearch-umbrella-0.1.0/elasticsearch-umbrella-0.1.0.tgz
     version: 0.1.0
-generated: "2021-05-07T06:29:28.104416121Z"
+generated: "2021-05-12T13:14:29.117894008Z"
