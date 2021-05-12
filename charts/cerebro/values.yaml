@@ -1,4 +1,4 @@
-# -- Number of replicas 
+# -- Number of replicas
 replicaCount: 1
 # -- How many old ReplicaSets to maintain for the Deployment
 revisionHistoryLimit: 3
