@@ -1,5 +1,5 @@
 name: cerebro
-version: 1.0.1
+version: 1.0.2
 appVersion: 0.9.4
 kubeVersion: "<=1.22.0-anything"
 apiVersion: v2
