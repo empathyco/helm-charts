@@ -32,9 +32,9 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "deployment.fullname" . }}-discovery
+  name: {{ include "statefulset.fullname" . }}-discovery
   labels:
-    {{- include "deployment.labels" . | nindent 4 }}
+    {{- include "statefulset.labels" . | nindent 4 }}
 spec:
   clusterIP: None
   ports:
@@ -43,5 +43,5 @@ spec:
       protocol: TCP
       name: transport
   selector:
-    {{- include "deployment.selectorLabels" . | nindent 4 }}
+    {{- include "statefulset.selectorLabels" . | nindent 4 }}
 {{- end -}}
