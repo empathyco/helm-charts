@@ -13,4 +13,6 @@ jobs:
           kubectl get pods -n kube-system
           echo "current-context:" $(kubectl config current-context)
           echo "environment-kubeconfig:" ${KUBECONFIG}
-          helm version
+          helm template cerebro ./charts/cerebro
+          helm install cerebro ./charts/cerebro
+          kubectl get pods
