@@ -33,3 +33,4 @@ Following the list complete list of supported Helm Charts:
 * elasticsearch-data
 * elasticsearch-master
 * elasticsearch-umbrella
+* imagepullsecret-patcher
