@@ -1,0 +1,12 @@
+apiVersion: v2
+name: imagepullsecret-patcher
+description: A Helm chart for imagepullsecret-patcher
+home: https://github.com/titansoft-pte-ltd/imagepullsecret-patcher
+type: application
+version: 0.1.0
+appVersion: "0.14"
+sources:
+  - https://github.com/titansoft-pte-ltd/imagepullsecret-patcher
+maintainers:
+  - name: Empathy Platform Team
+    email: ops@empathy.co
