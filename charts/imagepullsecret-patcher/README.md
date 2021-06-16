@@ -21,18 +21,18 @@ A Helm chart for imagepullsecret-patcher
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | affinity | object | `{}` |  |
-| conf.all_service_accounts | bool | `false` | if true, list and patch all service accounts and the service_accounts value is ignored |
+| conf.all_service_accounts | bool | `true` | if true, list and patch all service accounts and the service_accounts value is ignored |
 | conf.debug | bool | `false` | show DEBUG logs |
 | conf.excluded_namespaces | list | `[]` | comma-separated namespaces excluded from processing |
-| conf.force | bool | `false` | overwrite secrets when not match |
+| conf.force | bool | `true` | overwrite secrets when not match |
 | conf.imageCredentials.password | string | `"supersecret"` | registry password |
-| conf.imageCredentials.registry | string | `"quay.io"` | registry to login |
-| conf.imageCredentials.username | string | `"someone"` | registry username  |
+| conf.imageCredentials.registry | string | `"docker.io"` | registry to login |
+| conf.imageCredentials.username | string | `"empathyco"` | registry username  |
 | conf.interval | string | `"10"` | duration string which defines how often namespaces are checked, see https://golang.org/pkg/time/#ParseDuration for more examples |
 | conf.managedonly | bool | `false` | only modify secrets which were created by imagepullsecret |
 | conf.runone | bool | `false` | run the update loop once, allowing for cronjob scheduling if desired |
 | conf.service_accounts | list | `[]` | comma-separated list of serviceaccounts to patch |
-| fullnameOverride | string | `""` |  |
+| fullnameOverride | string | `"imagepullsecret-patcher"` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"quay.io/titansoft/imagepullsecret-patcher"` | repository |
 | image.tag | string | `"v0.14"` |  |

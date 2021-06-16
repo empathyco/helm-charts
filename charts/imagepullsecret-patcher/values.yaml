@@ -7,7 +7,7 @@ image:
   tag: "v0.14"
 conf:
   # -- overwrite secrets when not match
-  force: false
+  force: true
   # -- show DEBUG logs
   debug: false
   # -- run the update loop once, allowing for cronjob scheduling if desired
@@ -17,7 +17,7 @@ conf:
   # -- comma-separated list of serviceaccounts to patch
   service_accounts: []
   # -- if true, list and patch all service accounts and the service_accounts value is ignored
-  all_service_accounts: false
+  all_service_accounts: true
   # -- comma-separated namespaces excluded from processing
   excluded_namespaces: []
   # -- duration string which defines how often namespaces are checked, see https://golang.org/pkg/time/#ParseDuration for more examples
@@ -25,16 +25,16 @@ conf:
 
   imageCredentials:
     # -- registry to login
-    registry: quay.io
+    registry: docker.io
     # -- registry username 
-    username: someone
+    username: empathyco
     # -- registry password
     password: supersecret
 
 
 imagePullSecrets: []
 nameOverride: ""
-fullnameOverride: ""
+fullnameOverride: "imagepullsecret-patcher"
 serviceAccount:
   # Specifies whether a service account should be created
   create: true
