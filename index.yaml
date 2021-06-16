@@ -236,4 +236,21 @@ entries:
     urls:
     - https://github.com/empathyco/helm-charts/releases/download/elasticsearch-umbrella-0.1.0/elasticsearch-umbrella-0.1.0.tgz
     version: 0.1.0
-generated: "2021-05-27T11:12:04.191049131Z"
+  imagepullsecret-patcher:
+  - apiVersion: v2
+    appVersion: "0.14"
+    created: "2021-06-16T15:48:05.199367669Z"
+    description: A Helm chart for imagepullsecret-patcher
+    digest: 415e1f6dd3bb114107c7c4bcda57aac94b93bf2f90009cd6d3a2bb5b431aaba7
+    home: https://github.com/titansoft-pte-ltd/imagepullsecret-patcher
+    maintainers:
+    - email: ops@empathy.co
+      name: Empathy Platform Team
+    name: imagepullsecret-patcher
+    sources:
+    - https://github.com/titansoft-pte-ltd/imagepullsecret-patcher
+    type: application
+    urls:
+    - https://github.com/empathyco/helm-charts/releases/download/imagepullsecret-patcher-0.1.0/imagepullsecret-patcher-0.1.0.tgz
+    version: 0.1.0
+generated: "2021-06-16T15:48:05.199394369Z"
