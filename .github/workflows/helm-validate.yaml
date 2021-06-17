@@ -2,7 +2,7 @@ name: "Create cluster using KinD"
 on: [pull_request, push]
 
 jobs:
-  kind:
+  release:
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@master
