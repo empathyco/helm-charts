@@ -239,6 +239,22 @@ entries:
   imagepullsecret-patcher:
   - apiVersion: v2
     appVersion: "0.14"
+    created: "2021-06-17T08:52:37.487323003Z"
+    description: A Helm chart for imagepullsecret-patcher
+    digest: d05af7855814d4f50cbda52a375e9dbbf22263c6f6bb7003682b192a43d19917
+    home: https://github.com/titansoft-pte-ltd/imagepullsecret-patcher
+    maintainers:
+    - email: ops@empathy.co
+      name: Empathy Platform Team
+    name: imagepullsecret-patcher
+    sources:
+    - https://github.com/titansoft-pte-ltd/imagepullsecret-patcher
+    type: application
+    urls:
+    - https://github.com/empathyco/helm-charts/releases/download/imagepullsecret-patcher-0.1.1/imagepullsecret-patcher-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: "0.14"
     created: "2021-06-16T15:48:05.199367669Z"
     description: A Helm chart for imagepullsecret-patcher
     digest: 415e1f6dd3bb114107c7c4bcda57aac94b93bf2f90009cd6d3a2bb5b431aaba7
@@ -253,4 +269,4 @@ entries:
     urls:
     - https://github.com/empathyco/helm-charts/releases/download/imagepullsecret-patcher-0.1.0/imagepullsecret-patcher-0.1.0.tgz
     version: 0.1.0
-generated: "2021-06-16T15:48:05.199394369Z"
+generated: "2021-06-17T08:52:37.487347605Z"
