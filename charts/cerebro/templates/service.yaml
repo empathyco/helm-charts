@@ -4,14 +4,14 @@ metadata:
   name: {{ template "cerebro.fullname" . }}
   labels:
     {{- include "cerebro.labels" . | nindent 4 }}
-    {{- if .Values.service.labels }}
-    {{- toYaml .Values.service.labels | indent 4 }}
+    {{- range $key, $value := .Values.service.labels }}
+    {{ $key }}: {{ $value | quote }}
     {{- end }}
   annotations:
     {{- include "cerebro.annotations" . | nindent 4 }}
-{{- if .Values.service.annotations }}
-{{ toYaml .Values.service.annotations | indent 4 }}
-{{- end }}
+    {{- range $key, $value := .Values.service.annotations }}
+    {{ $key }}: {{ $value | quote }}
+    {{- end }}
 spec:
   type: {{ .Values.service.type }}
   ports:

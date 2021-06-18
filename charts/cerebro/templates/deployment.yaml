@@ -9,9 +9,9 @@ metadata:
     {{- end }}
   annotations:
     {{- include "cerebro.annotations" . | nindent 4 }}
-{{- if .Values.deployment.annotations }}
-{{ toYaml .Values.deployment.annotations | indent 4 }}
-{{- end }}
+    {{- range $key, $value := .Values.deployment.annotations }}
+    {{ $key }}: {{ $value | quote }}
+    {{- end }}
 spec:
   replicas: {{ .Values.replicaCount }}
   revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
