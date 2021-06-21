@@ -1,39 +1,21 @@
-# Cerebro
+# cerebro
 
-Cerebro is an open source (MIT License) elasticsearch web admin tool built using Scala, Play Framework, AngularJS and Bootstrap.
+![Version: 2.0.3](https://img.shields.io/badge/Version-2.0.3-informational?style=flat-square) ![AppVersion: 0.9.4](https://img.shields.io/badge/AppVersion-0.9.4-informational?style=flat-square)
 
-## Introduction
+A Helm chart for Cerebro - a web admin tool that replaces Kopf.
 
-- This chart deploys Cerebro to your cluster via a Deployment and Service.
-- Optionally you can also enable ingress.
-- Optionally you can use cerebro provided auth by uploading a Secret with the needed env vars (don't forget to set `AUTH_TYPE`).
+**Homepage:** <https://github.com/lmenezes/cerebro>
 
-# Prerequisites
+## Maintainers
 
-- Kubernetes 1.9+
+| Name | Email | Url |
+| ---- | ------ | --- |
+| Empathy Platform Team | ops@empathy.co |  |
 
-## Installing the Chart
+## Source Code
 
-To install the chart with the release name `my-release`, run:
-
-```bash
-$ helm repo add empathy-public https://empathyco.github.io/helm-charts
-$ helm install my-release empathy-public/cerebro
-```
-
-After a few seconds, you should see service statuses being written to the configured output.
-
-> **Tip**: List all releases using `helm list`
-
-## Uninstalling the Chart
-
-To uninstall/delete the `my-release` deployment:
-
-```bash
-$ helm delete my-release
-```
-
-The command removes all the Kubernetes components associated with the chart and deletes the release.
+* <https://github.com/lmenezes/cerebro>
+* <https://github.com/lmenezes/cerebro-docker>
 
 ## Values
 
