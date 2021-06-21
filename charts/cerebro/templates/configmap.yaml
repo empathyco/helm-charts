@@ -41,6 +41,8 @@ data:
       gzip = true
     }
 
+    {{- if .Values.config.auth }}
+
     auth = {
       # either basic or ldap
       type: {{ .Values.env.AUTH_TYPE}}
@@ -64,6 +66,7 @@ data:
         password = {{ .Values.env.BASIC_AUTH_PWD}}
       }
     }
+    {{- end }}
 
     hosts = [
       {{- range $index, $element := .Values.config.hosts }}
