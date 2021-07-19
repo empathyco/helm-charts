@@ -51,6 +51,9 @@ receivers:
 | image.repository | string | `"gcr.io/pingcap-public/deadmansswitch"` | Image repository |
 | image.tag | string | `"1.0"` | Image tag |
 | imagePullSecrets | list | `[]` | Image pull secrets |
+| metrics.grafanaDashboard.enabled | bool | `false` | Create Grafana dashboard |
+| metrics.grafanaDashboard.labels | object | `{"grafana_dashboard":"1"}` | Grafana dashboards sidecar labels |
+| metrics.grafanaDashboard.namespace | string | `"monitoring"` | Namespace for the Grafana dashboard |
 | metrics.prometheusRule.enabled | bool | `false` | if true, creates a Prometheus Operator PrometheusRule |
 | metrics.prometheusRule.namespace | string | `""` | Namespace for the PrometheusRule Resource |
 | metrics.prometheusRule.rules | list | `[]` | Prometheus Rule definitions |

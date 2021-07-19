@@ -42,6 +42,14 @@ metrics:
     interval:
     # -- Timeout after which the scrape is ended 
     scrapeTimeout:
+  grafanaDashboard:
+    # -- Create Grafana dashboard
+    enabled: false
+    # -- Namespace for the Grafana dashboard
+    namespace: monitoring
+    # -- Grafana dashboards sidecar labels
+    labels:
+      grafana_dashboard: "1"
   prometheusRule:
     # -- if true, creates a Prometheus Operator PrometheusRule
     enabled: false
