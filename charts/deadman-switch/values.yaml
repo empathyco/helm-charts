@@ -52,7 +52,7 @@ metrics:
       # release: prometheus
     
     # -- Prometheus Rule definitions
-    rules:
+    rules: []
       # - alert: Up
       #   annotations:
       #     message: Dead man's switch is not up.
