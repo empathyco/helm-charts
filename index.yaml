@@ -138,6 +138,17 @@ entries:
     urls:
     - https://github.com/empathyco/helm-charts/releases/download/cerebro-0.0.3/cerebro-0.0.3.tgz
     version: 0.0.3
+  deadman-switch:
+  - apiVersion: v2
+    appVersion: "1.0"
+    created: "2021-07-19T08:10:28.66677394Z"
+    description: A Helm chart for Kubernetes
+    digest: 98a2f7c69c81965ca63fa16e4b206a93e2900dae0f6db25cdb221f632f9e9aee
+    name: deadman-switch
+    type: application
+    urls:
+    - https://github.com/empathyco/helm-charts/releases/download/deadman-switch-0.0.1/deadman-switch-0.0.1.tgz
+    version: 0.0.1
   elasticsearch-data:
   - apiVersion: v2
     appVersion: 6.6.2
@@ -320,4 +331,4 @@ entries:
     urls:
     - https://github.com/empathyco/helm-charts/releases/download/imagepullsecret-patcher-0.1.0/imagepullsecret-patcher-0.1.0.tgz
     version: 0.1.0
-generated: "2021-06-21T11:11:33.891093542Z"
+generated: "2021-07-19T08:10:28.666813541Z"
