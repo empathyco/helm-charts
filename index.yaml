@@ -141,6 +141,16 @@ entries:
   deadman-switch:
   - apiVersion: v2
     appVersion: "1.0"
+    created: "2021-07-19T10:07:30.838061049Z"
+    description: A Helm chart for Kubernetes
+    digest: 2523f3ec105af2df22ba876a8f8aa45f29859544b0d0002ad79025e634ab3475
+    name: deadman-switch
+    type: application
+    urls:
+    - https://github.com/empathyco/helm-charts/releases/download/deadman-switch-0.0.2/deadman-switch-0.0.2.tgz
+    version: 0.0.2
+  - apiVersion: v2
+    appVersion: "1.0"
     created: "2021-07-19T08:10:28.66677394Z"
     description: A Helm chart for Kubernetes
     digest: 98a2f7c69c81965ca63fa16e4b206a93e2900dae0f6db25cdb221f632f9e9aee
@@ -331,4 +341,4 @@ entries:
     urls:
     - https://github.com/empathyco/helm-charts/releases/download/imagepullsecret-patcher-0.1.0/imagepullsecret-patcher-0.1.0.tgz
     version: 0.1.0
-generated: "2021-07-19T08:10:28.666813541Z"
+generated: "2021-07-19T10:07:30.838105351Z"
