@@ -1,0 +1,104 @@
+# Default values for deadman-switch.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# -- Chart name override
+nameOverride: ""
+# -- Chart full name override
+fullnameOverride: ""
+
+# -- Number of deployment replicas
+replicaCount: 1
+
+image:
+  # -- Image repository
+  repository: "gcr.io/pingcap-public/deadmansswitch"
+  # -- Image pullpolicy
+  pullPolicy: IfNotPresent
+  # -- Image tag
+  tag: "1.0"
+
+# -- Image pull secrets
+imagePullSecrets: []
+
+# -- Pingcap's dead-man-switch configuration as YAML. Please see https://github.com/pingcap/dead-mans-switch/blob/master/manifest/config.example.yaml
+secret:
+  interval: 5m
+  notify:
+    pagerduty:
+      key: your-pg-key
+
+metrics:
+  serviceMonitor:
+    # -- if true, creates a Prometheus Operator ServiceMonitor
+    enabled: false
+    # -- Namespace for the ServiceMonitor Resource (defaults to the Release Namespace).
+    namespace: ""
+    # -- Prometheus instance selector labels
+    selector: {}
+      # release: prometheus
+
+    # -- Interval at which metrics should be scraped.
+    interval:
+    # -- Timeout after which the scrape is ended 
+    scrapeTimeout:
+  prometheusRule:
+    # -- if true, creates a Prometheus Operator PrometheusRule
+    enabled: false
+    # -- Namespace for the PrometheusRule Resource
+    namespace: ""
+    # -- Prometheus instance selector labels
+    selector: {}
+      # release: prometheus
+    
+    # -- Prometheus Rule definitions
+    rules:
+      # - alert: Up
+      #   annotations:
+      #     message: Dead man's switch is not up.
+      #   expr: up < 1
+      #   for: 3m
+      #   labels:
+      #     severity: critical
+
+serviceAccount:
+  # -- Specifies whether a service account should be created
+  create: true
+  # -- Annotations to add to the service account
+  annotations: {}
+  # -- The name of the service account to use. If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+# -- Custom pod annotations
+podAnnotations: {}
+
+# -- Custom pod security context
+podSecurityContext: {}
+  # fsGroup: 2000
+
+# -- Custom container security context
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+# -- Container resources
+resources:
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+# -- Kubernetes node selector
+nodeSelector: {}
+
+# -- Kubernetes tolerations
+tolerations: []
+
+# -- Kubernetes pod affinity
+affinity: {}
