@@ -6,6 +6,9 @@ metadata:
     {{- include "master.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
+  {{- with .Values.podManagementPolicy }}
+  podManagementPolicy: {{ . }}
+  {{- end }}
   selector:
     matchLabels:
       {{- include "master.selectorLabels" . | nindent 6 }}
@@ -82,6 +85,15 @@ spec:
           volumeMounts:
             - mountPath: /usr/share/elasticsearch/data
               name: master
+            {{- if .Values.keystore }}
+            - name: keystore
+              mountPath: /usr/share/elasticsearch/config/elasticsearch.keystore
+              subPath: elasticsearch.keystore
+            {{- end }}
+          {{- if .Values.lifecycle }}
+          lifecycle:
+            {{- toYaml .Values.lifecycle | nindent 12 }}
+          {{- end }}
         - command:
           - sh
           - -c
@@ -229,6 +241,45 @@ spec:
           name: increase-fd-unlimited
           securityContext:
             privileged: true
+        {{- if .Values.keystore }}
+        - name: keystore
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command:
+          - sh
+          - -c
+          - |
+            #!/usr/bin/env bash
+            set -euo pipefail
+            elasticsearch-keystore create
+            for i in /tmp/keystoreSecrets/*/*; do
+              key=$(basename $i)
+              echo "Adding file $i to keystore key $key"
+              elasticsearch-keystore add-file "$key" "$i"
+            done
+            # Add the bootstrap password since otherwise the Elasticsearch entrypoint tries to do this on startup
+            if [ ! -z ${ELASTIC_PASSWORD+x} ]; then
+              echo 'Adding env $ELASTIC_PASSWORD to keystore as key bootstrap.password'
+              echo "$ELASTIC_PASSWORD" | elasticsearch-keystore add -x bootstrap.password
+            fi
+            cp -a /usr/share/elasticsearch/config/elasticsearch.keystore /tmp/keystore/
+          volumeMounts:
+            - name: keystore
+              mountPath: /tmp/keystore
+            {{- range .Values.keystore }}
+            - name: keystore-{{ .secretName }}
+              mountPath: /tmp/keystoreSecrets/{{ .secretName }}
+            {{- end }}
+        {{- end }}
+      {{- if .Values.keystore }}
+      volumes:
+        - name: keystore
+          emptyDir: {}
+        {{- range .Values.keystore }}
+        - name: keystore-{{ .secretName }}
+          secret: {{ toYaml . | nindent 12 }}
+        {{- end }}
+      {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

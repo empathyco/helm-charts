@@ -77,6 +77,10 @@ prometheus:
   # -- Exporter image to deploy as a sidecar container
     image: justwatch/elasticsearch_exporter:1.1.0
 
+# -- The default is to deploy all pods serially. By setting this to parallel all pods are started at
+# the same time when bootstrapping the cluster
+podManagementPolicy: ""
+
 # -- Configurable annotations applied to all Elasticsearch pods
 podAnnotations: {}
 
@@ -173,3 +177,11 @@ podSecurityPolicy:
     #  - configMap
     #  - persistentVolumeClaim
     #  - emptyDir
+
+# -- Used for attaching AWS credentials as an external secret that must PREEXIST
+# See https://github.com/elastic/elasticsearch/issues/52625#issuecomment-855649473
+keystore: []
+
+# -- Allows you to add lifecycle hooks.
+# See https://github.com/elastic/helm-charts/blob/master/elasticsearch/README.md#how-to-configure-templates-post-deployment
+lifecycle: {}

@@ -34,10 +34,10 @@ The command removes all the Kubernetes components associated with the chart and 
 
 ## Usage notes
 
-- The chart deploys a Deployment and by default will do an automated rolling update of your cluster. It does this by waiting for the cluster health to become green after each instance is updated. If you prefer to update manually you can set OnDelete updateStrategy.
+- The chart deploys a StatefulSet and by default will do an automated rolling update of your cluster. It does this by waiting for the cluster health to become green after each instance is updated. If you prefer to update manually you can set OnDelete updateStrategy.
 - It is important to verify that the JVM heap size in `elastic_config.ES_JAVA_OPTS` and to set the CPU/Memory resources to something suitable for your cluster.
 - To simplify chart and maintenance each set of node groups is deployed as a separate Helm release, this chart referring to nodes with the master roles, while the Empathy's [Elasticsearch-data Helm chart](../elasticsearch-data) handles master nodes. This is basically the idea expressed in the official Elasticsearch Helm chart [multi example](https://github.com/elastic/helm-charts/tree/master/elasticsearch/examples/multi/). Without doing this it isn't possible to resize persistent volumes in a StatefulSet. By setting it up this way it makes it possible to add more nodes with a new storage size then drain the old ones. It also solves the problem of allowing the user to determine which node groups to update first when doing upgrades or changes.
-- Although based on the official [Elasticsearch Helm Chart](https://github.com/elastic/helm-charts/tree/master/elasticsearch) and the multi example mentioned in the previous point, this chart is much more opinionated that the official Helm chart. It is only thought to deploy nodes with the master roles, not data nodes, with the [justwatchcom Elasticsearh Exporter](https://github.com/justwatchcom/elasticsearch_exporter) and a custom docker image of Elastic 6.6.2 with an unlimited memory lock. Please make sure this chart fits your needs before using it.
+- Although based on the official [Elasticsearch Helm Chart](https://github.com/elastic/helm-charts/tree/master/elasticsearch) and the multi example mentioned in the previous point, this chart is more opinionated that the official Helm chart. It is thought to deploy nodes with the master roles, (although other roles could be deployed), with the [justwatchcom Elasticsearh Exporter](https://github.com/justwatchcom/elasticsearch_exporter) and a custom docker image of Elastic 6.6.2 with an unlimited memory lock. Please make sure this chart fits your needs before using it.
 - Please note the following if used in combination with Empathy's [Elasticsearch-data Helm chart](../elasticsearch-data):
 	- Both charts must have the same `elastic_config."cluster.name"` value so that they belong to the same Elasticsearch cluster
 	- Both charts must have the same `elastic_config."discovery.zen.ping.unicast.hosts"` value to connect. This value depends on the Elasticsearch-master chart (this chart) release name as `<RELEASE_NAME>-elasticsearch-master-discovery`.
@@ -67,9 +67,12 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingress.enabled | bool | `false` | Enable Kubernetes Ingress to expose Elasticsearch pods |
 | ingress.hosts | list | `[]` | Host and path for Kubernetes Ingress. See values.yaml for an example |
 | ingress.tls | list | `[]` | TLS secret for exposing Elasticsearch with https. See values.yaml for an example |
+| keystore | list | `[]` | Used for attaching AWS credentials as an external secret that must PREEXIST See https://github.com/elastic/elasticsearch/issues/52625#issuecomment-855649473 |
+| lifecycle | object | `{}` | Allows you to add lifecycle hooks. See https://github.com/elastic/helm-charts/blob/master/elasticsearch/README.md#how-to-configure-templates-post-deployment |
 | nameOverride | string | `""` | Overrides the clusterName when used in the naming of resources |
 | nodeSelector | object | `{}` | Configurable nodeSelector so that you can target specific nodes for your Elasticsearch cluster |
 | podAnnotations | object | `{}` | Configurable annotations applied to all Elasticsearch pods |
+| podManagementPolicy | string | `""` | The default is to deploy all pods serially. By setting this to parallel all pods are started at the same time when bootstrapping the cluster |
 | podSecurityContext | object | `{}` | Allows you to set the securityContext for the pod |
 | podSecurityPolicy.create | bool | `false` | Create a podSecurityPolicy with minimal permissions to run this Helm chart. Be sure to also set rbac.create to true, otherwise Role and RoleBinding won't be created. |
 | podSecurityPolicy.name | string | `""` | The name of the podSecurityPolicy to use. If not set and create is true, a name is generated using the fullname template |
@@ -90,6 +93,9 @@ The command removes all the Kubernetes components associated with the chart and 
 | serviceAccount.create | bool | `true` | Specifies whether a service account should be created |
 | serviceAccount.name | string | `""` | The name of the service account to use. If not set and create is true, a name is generated using the fullname template |
 | tolerations | list | `[]` | Configurable tolerations |
+| volume.annotations | object | `{}` | Annotations for statefulSet volumes |
+| volume.storage | string | `"5Gi"` | Storage resources for statefulSet volumes |
+| volume.storage_class | string | `"standard"` | Storage class for statefulSet volumes |
 
 ----------------------------------------------
 Autogenerated from chart metadata using [helm-docs v1.5.0](https://github.com/norwoodj/helm-docs/releases/v1.5.0)
