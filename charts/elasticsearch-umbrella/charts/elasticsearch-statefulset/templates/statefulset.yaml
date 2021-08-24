@@ -149,12 +149,7 @@ spec:
             initialDelaySeconds: 10
             timeoutSeconds: 10
           resources:
-            limits:
-              cpu: 100m
-              memory: 128Mi
-            requests:
-              cpu: 25m
-              memory: 64Mi
+            {{- toYaml .Values.prometheus.resources | nindent 12 }}
           securityContext:
             capabilities:
               drop:
