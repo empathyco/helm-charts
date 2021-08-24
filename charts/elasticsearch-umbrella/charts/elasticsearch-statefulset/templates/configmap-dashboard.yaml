@@ -1,17 +1,19 @@
 {{- if .Values.enabled -}}
 {{- if .Values.isMaster -}}
 {{- if .Values.prometheus.enabled -}}
+{{- if .Values.prometheus.dashboard.enabled -}}
 apiVersion: v1
 data:
 {{ (.Files.Glob "dashboards/*.json").AsConfig | indent 2 }} 
 kind: ConfigMap
 metadata:
-  namespace: monitoring
+  namespace: {{ .Values.prometheus.dashboard.namespace }}
   annotations:
   labels:
     grafana_dashboard: {{ include "statefulset.fullname" . }}
     {{- include "statefulset.labels" . | nindent 4 }}
   name: {{ include "statefulset.fullname" . }}-dashboard
+{{- end }}
 {{- end }}
 {{- end }}
 {{- end }}
