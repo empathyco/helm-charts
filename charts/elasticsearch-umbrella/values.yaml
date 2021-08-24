@@ -76,6 +76,13 @@ master:
     # -- Deploy a ServiceMonitor for Prometheus scrapping
     enabled: false
     # -- Deploy a Grafana Dashboard
+    resources:
+      limits:
+        cpu: 100m
+        memory: 128Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
     dashboard:
       enabled: true
       namespace: monitoring
@@ -256,6 +263,13 @@ data:
   prometheus:
     # -- Deploy a ServiceMonitor for Prometheus scrapping
     enabled: false
+    resources:
+      limits:
+        cpu: 100m
+        memory: 128Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
     # -- Annotations to include in the ServiceMonitor
     annotations: 
       release: prometheus
@@ -433,6 +447,13 @@ index:
   prometheus:
     # -- Deploy a ServiceMonitor for Prometheus scrapping
     enabled: false
+    resources:
+      limits:
+        cpu: 100m
+        memory: 128Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
     # -- Annotations to include in the ServiceMonitor
     annotations: 
       release: prometheus
@@ -594,6 +615,13 @@ client:
   prometheus:
     # -- Deploy a ServiceMonitor for Prometheus scrapping
     enabled: false
+    resources:
+      limits:
+        cpu: 100m
+        memory: 128Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
     # -- Annotations to include in the ServiceMonitor
     annotations: 
       release: prometheus
