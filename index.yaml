@@ -204,6 +204,34 @@ entries:
   elasticsearch-umbrella:
   - apiVersion: v2
     appVersion: 6.6.2
+    created: "2021-08-24T10:58:36.23578016Z"
+    dependencies:
+    - alias: master
+      name: elasticsearch-statefulset
+      repository: ""
+      version: 0.2.3
+    - alias: data
+      name: elasticsearch-statefulset
+      repository: ""
+      version: 0.2.3
+    - alias: index
+      name: elasticsearch-statefulset
+      repository: ""
+      version: 0.2.3
+    - alias: client
+      name: elasticsearch-deployment
+      repository: ""
+      version: 0.2.1
+    description: A Helm chart for Kubernetes
+    digest: fa114daecf2fd06c40f0b047f38dd8218f7b3f34621b4ebd9e524b1f348891d4
+    icon: https://helm.elastic.co/icons/elasticsearch.png
+    name: elasticsearch-umbrella
+    type: application
+    urls:
+    - https://github.com/empathyco/helm-charts/releases/download/elasticsearch-umbrella-0.3.3/elasticsearch-umbrella-0.3.3.tgz
+    version: 0.3.3
+  - apiVersion: v2
+    appVersion: 6.6.2
     created: "2021-08-24T07:31:48.005001976Z"
     dependencies:
     - alias: master
@@ -369,4 +397,4 @@ entries:
     urls:
     - https://github.com/empathyco/helm-charts/releases/download/imagepullsecret-patcher-0.1.0/imagepullsecret-patcher-0.1.0.tgz
     version: 0.1.0
-generated: "2021-08-24T07:31:48.005052177Z"
+generated: "2021-08-24T10:58:36.23584566Z"
