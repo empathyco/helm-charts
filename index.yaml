@@ -173,6 +173,17 @@ entries:
   elasticsearch-master:
   - apiVersion: v2
     appVersion: 6.6.2
+    created: "2021-08-25T09:33:21.984808646Z"
+    description: A Helm chart for Kubernetes
+    digest: e41ecd576a1dffe7771b5731a0bf4c1ea84e4ba50832193b7ab7c72bb0e0c76c
+    icon: https://helm.elastic.co/icons/elasticsearch.png
+    name: elasticsearch-master
+    type: application
+    urls:
+    - https://github.com/empathyco/helm-charts/releases/download/elasticsearch-master-0.2.2/elasticsearch-master-0.2.2.tgz
+    version: 0.2.2
+  - apiVersion: v2
+    appVersion: 6.6.2
     created: "2021-04-27T07:51:34.620669386Z"
     description: A Helm chart for Kubernetes
     digest: fb63fa4680b0f8e15972399cff54c1a666bf90e27f225c0d0cb2834152a3d622
@@ -202,6 +213,34 @@ entries:
     - https://github.com/empathyco/helm-charts/releases/download/elasticsearch-master-0.1.0/elasticsearch-master-0.1.0.tgz
     version: 0.1.0
   elasticsearch-umbrella:
+  - apiVersion: v2
+    appVersion: 6.6.2
+    created: "2021-08-25T09:33:22.125223591Z"
+    dependencies:
+    - alias: master
+      name: elasticsearch-statefulset
+      repository: ""
+      version: 0.2.3
+    - alias: data
+      name: elasticsearch-statefulset
+      repository: ""
+      version: 0.2.3
+    - alias: index
+      name: elasticsearch-statefulset
+      repository: ""
+      version: 0.2.3
+    - alias: client
+      name: elasticsearch-deployment
+      repository: ""
+      version: 0.2.1
+    description: A Helm chart for Kubernetes
+    digest: 9baf4525c965a639efbb16a284cb827d611baf4c67c291fcb8302df5811cbfe2
+    icon: https://helm.elastic.co/icons/elasticsearch.png
+    name: elasticsearch-umbrella
+    type: application
+    urls:
+    - https://github.com/empathyco/helm-charts/releases/download/elasticsearch-umbrella-0.3.6/elasticsearch-umbrella-0.3.6.tgz
+    version: 0.3.6
   - apiVersion: v2
     appVersion: 6.6.2
     created: "2021-08-25T07:10:07.857501675Z"
@@ -425,4 +464,4 @@ entries:
     urls:
     - https://github.com/empathyco/helm-charts/releases/download/imagepullsecret-patcher-0.1.0/imagepullsecret-patcher-0.1.0.tgz
     version: 0.1.0
-generated: "2021-08-25T07:10:07.857990101Z"
+generated: "2021-08-25T09:33:22.125292692Z"
