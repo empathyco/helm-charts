@@ -45,18 +45,23 @@ service:
 ingress:
   # -- Enable Kubernetes Ingress to expose cerebro pods
   enabled: false
+  # -- IngresClass name for Ingress
+  className: ""
   # -- Additional annotations for Ingress
   annotations: {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
-  
+
   # -- Additional labels for Ingress
   labels: {}
   # -- Path to expose cerebro
   path: /
   # -- List of hosts to expose cerebro
   hosts:
-    - chart-example.local
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
   # -- TLS secret for exposing cerebro with https. See values.yaml for an example 
   tls: []
   #  - secretName: chart-example-tls
