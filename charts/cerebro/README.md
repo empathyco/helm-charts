@@ -1,6 +1,6 @@
 # cerebro
 
-![Version: 2.0.3](https://img.shields.io/badge/Version-2.0.3-informational?style=flat-square) ![AppVersion: 0.9.4](https://img.shields.io/badge/AppVersion-0.9.4-informational?style=flat-square)
+![Version: 2.1.0](https://img.shields.io/badge/Version-2.1.0-informational?style=flat-square) ![AppVersion: 0.9.4](https://img.shields.io/badge/AppVersion-0.9.4-informational?style=flat-square)
 
 A Helm chart for Cerebro - a web admin tool that replaces Kopf.
 
@@ -22,6 +22,7 @@ A Helm chart for Cerebro - a web admin tool that replaces Kopf.
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | affinity | object | `{}` | Settings for affinity |
+| config.auth | bool | `false` | CA cert to use for cert validation tlsCaCert: /opt/cerebro/conf/certs/ca.crt |
 | config.basePath | string | `"/"` | Application base path |
 | config.hosts | list | `[]` | A list of known hosts |
 | config.restHistorySize | int | `50` | Rest request history size per user |
@@ -39,8 +40,9 @@ A Helm chart for Cerebro - a web admin tool that replaces Kopf.
 | image.repository | string | `"lmenezes/cerebro"` | The image to run |
 | image.tag | string | `"0.9.4"` | The image tag to pull |
 | ingress.annotations | object | `{}` | Additional annotations for Ingress |
+| ingress.className | string | `"internal"` | IngresClass name for Ingress |
 | ingress.enabled | bool | `false` | Enable Kubernetes Ingress to expose cerebro pods |
-| ingress.hosts | list | `["chart-example.local"]` | List of hosts to expose cerebro |
+| ingress.hosts | list | `[{"host":"chart-example.local","paths":[{"path":"/","pathType":"ImplementationSpecific"}]}]` | List of hosts to expose cerebro |
 | ingress.labels | object | `{}` | Additional labels for Ingress |
 | ingress.path | string | `"/"` | Path to expose cerebro |
 | ingress.tls | list | `[]` | TLS secret for exposing cerebro with https. See values.yaml for an example  |
