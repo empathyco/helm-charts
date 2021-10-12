@@ -3,6 +3,23 @@ entries:
   cerebro:
   - apiVersion: v2
     appVersion: 0.9.4
+    created: "2021-10-12T16:23:37.877063662Z"
+    description: A Helm chart for Cerebro - a web admin tool that replaces Kopf.
+    digest: b232b86c57c017fbe6ba43afd29eb23d29df4cf8b9f8d274dc3904b4ad78cb4b
+    home: https://github.com/lmenezes/cerebro
+    icon: https://github.com/lmenezes/cerebro/blob/master/public/img/logo.png
+    maintainers:
+    - email: ops@empathy.co
+      name: Empathy Platform Team
+    name: cerebro
+    sources:
+    - https://github.com/lmenezes/cerebro
+    - https://github.com/lmenezes/cerebro-docker
+    urls:
+    - https://github.com/empathyco/helm-charts/releases/download/cerebro-2.1.0/cerebro-2.1.0.tgz
+    version: 2.1.0
+  - apiVersion: v2
+    appVersion: 0.9.4
     created: "2021-06-21T11:11:33.891000141Z"
     description: A Helm chart for Cerebro - a web admin tool that replaces Kopf.
     digest: 2012e3e68f9549d2a71c97ab005522297b9e150aa046fbe86e98503ca6e47c38
@@ -464,4 +481,4 @@ entries:
     urls:
     - https://github.com/empathyco/helm-charts/releases/download/imagepullsecret-patcher-0.1.0/imagepullsecret-patcher-0.1.0.tgz
     version: 0.1.0
-generated: "2021-08-25T09:33:22.125292692Z"
+generated: "2021-10-12T16:23:37.877439573Z"
