@@ -66,6 +66,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | image.tag | string | `"6.6.2-memlock"` | Overrides the image tag whose default is the chart appVersion. |
 | imagePullSecrets | list | `[]` | Configuration for imagePullSecrets so that you can use a private registry for your image |
 | ingress.annotations | object | `{}` | Annotations for Kubernetes Ingress |
+| ingress.className | string | `""` | IngressClass name for ingress exposition |
 | ingress.enabled | bool | `false` | Enable Kubernetes Ingress to expose Elasticsearch pods |
 | ingress.hosts | list | `[]` | Host and path for Kubernetes Ingress. See values.yaml for an example |
 | ingress.tls | list | `[]` | TLS secret for exposing Elasticsearch with https. See values.yaml for an example |

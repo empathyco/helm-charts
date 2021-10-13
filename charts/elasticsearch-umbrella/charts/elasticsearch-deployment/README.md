@@ -44,24 +44,23 @@ The command removes all the Kubernetes components associated with the chart and 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | busybox.image | string | `"busybox:1.31"` | Image for busybox initContainers (sysctlInitContainer in official Elasticsearch Helm chart) |
-| elastic_config | object | `{"ES_JAVA_OPTS":"-Xms2048m -Xmx2048m","bootstrap.memory_lock":"true","cluster.name":"test-es","discovery.zen.minimum_master_nodes":"1","discovery.zen.ping.unicast.hosts":"master-discovery","network.bind_host":"0.0.0.0","node.data":"false","node.ingest":"false","node.master":"true","node.ml":"false","transport.tcp.compress":"true"}` | Elasticsearch configuration added in a configMap and passed to the Elasticsearch pods as Env. Vars. |
+| elastic_config | object | `{"ES_JAVA_OPTS":"-Xms2048m -Xmx2048m","bootstrap.memory_lock":"true","network.bind_host":"0.0.0.0","node.data":"false","node.ingest":"false","node.master":"false","node.ml":"false","transport.tcp.compress":"true"}` | Elasticsearch configuration added in a configMap and passed to the Elasticsearch pods as Env. Vars. |
 | elastic_config."bootstrap.memory_lock" | string | `"true"` | Elasticsearch enable memory lock to avoid swapping |
-| elastic_config."cluster.name" | string | `"test-es"` | Elasticsearch cluster.name and should be unique per cluster in the namespace |
-| elastic_config."discovery.zen.minimum_master_nodes" | string | `"1"` | Minimum number of master eligible nodes that need to join a newly elected master in order for an election to complete and for the elected node to accept its mastership. |
-| elastic_config."discovery.zen.ping.unicast.hosts" | string | `"master-discovery"` | Elasticsearch Zen discovery static unicast hosts |
 | elastic_config."network.bind_host" | string | `"0.0.0.0"` | Elasticsearch network.bind_host, network address(es) to which the node should bind in order to listen for incoming connections. |
 | elastic_config."node.data" | string | `"false"` | Elasticsearch data node role |
 | elastic_config."node.ingest" | string | `"false"` | Elasticsearch ingest node role |
-| elastic_config."node.master" | string | `"true"` | Elasticsearch master node role |
+| elastic_config."node.master" | string | `"false"` | Elasticsearch master node role |
 | elastic_config."node.ml" | string | `"false"` | Elasticsearch ml node role |
 | elastic_config."transport.tcp.compress" | string | `"true"` | Elasticsearch enable compression between nodes |
 | elastic_config.ES_JAVA_OPTS | string | `"-Xms2048m -Xmx2048m"` | Elasticsearch JVM options |
+| enabled | bool | `true` | Enabling or disabling master nodes |
 | fullnameOverride | string | `""` | Overrides the clusterName and nodeGroup when used in the naming of resources. This should only be used when using a single nodeGroup, otherwise you will have name conflicts |
 | image.pullPolicy | string | `"IfNotPresent"` | The Kubernetes imagePullPolicy value |
 | image.repository | string | `"eu.gcr.io/carrefour-fr-750c11a47fecaeff/empathy-search/elasticsearch-gcp"` | Docker repository for Elasticsearch image |
 | image.tag | string | `"6.6.2-memlock1"` | Overrides the image tag whose default is the chart appVersion. |
 | imagePullSecrets | list | `[]` | Configuration for imagePullSecrets so that you can use a private registry for your image |
 | ingress.annotations | object | `{}` | Annotations for Kubernetes Ingress |
+| ingress.className | string | `""` | IngressClass name for ingress exposition |
 | ingress.enabled | bool | `false` | Enable Kubernetes Ingress to expose Elasticsearch pods |
 | ingress.hosts | list | `[]` | Host and path for Kubernetes Ingress. See values.yaml for an example |
 | ingress.tls | list | `[]` | TLS secret for exposing Elasticsearch with https. See values.yaml for an example |
@@ -73,10 +72,11 @@ The command removes all the Kubernetes components associated with the chart and 
 | podSecurityPolicy.name | string | `""` | The name of the podSecurityPolicy to use. If not set and create is true, a name is generated using the fullname template |
 | podSecurityPolicy.spec | object | `{}` | Spec to apply to the podSecurityPolicy. See values.yaml for an example |
 | prometheus.annotations | object | `{"app":"prometheus-operator","release":"prometheus"}` | Annotations to include in the ServiceMonitor |
+| prometheus.dashboard | object | `{"enabled":true,"namespace":"monitoring"}` | Deploy a Grafana Dashboard |
 | prometheus.enabled | bool | `true` | Deploy a ServiceMonitor for Prometheus scrapping |
 | prometheus.exporter.image | string | `"justwatch/elasticsearch_exporter:1.1.0"` | Exporter image to deploy as a sidecar container |
 | rbac.create | bool | `false` | Whether RBAC rules should be created (Role and Rolebinding) |
-| replicaCount | int | `3` | Kubernetes replica count for the Deployment (i.e. how many pods) |
+| replicaCount | int | `3` | Kubernetes replica count for the Statefulset (i.e. how many pods) |
 | resources.limits.cpu | string | `"1000m"` | CPU limits for the Deployment |
 | resources.limits.memory | string | `"3Gi"` | Memory limits for the Deployment |
 | resources.requests.cpu | string | `"1000m"` | CPU requests for the Deployment |
