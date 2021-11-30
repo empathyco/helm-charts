@@ -531,4 +531,15 @@ entries:
     urls:
     - https://github.com/empathyco/helm-charts/releases/download/imagepullsecret-patcher-0.1.0/imagepullsecret-patcher-0.1.0.tgz
     version: 0.1.0
-generated: "2021-10-14T06:38:27.850073204Z"
+  yace-exporter:
+  - apiVersion: v2
+    appVersion: v0.32.0-alpha
+    created: "2021-11-30T15:37:50.878962606Z"
+    description: A Helm chart for Kubernetes
+    digest: 6b0ee5932c6767e74ae76fd9bf07a1886a75a6f72da4bd6858eb23f37d8d1400
+    name: yace-exporter
+    type: application
+    urls:
+    - https://github.com/empathyco/helm-charts/releases/download/yace-exporter-0.1.0/yace-exporter-0.1.0.tgz
+    version: 0.1.0
+generated: "2021-11-30T15:37:50.879207807Z"
