@@ -1,0 +1,135 @@
+# Default values for yace-exporter.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# -- Number of deployment replicas
+replicaCount: 1
+
+image:
+  # -- Image repository
+  repository: ghcr.io/nerdswords/yet-another-cloudwatch-exporter
+  # -- Image pullpolicy
+  pullPolicy: IfNotPresent
+  # -- Image tag
+  tag: "v0.32.0-alpha"
+
+# -- Image pull secrets
+imagePullSecrets: []
+# -- Chart name override
+nameOverride: ""
+# -- Chart full name override
+fullnameOverride: ""
+
+serviceAccount:
+  # -- Specifies whether a service account should be created
+  create: true
+  # -- Annotations to add to the service account
+  annotations: {}
+  # -- The name of the service account to use. If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+# -- Custom pod annotations
+podAnnotations: {}
+
+# -- Custom pod security context
+podSecurityContext: {}
+  # fsGroup: 2000
+
+# -- Custom container security context
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  # -- Type of Service
+  type: ClusterIP
+  # -- Port for kubernetes service
+  port: 80
+  # -- Additional annotations to add to the service 
+  annotations: {}
+  # -- Additional labels to add to the service
+  labels: {}
+
+# -- Container resources
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+# -- Kubernetes node selector
+nodeSelector: {}
+
+# -- Kubernetes tolerations
+tolerations: []
+
+# -- Kubernetes pod affinity
+affinity: {}
+
+# -- YACE exporter configuration is rendered with `tpl` function, therefore you can use any Helm variables and/or templates here
+config: ""
+  # |-
+  # ---
+  # apiVersion: v1alpha1
+  # discovery:
+  #   exportedTagsOnMetrics:
+  #     asg:
+  #       - Name
+  #       - eks:nodegroup-name
+  #   jobs:
+  #   - type: asg
+  #     regions:
+  #       - eu-west-1
+  #     searchTags:
+  #       - key: eks:nodegroup-name
+  #         value: .*
+  #     metrics:
+  #       - name: GroupInServiceInstances
+  #         statistics:
+  #         - Average
+  #         period: 600
+  #         length: 60
+  #       - name: GroupMaxSize
+  #         statistics:
+  #         - Average
+  #         period: 600
+  #         length: 60
+
+metrics:
+  serviceMonitor:
+    # -- if true, creates a Prometheus Operator ServiceMonitor
+    enabled: false
+    # -- Namespace for the ServiceMonitor Resource (defaults to the Release Namespace).
+    namespace: ""
+    # -- Prometheus instance selector labels
+    selector: {}
+    # -- Interval at which metrics should be scraped.
+    interval:
+    # -- Timeout after which the scrape is ended 
+    scrapeTimeout:
+  prometheusRule:
+    # -- if true, creates a Prometheus Operator PrometheusRule
+    enabled: false
+    # -- Namespace for the PrometheusRule Resource
+    namespace: ""
+    # -- Prometheus instance selector labels
+    selector: {}
+    # -- Prometheus Rule definitions
+    rules: []
+      # - alert: Up
+      #   annotations:
+      #     message: Dead man's switch is not up.
+      #   expr: up < 1
+      #   for: 3m
+      #   labels:
+      #     severity: critical
