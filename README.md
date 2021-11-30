@@ -35,3 +35,4 @@ Following the list complete list of supported Helm Charts:
 * elasticsearch-master
 * elasticsearch-umbrella
 * imagepullsecret-patcher
+* yace-exporter

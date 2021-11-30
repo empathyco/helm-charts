@@ -1,0 +1,20 @@
+{{- if and .Values.metrics.prometheusRule.enabled .Values.metrics.prometheusRule.rules }}
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: {{ include "yace-exporter.fullname" . }}
+  {{- if .Values.metrics.prometheusRule.namespace }}
+  namespace: {{ .Values.metrics.prometheusRule.namespace }}
+  {{- else }}
+  namespace: {{ .Release.Namespace }}
+  {{- end }}
+  labels:
+    {{- include "yace-exporter.labels" . | nindent 4 }}
+    {{- range $key, $value := .Values.metrics.prometheusRule.selector }}
+    {{ $key }}: {{ $value | quote }}
+    {{- end }}
+spec:
+  groups:
+  - name: "dead-mans-switch-rules"
+    rules: {{- toYaml .Values.metrics.prometheusRule.rules | nindent 6 }}
+{{- end }}
