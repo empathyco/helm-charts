@@ -24,14 +24,14 @@ appVersion: 6.6.2
 # A list of the chart requirements 
 dependencies:
   - name: elasticsearch-statefulset
-    version: "0.3.0"
+    version: "0.4.0"
     alias: master
   - name: elasticsearch-statefulset
-    version: "0.3.0"
+    version: "0.4.0"
     alias: data
   - name: elasticsearch-statefulset
-    version: "0.3.0"
+    version: "0.4.0"
     alias: index
   - name: elasticsearch-deployment
-    version: "0.3.0"
+    version: "0.4.0"
     alias: client
