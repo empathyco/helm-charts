@@ -31,8 +31,6 @@ Following the list complete list of supported Helm Charts:
 
 * cerebro
 * deadman-switch
-* elasticsearch-data
-* elasticsearch-master
 * elasticsearch-umbrella
 * imagepullsecret-patcher
 * yace-exporter
