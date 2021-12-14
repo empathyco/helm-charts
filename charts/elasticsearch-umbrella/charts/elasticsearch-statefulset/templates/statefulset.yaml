@@ -116,7 +116,7 @@ spec:
             wait $!
           env:
           - name: ES_JAVA_OPTS
-            value: "-Xms128m -Xmx128m"
+            value: "-Xms128m -Xmx128m -Dlog4j2.formatMsgNoLookups=true"
           - name: NODE_NAME
             valueFrom:
               fieldRef:
