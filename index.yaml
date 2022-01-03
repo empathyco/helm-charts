@@ -158,6 +158,16 @@ entries:
   cost-report:
   - apiVersion: v2
     appVersion: 0.0.10
+    created: "2022-01-03T16:04:31.629678336Z"
+    description: A Helm chart for Kubernetes
+    digest: 4022a41500c53f5e82b19125d01994ce712e52c2589526c7787f6488bd53d5d9
+    name: cost-report
+    type: application
+    urls:
+    - https://github.com/empathyco/helm-charts/releases/download/cost-report-0.7.3/cost-report-0.7.3.tgz
+    version: 0.7.3
+  - apiVersion: v2
+    appVersion: 0.0.10
     created: "2022-01-03T10:02:33.956629235Z"
     description: A Helm chart for Kubernetes
     digest: bc33c5b33d05724845593398e120467b9f14d95185e53a6622fe9dd9903de513
@@ -649,4 +659,4 @@ entries:
     urls:
     - https://github.com/empathyco/helm-charts/releases/download/yace-exporter-0.1.0/yace-exporter-0.1.0.tgz
     version: 0.1.0
-generated: "2022-01-03T10:02:33.957074339Z"
+generated: "2022-01-03T16:04:31.629775982Z"
