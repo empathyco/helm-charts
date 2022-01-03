@@ -264,7 +264,7 @@
           "refId": "A"
         }
       ],
-      "title": "Top 6 Requests Daily Price ",
+      "title": "Top 6 Resource Requests Daily Cost ",
       "transformations": [
         {
           "id": "seriesToColumns",
@@ -290,7 +290,7 @@
             "excludeByName": {},
             "indexByName": {},
             "renameByName": {
-              "Value #A": "Price"
+              "Value #A": "Cost"
             }
           }
         }
@@ -372,7 +372,7 @@
           "refId": "A"
         }
       ],
-      "title": "Top 6 CPU Requests Daily Price ",
+      "title": "Top 6 CPU Resource Requests Daily Cost ",
       "transformations": [
         {
           "id": "seriesToColumns",
@@ -398,7 +398,7 @@
             "excludeByName": {},
             "indexByName": {},
             "renameByName": {
-              "Value #A": "Price"
+              "Value #A": "Cost"
             }
           }
         }
@@ -480,7 +480,7 @@
           "refId": "A"
         }
       ],
-      "title": "Top 6 Memory Requests Daily Price ",
+      "title": "Top 6 Memory Requests Daily Cost ",
       "transformations": [
         {
           "id": "seriesToColumns",
@@ -506,7 +506,7 @@
             "excludeByName": {},
             "indexByName": {},
             "renameByName": {
-              "Value #A": "Price"
+              "Value #A": "Cost"
             }
           }
         }
@@ -588,7 +588,7 @@
           "refId": "A"
         }
       ],
-      "title": "Top 10 Requests Daily Price per Pod",
+      "title": "Top 10 Resource Requests Daily Cost per Pod",
       "transformations": [
         {
           "id": "seriesToColumns",
@@ -617,7 +617,7 @@
             },
             "indexByName": {},
             "renameByName": {
-              "Value #A": "Price",
+              "Value #A": "Cost",
               "label_eks_amazonaws_com_capacity_type": "",
               "pod": ""
             }
@@ -701,7 +701,7 @@
           "refId": "A"
         }
       ],
-      "title": "Top 6 Disk Monthly Price",
+      "title": "Top 6 Disk Monthly Cost",
       "transformations": [
         {
           "id": "seriesToColumns",
@@ -727,7 +727,7 @@
             "excludeByName": {},
             "indexByName": {},
             "renameByName": {
-              "Value #A": "Price"
+              "Value #A": "Cost"
             }
           }
         }
@@ -822,7 +822,7 @@
           "refId": "A"
         }
       ],
-      "title": "Top 6 Usage Daily Price ",
+      "title": "Top 6 Usage Daily Cost ",
       "transformations": [
         {
           "id": "seriesToColumns",
@@ -848,7 +848,7 @@
             "excludeByName": {},
             "indexByName": {},
             "renameByName": {
-              "Value #A": "Price"
+              "Value #A": "Cost"
             }
           }
         }
@@ -930,7 +930,7 @@
           "refId": "A"
         }
       ],
-      "title": "Top 6 CPU Usage Daily Price ",
+      "title": "Top 6 CPU Usage Daily Cost ",
       "transformations": [
         {
           "id": "seriesToColumns",
@@ -956,7 +956,7 @@
             "excludeByName": {},
             "indexByName": {},
             "renameByName": {
-              "Value #A": "Price"
+              "Value #A": "Cost"
             }
           }
         }
@@ -1038,7 +1038,7 @@
           "refId": "A"
         }
       ],
-      "title": "Top 6 Memory Usage Daily Price ",
+      "title": "Top 6 Memory Usage Daily Cost ",
       "transformations": [
         {
           "id": "seriesToColumns",
@@ -1064,7 +1064,7 @@
             "excludeByName": {},
             "indexByName": {},
             "renameByName": {
-              "Value #A": "Price"
+              "Value #A": "Cost"
             }
           }
         }
@@ -1146,7 +1146,7 @@
           "refId": "A"
         }
       ],
-      "title": "Top 10 Usage Daily Price per Pod",
+      "title": "Top 10 Usage Daily Cost per Pod",
       "transformations": [
         {
           "id": "seriesToColumns",
@@ -1175,7 +1175,7 @@
             },
             "indexByName": {},
             "renameByName": {
-              "Value #A": "Price",
+              "Value #A": "Cost",
               "label_eks_amazonaws_com_capacity_type": "",
               "pod": ""
             }
@@ -1199,6 +1199,6 @@
   "timezone": "",
   "title": "Exec Cost Report",
   "uid": "ldZSL-T7r",
-  "version": 2,
+  "version": 3,
   "weekStart": ""
 }
