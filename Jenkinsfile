@@ -28,7 +28,7 @@ pipeline {
                             do
                                 VERSION=$(yq eval .version ./charts/${element}/Chart.yaml)
                                 helm lint ./charts/${element}
-                                helm push ./charts/${element} ${HELM_REPO} -v ${VERSION} -u ${username} -p ${password}
+                                helm cm-push ./charts/${element} ${HELM_REPO} -v ${VERSION} -u ${username} -p ${password}
                                 helm chart save ./charts/${element} ${HELM_REPO_URL}/${element}:${VERSION}-chart
                                 helm chart push ${HELM_REPO_URL}/${element}:${VERSION}-chart
                             done
