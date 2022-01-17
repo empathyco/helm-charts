@@ -232,7 +232,7 @@ spec:
           (
             (
               sum by(node, resource) (
-                  kube_node_status_capacity{job="kube-state-metrics", resource="cpu"} 
+                  ceil(kube_node_status_capacity{job="kube-state-metrics", resource="cpu"}) 
                   -
                   kube_node_status_allocatable{job="kube-state-metrics", resource="cpu"}
               )
@@ -274,11 +274,10 @@ spec:
           (
             (
               sum by(node, resource) (
-                  kube_node_status_capacity{job="kube-state-metrics", resource="memory"} 
+                  ceil(kube_node_status_capacity{job="kube-state-metrics", resource="memory"} /1024/1024/1024)
                   -
-                  kube_node_status_allocatable{job="kube-state-metrics", resource="memory"}
+                  (kube_node_status_allocatable{job="kube-state-metrics", resource="memory"} /1024/1024/1024)
               )
-              /1024/1024/1024
             ) 
             
             * on (node) group_left(label_topology_kubernetes_io_zone, label_eks_amazonaws_com_capacity_type, label_beta_kubernetes_io_instance_type)
@@ -296,12 +295,11 @@ spec:
           (
             (
               sum by(node, resource) (
-                  kube_node_status_capacity{job="kube-state-metrics", resource="memory"} 
+                  ceil(kube_node_status_capacity{job="kube-state-metrics", resource="memory"} /1024/1024/1024)
                   -
-                  kube_node_status_allocatable{job="kube-state-metrics", resource="memory"}
+                  (kube_node_status_allocatable{job="kube-state-metrics", resource="memory"} /1024/1024/1024)
               )
-              /1024/1024/1024
-            ) 
+            )
             
             * on (node) group_left(label_eks_amazonaws_com_capacity_type, label_beta_kubernetes_io_instance_type)
             
