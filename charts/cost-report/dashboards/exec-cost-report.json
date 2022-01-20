@@ -21,9 +21,9 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 94,
+  "id": 98,
   "links": [],
-  "liveNow": false,
+  "liveNow": true,
   "panels": [
     {
       "collapsed": false,
@@ -89,8 +89,10 @@
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
-          "exemplar": true,
+          "exemplar": false,
           "expr": "sum(\n  sum_over_time(\n    (\n    capacity_instance:spot_instance_cost:cost \n    OR \n    capacity_instance:on_demand_instance_cost:cost\n    )\n  [1d:1h])\n)",
+          "format": "table",
+          "instant": true,
           "interval": "",
           "legendFormat": "Cost",
           "refId": "A"
@@ -114,6 +116,7 @@
             "mode": "thresholds"
           },
           "mappings": [],
+          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -123,7 +126,7 @@
               },
               {
                 "color": "red",
-                "value": 80
+                "value": 0
               }
             ]
           },
@@ -158,8 +161,9 @@
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
-          "exemplar": true,
+          "exemplar": false,
           "expr": "sum(\n  sum_over_time(\n    (\n    capacity_instance:spot_instance_cost:cost \n    OR \n    capacity_instance:on_demand_instance_cost:cost\n    )\n  [3d:1h])\n)*10",
+          "instant": true,
           "interval": "",
           "legendFormat": "Cost",
           "refId": "A"
@@ -768,7 +772,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -784,7 +789,7 @@
             "h": 9,
             "w": 24,
             "x": 0,
-            "y": 3
+            "y": 47
           },
           "id": 16,
           "options": {
@@ -875,7 +880,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -891,7 +897,7 @@
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 12
+            "y": 56
           },
           "id": 12,
           "options": {
@@ -982,7 +988,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -998,7 +1005,7 @@
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 12
+            "y": 56
           },
           "id": 14,
           "options": {
@@ -1089,7 +1096,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -1105,7 +1113,7 @@
             "h": 9,
             "w": 24,
             "x": 0,
-            "y": 20
+            "y": 64
           },
           "id": 19,
           "options": {
@@ -1183,6 +1191,7 @@
       "type": "row"
     }
   ],
+  "refresh": "5m",
   "schemaVersion": 33,
   "style": "dark",
   "tags": [],
@@ -1193,10 +1202,12 @@
     "from": "now-24h",
     "to": "now"
   },
-  "timepicker": {},
+  "timepicker": {
+    "hidden": false
+  },
   "timezone": "",
   "title": "Exec Cost Report",
-  "uid": "ldZSL-T7rsadf",
+  "uid": "ldZSL-T7rsafa",
   "version": 2,
   "weekStart": ""
 }
