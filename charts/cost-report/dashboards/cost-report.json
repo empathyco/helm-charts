@@ -21,8 +21,8 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 97,
-  "iteration": 1642544633497,
+  "id": 79,
+  "iteration": 1643023556399,
   "links": [],
   "liveNow": true,
   "panels": [
@@ -649,7 +649,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "exemplar": false,
-          "expr": "sum(sum by (persistentvolumeclaim) (kubelet_volume_stats_capacity_bytes/1024/1024/1024) * 0.089)",
+          "expr": "sum(sum by (persistentvolumeclaim) (kubelet_volume_stats_capacity_bytes/1024/1024/1024) * $pvcost)",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -1531,12 +1531,108 @@
       "type": "timeseries"
     },
     {
+      "description": "label_replace is used to ALWAYS have a different label (resource) when doing OR, so that no time series is filtered by binary operations (capacity_type for internal OR, resource for external OR)\n\nIf for example a pod has CPU requests but not memory requests, the binary sum (+) will filter the CPU sum (will not count for them)",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 2,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "currencyUSD"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 53
+      },
+      "id": 74,
+      "options": {
+        "displayMode": "gradient",
+        "orientation": "vertical",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": false
+      },
+      "pluginVersion": "8.3.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "exemplar": false,
+          "expr": "sort_desc (\nsum_over_time(\n  sum by (namespace) (\n  \n      # See description for label_replace\n      label_replace(\n          ((\n              zone_capacity_instance_namespace_node_pod:pod_cpu_requests_instance_cpu_price:spot_pod_cpu_requests_cost\n              - \n              zone_capacity_instance_namespace_node_pod:pod_cpu_usage_instance_cpu_price:spot_pod_cpu_usage_cost\n          ) > 0)\n          OR\n          ((\n              capacity_instance_namespace_node_pod:pod_cpu_requests_instance_cpu_price:on_demand_pod_cpu_requests_cost\n              -\n              capacity_instance_namespace_node_pod:pod_cpu_usage_instance_cpu_price:on_demand_pod_cpu_usage_cost\n          ) > 0)\n      , \"resource\", \"CPU\", \"\",\"\")\n      \n      OR \n      \n      label_replace(\n          ((\n              zone_capacity_instance_namespace_node_pod:pod_memory_requests_instance_mem_price:spot_pod_mem_requests_cost\n              -\n              zone_capacity_instance_namespace_node_pod:pod_memory_usage_instance_mem_price:spot_pod_mem_usage_cost\n          ) > 0)\n          OR\n          ((\n              capacity_instance_namespace_node_pod:pod_memory_requests_instance_mem_price:on_demand_pod_mem_requests_cost\n              -\n              capacity_instance_namespace_node_pod:pod_memory_usage_instance_mem_price:on_demand_pod_mem_usage_cost\n          ) > 0)\n      , \"resource\", \"memory\", \"\",\"\")\n\n)\n[1d:1h])\n)",
+          "format": "time_series",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "{{namespace}}",
+          "refId": "A"
+        }
+      ],
+      "title": "Daily Total Cost per Namespace",
+      "transformations": [
+        {
+          "id": "seriesToColumns",
+          "options": {
+            "byField": "Time"
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true
+            },
+            "indexByName": {},
+            "renameByName": {
+              "Value #A": "CPU Cost Per Day"
+            }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "desc": true,
+                "field": "CPU Cost Per Day"
+              }
+            ]
+          }
+        }
+      ],
+      "type": "bargauge"
+    },
+    {
       "collapsed": true,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 53
+        "y": 62
       },
       "id": 57,
       "panels": [
@@ -1553,7 +1649,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -1570,6 +1667,102 @@
             "w": 24,
             "x": 0,
             "y": 2
+          },
+          "id": 79,
+          "options": {
+            "displayMode": "gradient",
+            "orientation": "vertical",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showUnfilled": false
+          },
+          "pluginVersion": "8.3.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "PBFA97CFB590B2093"
+              },
+              "exemplar": false,
+              "expr": "sort_desc (\nsum_over_time(\n  sum by (namespace) (\n  \n      # See description for label_replace\n      label_replace(\n          # If requests is bigger than usage, use requests. Otherwise use usage.\n          (\n            (\n                zone_capacity_instance_namespace_node_pod:pod_cpu_requests_instance_cpu_price:spot_pod_cpu_requests_cost\n                > \n                zone_capacity_instance_namespace_node_pod:pod_cpu_usage_instance_cpu_price:spot_pod_cpu_usage_cost\n            )\n            OR\n            zone_capacity_instance_namespace_node_pod:pod_cpu_usage_instance_cpu_price:spot_pod_cpu_usage_cost\n          )\n          OR\n          # If requests is bigger than usage, use requests. Otherwise use usage.\n          (\n            (\n                capacity_instance_namespace_node_pod:pod_cpu_requests_instance_cpu_price:on_demand_pod_cpu_requests_cost\n                >\n                capacity_instance_namespace_node_pod:pod_cpu_usage_instance_cpu_price:on_demand_pod_cpu_usage_cost\n            )\n            OR\n            zone_capacity_instance_namespace_node_pod:pod_cpu_usage_instance_cpu_price:spot_pod_cpu_usage_cost\n          )\n      , \"resource\", \"CPU\", \"\",\"\")\n      \n      OR \n      \n      label_replace(\n          # If requests is bigger than usage, use requests. Otherwise use usage.\n          (\n            (\n                zone_capacity_instance_namespace_node_pod:pod_memory_requests_instance_mem_price:spot_pod_mem_requests_cost\n                >\n                zone_capacity_instance_namespace_node_pod:pod_memory_usage_instance_mem_price:spot_pod_mem_usage_cost\n            )\n            OR\n            zone_capacity_instance_namespace_node_pod:pod_memory_usage_instance_mem_price:spot_pod_mem_usage_cost\n          )\n          OR\n          # If requests is bigger than usage, use requests. Otherwise use usage.\n          (\n            (\n                capacity_instance_namespace_node_pod:pod_memory_requests_instance_mem_price:on_demand_pod_mem_requests_cost\n                >\n                capacity_instance_namespace_node_pod:pod_memory_usage_instance_mem_price:on_demand_pod_mem_usage_cost\n            ) \n            OR capacity_instance_namespace_node_pod:pod_memory_usage_instance_mem_price:on_demand_pod_mem_usage_cost\n          )\n      , \"resource\", \"memory\", \"\",\"\")\n\n)\n[1d:1h])\n)",
+              "format": "time_series",
+              "instant": true,
+              "interval": "",
+              "legendFormat": "{{namespace}}",
+              "refId": "A"
+            }
+          ],
+          "title": "Daily Total Cost per Namespace",
+          "transformations": [
+            {
+              "id": "seriesToColumns",
+              "options": {
+                "byField": "Time"
+              }
+            },
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {
+                  "Time": true
+                },
+                "indexByName": {},
+                "renameByName": {
+                  "Value #A": "CPU Cost Per Day"
+                }
+              }
+            },
+            {
+              "id": "sortBy",
+              "options": {
+                "fields": {},
+                "sort": [
+                  {
+                    "desc": true,
+                    "field": "CPU Cost Per Day"
+                  }
+                ]
+              }
+            }
+          ],
+          "type": "bargauge"
+        },
+        {
+          "description": "label_replace is used to ALWAYS have a different label (resource) when doing OR, so that no time series is filtered by binary operations (capacity_type for internal OR, resource for external OR)\n\nIf for example a pod has CPU requests but not memory requests, the binary sum (+) will filter the CPU sum (will not count for them)",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "decimals": 2,
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "currencyUSD"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 9,
+            "w": 24,
+            "x": 0,
+            "y": 11
           },
           "id": 63,
           "options": {
@@ -1648,7 +1841,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -1664,7 +1858,7 @@
             "h": 9,
             "w": 24,
             "x": 0,
-            "y": 11
+            "y": 20
           },
           "id": 58,
           "options": {
@@ -1741,7 +1935,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -1757,7 +1952,7 @@
             "h": 8,
             "w": 24,
             "x": 0,
-            "y": 20
+            "y": 29
           },
           "id": 34,
           "options": {
@@ -1815,7 +2010,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -1831,7 +2027,7 @@
             "h": 8,
             "w": 8,
             "x": 0,
-            "y": 28
+            "y": 37
           },
           "id": 65,
           "options": {
@@ -1895,7 +2091,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -1911,7 +2108,7 @@
             "h": 8,
             "w": 8,
             "x": 8,
-            "y": 28
+            "y": 37
           },
           "id": 30,
           "options": {
@@ -1975,7 +2172,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -1991,7 +2189,7 @@
             "h": 8,
             "w": 8,
             "x": 16,
-            "y": 28
+            "y": 37
           },
           "id": 31,
           "options": {
@@ -2055,7 +2253,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -2071,7 +2270,7 @@
             "h": 8,
             "w": 8,
             "x": 0,
-            "y": 36
+            "y": 45
           },
           "id": 64,
           "options": {
@@ -2135,7 +2334,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -2151,7 +2351,7 @@
             "h": 8,
             "w": 8,
             "x": 8,
-            "y": 36
+            "y": 45
           },
           "id": 35,
           "options": {
@@ -2215,7 +2415,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -2231,7 +2432,7 @@
             "h": 8,
             "w": 8,
             "x": 16,
-            "y": 36
+            "y": 45
           },
           "id": 36,
           "options": {
@@ -2309,7 +2510,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -2325,7 +2527,7 @@
             "h": 8,
             "w": 24,
             "x": 0,
-            "y": 44
+            "y": 53
           },
           "id": 38,
           "options": {
@@ -2352,7 +2554,7 @@
                 "uid": "PBFA97CFB590B2093"
               },
               "exemplar": false,
-              "expr": "sum by (namespace) (sum by (persistentvolumeclaim,namespace) (kubelet_volume_stats_capacity_bytes/1024/1024/1024) * 0.089)",
+              "expr": "sum by (namespace) (sum by (persistentvolumeclaim,namespace) (kubelet_volume_stats_capacity_bytes/1024/1024/1024) * $pvcost)",
               "format": "table",
               "instant": true,
               "interval": "",
@@ -2360,7 +2562,7 @@
               "refId": "A"
             }
           ],
-          "title": "Monthly PVs Cost",
+          "title": "Monthly PVs Total Cost",
           "transformations": [
             {
               "id": "seriesToColumns",
@@ -2434,7 +2636,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -2450,14 +2653,18 @@
             "h": 8,
             "w": 24,
             "x": 0,
-            "y": 52
+            "y": 61
           },
           "id": 49,
           "options": {
             "legend": {
-              "calcs": [],
-              "displayMode": "list",
-              "placement": "bottom"
+              "calcs": [
+                "last"
+              ],
+              "displayMode": "table",
+              "placement": "right",
+              "sortBy": "Last",
+              "sortDesc": true
             },
             "tooltip": {
               "mode": "single"
@@ -2471,7 +2678,7 @@
                 "uid": "PBFA97CFB590B2093"
               },
               "exemplar": true,
-              "expr": "sum by (namespace) (sum by (persistentvolumeclaim,namespace) (kubelet_volume_stats_capacity_bytes/1024/1024/1024) * 0.089)",
+              "expr": "sum by (namespace) (sum by (persistentvolumeclaim,namespace) (kubelet_volume_stats_capacity_bytes/1024/1024/1024) * $pvcost)",
               "format": "time_series",
               "instant": false,
               "interval": "",
@@ -2479,7 +2686,415 @@
               "refId": "A"
             }
           ],
-          "title": "Monthly PVs Cost",
+          "title": "Monthly PVs Total Cost",
+          "transformations": [],
+          "type": "timeseries"
+        },
+        {
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "axisSoftMin": 0,
+                "fillOpacity": 80,
+                "gradientMode": "opacity",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineWidth": 1
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "currencyUSD"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 69
+          },
+          "id": 75,
+          "options": {
+            "barWidth": 0.97,
+            "groupWidth": 0.7,
+            "legend": {
+              "calcs": [],
+              "displayMode": "table",
+              "placement": "bottom"
+            },
+            "orientation": "auto",
+            "showValue": "always",
+            "stacking": "normal",
+            "tooltip": {
+              "mode": "single"
+            },
+            "xTickLabelRotation": 0
+          },
+          "pluginVersion": "8.3.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "PBFA97CFB590B2093"
+              },
+              "exemplar": false,
+              "expr": "(sum by (namespace) (sum by (persistentvolumeclaim,namespace) (kubelet_volume_stats_capacity_bytes/1024/1024/1024))\n-\nsum by (namespace) (sum by (persistentvolumeclaim,namespace) (kubelet_volume_stats_used_bytes/1024/1024/1024))\n) * $pvcost",
+              "format": "table",
+              "instant": true,
+              "interval": "",
+              "legendFormat": "",
+              "refId": "A"
+            }
+          ],
+          "title": "Monthly PVs Underutilization Cost",
+          "transformations": [
+            {
+              "id": "seriesToColumns",
+              "options": {
+                "byField": "Time"
+              }
+            },
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {
+                  "Time": true
+                },
+                "indexByName": {},
+                "renameByName": {
+                  "Value #A": "PVCs Costs Per Day"
+                }
+              }
+            },
+            {
+              "id": "sortBy",
+              "options": {
+                "fields": {},
+                "sort": [
+                  {
+                    "desc": true,
+                    "field": "PVCs Costs Per Day"
+                  }
+                ]
+              }
+            }
+          ],
+          "type": "barchart"
+        },
+        {
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 0,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "currencyUSD"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 69
+          },
+          "id": 76,
+          "options": {
+            "legend": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "displayMode": "table",
+              "placement": "right",
+              "sortBy": "Last *",
+              "sortDesc": true
+            },
+            "tooltip": {
+              "mode": "single"
+            }
+          },
+          "pluginVersion": "8.3.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "PBFA97CFB590B2093"
+              },
+              "exemplar": true,
+              "expr": "(sum by (namespace) (sum by (persistentvolumeclaim,namespace) (kubelet_volume_stats_capacity_bytes/1024/1024/1024))\n-\nsum by (namespace) (sum by (persistentvolumeclaim,namespace) (kubelet_volume_stats_used_bytes/1024/1024/1024))\n) * $pvcost",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "legendFormat": "{{namespace}}",
+              "refId": "A"
+            }
+          ],
+          "title": "Monthly PVs Underutilization Cost",
+          "transformations": [],
+          "type": "timeseries"
+        },
+        {
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "axisSoftMin": 0,
+                "fillOpacity": 80,
+                "gradientMode": "opacity",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineWidth": 1
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "currencyUSD"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 77
+          },
+          "id": 77,
+          "options": {
+            "barWidth": 0.97,
+            "groupWidth": 0.7,
+            "legend": {
+              "calcs": [],
+              "displayMode": "table",
+              "placement": "bottom"
+            },
+            "orientation": "auto",
+            "showValue": "always",
+            "stacking": "normal",
+            "tooltip": {
+              "mode": "single"
+            },
+            "xTickLabelRotation": 0
+          },
+          "pluginVersion": "8.3.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "PBFA97CFB590B2093"
+              },
+              "exemplar": false,
+              "expr": "sum by (namespace) (sum by (persistentvolumeclaim,namespace) (kubelet_volume_stats_used_bytes/1024/1024/1024)) * $pvcost",
+              "format": "table",
+              "instant": true,
+              "interval": "",
+              "legendFormat": "",
+              "refId": "A"
+            }
+          ],
+          "title": "Monthly PVs Usage Cost",
+          "transformations": [
+            {
+              "id": "seriesToColumns",
+              "options": {
+                "byField": "Time"
+              }
+            },
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {
+                  "Time": true
+                },
+                "indexByName": {},
+                "renameByName": {
+                  "Value #A": "PVCs Costs Per Day"
+                }
+              }
+            },
+            {
+              "id": "sortBy",
+              "options": {
+                "fields": {},
+                "sort": [
+                  {
+                    "desc": true,
+                    "field": "PVCs Costs Per Day"
+                  }
+                ]
+              }
+            }
+          ],
+          "type": "barchart"
+        },
+        {
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 0,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "currencyUSD"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 77
+          },
+          "id": 78,
+          "options": {
+            "legend": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "displayMode": "table",
+              "placement": "right",
+              "sortBy": "Last *",
+              "sortDesc": true
+            },
+            "tooltip": {
+              "mode": "single"
+            }
+          },
+          "pluginVersion": "8.3.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "PBFA97CFB590B2093"
+              },
+              "exemplar": true,
+              "expr": "sum by (namespace) (sum by (persistentvolumeclaim,namespace) (kubelet_volume_stats_used_bytes/1024/1024/1024)) * $pvcost",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "legendFormat": "{{namespace}}",
+              "refId": "A"
+            }
+          ],
+          "title": "Monthly PVs Usage Cost",
           "transformations": [],
           "type": "timeseries"
         }
@@ -2493,10 +3108,76 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 54
+        "y": 63
       },
       "id": 10,
       "panels": [
+        {
+          "description": "label_replace is used to ALWAYS have a different label (resource) when doing OR, so that no time series is filtered by binary operations (capacity_type for internal OR, resource for external OR)\n\nIf for example a pod has CPU requests but not memory requests, the binary sum (+) will filter the CPU sum (will not count for them)",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "decimals": 2,
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "currencyUSD"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 9,
+            "w": 24,
+            "x": 0,
+            "y": 3
+          },
+          "id": 81,
+          "options": {
+            "displayMode": "gradient",
+            "orientation": "vertical",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showUnfilled": false,
+            "text": {}
+          },
+          "pluginVersion": "8.3.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "PBFA97CFB590B2093"
+              },
+              "exemplar": false,
+              "expr": "sort_desc (\nsum_over_time(\n  sum by (pod) (\n  \n      # See description for label_replace\n      label_replace(\n          # If requests is bigger than usage, use requests. Otherwise use usage.\n          (\n            (\n                zone_capacity_instance_namespace_node_pod:pod_cpu_requests_instance_cpu_price:spot_pod_cpu_requests_cost{namespace=\"$namespace\", pod=~\"$pod\"}\n                > \n                zone_capacity_instance_namespace_node_pod:pod_cpu_usage_instance_cpu_price:spot_pod_cpu_usage_cost{namespace=\"$namespace\", pod=~\"$pod\"}\n            )\n            OR\n            zone_capacity_instance_namespace_node_pod:pod_cpu_usage_instance_cpu_price:spot_pod_cpu_usage_cost{namespace=\"$namespace\", pod=~\"$pod\"}\n          )\n          OR\n          # If requests is bigger than usage, use requests. Otherwise use usage.\n          (\n            (\n                capacity_instance_namespace_node_pod:pod_cpu_requests_instance_cpu_price:on_demand_pod_cpu_requests_cost{namespace=\"$namespace\", pod=~\"$pod\"}\n                >\n                capacity_instance_namespace_node_pod:pod_cpu_usage_instance_cpu_price:on_demand_pod_cpu_usage_cost{namespace=\"$namespace\", pod=~\"$pod\"}\n            )\n            OR\n            zone_capacity_instance_namespace_node_pod:pod_cpu_usage_instance_cpu_price:spot_pod_cpu_usage_cost{namespace=\"$namespace\", pod=~\"$pod\"}\n          )\n      , \"resource\", \"CPU\", \"\",\"\")\n      \n      OR \n      \n      label_replace(\n          # If requests is bigger than usage, use requests. Otherwise use usage.\n          (\n            (\n                zone_capacity_instance_namespace_node_pod:pod_memory_requests_instance_mem_price:spot_pod_mem_requests_cost{namespace=\"$namespace\", pod=~\"$pod\"}\n                >\n                zone_capacity_instance_namespace_node_pod:pod_memory_usage_instance_mem_price:spot_pod_mem_usage_cost{namespace=\"$namespace\", pod=~\"$pod\"}\n            )\n            OR\n            zone_capacity_instance_namespace_node_pod:pod_memory_usage_instance_mem_price:spot_pod_mem_usage_cost{namespace=\"$namespace\", pod=~\"$pod\"}\n          )\n          OR\n          # If requests is bigger than usage, use requests. Otherwise use usage.\n          (\n            (\n                capacity_instance_namespace_node_pod:pod_memory_requests_instance_mem_price:on_demand_pod_mem_requests_cost{namespace=\"$namespace\", pod=~\"$pod\"}\n                >\n                capacity_instance_namespace_node_pod:pod_memory_usage_instance_mem_price:on_demand_pod_mem_usage_cost{namespace=\"$namespace\", pod=~\"$pod\"}\n            ) \n            OR capacity_instance_namespace_node_pod:pod_memory_usage_instance_mem_price:on_demand_pod_mem_usage_cost{namespace=\"$namespace\", pod=~\"$pod\"}\n          )\n      , \"resource\", \"memory\", \"\",\"\")\n\n)\n[1d:1h])\n)",
+              "format": "time_series",
+              "instant": true,
+              "interval": "",
+              "legendFormat": "{{namespace}}",
+              "refId": "A"
+            }
+          ],
+          "title": "Daily Total Cost per Pod",
+          "transformations": [],
+          "type": "bargauge"
+        },
         {
           "fieldConfig": {
             "defaults": {
@@ -2530,7 +3211,7 @@
             "h": 8,
             "w": 8,
             "x": 0,
-            "y": 3
+            "y": 12
           },
           "id": 71,
           "options": {
@@ -2617,7 +3298,7 @@
             "h": 8,
             "w": 8,
             "x": 8,
-            "y": 3
+            "y": 12
           },
           "id": 68,
           "options": {
@@ -2703,7 +3384,7 @@
             "h": 8,
             "w": 8,
             "x": 16,
-            "y": 3
+            "y": 12
           },
           "id": 66,
           "options": {
@@ -2786,7 +3467,7 @@
             "h": 7,
             "w": 8,
             "x": 0,
-            "y": 11
+            "y": 20
           },
           "id": 70,
           "options": {
@@ -2873,7 +3554,7 @@
             "h": 7,
             "w": 8,
             "x": 8,
-            "y": 11
+            "y": 20
           },
           "id": 69,
           "options": {
@@ -2959,7 +3640,7 @@
             "h": 7,
             "w": 8,
             "x": 16,
-            "y": 11
+            "y": 20
           },
           "id": 67,
           "options": {
@@ -3068,7 +3749,7 @@
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 18
+            "y": 27
           },
           "id": 11,
           "options": {
@@ -3171,7 +3852,7 @@
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 18
+            "y": 27
           },
           "id": 12,
           "options": {
@@ -3270,7 +3951,7 @@
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 26
+            "y": 35
           },
           "id": 72,
           "options": {
@@ -3291,7 +3972,7 @@
                 "uid": "PBFA97CFB590B2093"
               },
               "exemplar": true,
-              "expr": "sort_desc(\n  sum_over_time(\n\tsum by (label_beta_kubernetes_io_instance_type, label_eks_amazonaws_com_capacity_type, pod) (\n      label_replace(((\n          (zone_capacity_instance_namespace_node_pod:pod_cpu_requests_instance_cpu_price:spot_pod_cpu_requests_cost{namespace=\"$namespace\"})\n          -\n          (zone_capacity_instance_namespace_node_pod:pod_cpu_usage_instance_cpu_price:spot_pod_cpu_usage_cost{namespace=\"$namespace\"})\n      ) > 0), \"cap\", \"SPOT\", \"\",\"\")\n      OR\n      label_replace(((\n          (capacity_instance_namespace_node_pod:pod_cpu_requests_instance_cpu_price:on_demand_pod_cpu_requests_cost{namespace=\"$namespace\"})\n          -\n          (capacity_instance_namespace_node_pod:pod_cpu_usage_instance_cpu_price:on_demand_pod_cpu_usage_cost{namespace=\"$namespace\"})\n      ) > 0), \"cap\", \"ON_DEMAND\", \"\",\"\")\n  )[1d:1h])\n)",
+              "expr": "sort_desc(\n  sum_over_time(\n\tsum by (label_beta_kubernetes_io_instance_type, label_eks_amazonaws_com_capacity_type, pod) (\n      label_replace(((\n          (zone_capacity_instance_namespace_node_pod:pod_cpu_requests_instance_cpu_price:spot_pod_cpu_requests_cost{namespace=\"$namespace\", pod=~\"$pod\"})\n          -\n          (zone_capacity_instance_namespace_node_pod:pod_cpu_usage_instance_cpu_price:spot_pod_cpu_usage_cost{namespace=\"$namespace\", pod=~\"$pod\"})\n      ) > 0), \"cap\", \"SPOT\", \"\",\"\")\n      OR\n      label_replace(((\n          (capacity_instance_namespace_node_pod:pod_cpu_requests_instance_cpu_price:on_demand_pod_cpu_requests_cost{namespace=\"$namespace\", pod=~\"$pod\"})\n          -\n          (capacity_instance_namespace_node_pod:pod_cpu_usage_instance_cpu_price:on_demand_pod_cpu_usage_cost{namespace=\"$namespace\", pod=~\"$pod\"})\n      ) > 0), \"cap\", \"ON_DEMAND\", \"\",\"\")\n  )[1d:1h])\n)",
               "interval": "",
               "legendFormat": "{{label_beta_kubernetes_io_instance_type}} - {{label_eks_amazonaws_com_capacity_type}} - {{pod}}",
               "refId": "A"
@@ -3302,7 +3983,7 @@
                 "uid": "PBFA97CFB590B2093"
               },
               "exemplar": true,
-              "expr": "sort_desc(\n  sum_over_time(\n\tsum (\n      label_replace(((\n          (zone_capacity_instance_namespace_node_pod:pod_cpu_requests_instance_cpu_price:spot_pod_cpu_requests_cost{namespace=\"$namespace\"})\n          -\n          (zone_capacity_instance_namespace_node_pod:pod_cpu_usage_instance_cpu_price:spot_pod_cpu_usage_cost{namespace=\"$namespace\"})\n      ) > 0), \"cap\", \"SPOT\", \"\",\"\")\n      OR\n      label_replace(((\n          (capacity_instance_namespace_node_pod:pod_cpu_requests_instance_cpu_price:on_demand_pod_cpu_requests_cost{namespace=\"$namespace\"})\n          -\n          (capacity_instance_namespace_node_pod:pod_cpu_usage_instance_cpu_price:on_demand_pod_cpu_usage_cost{namespace=\"$namespace\"})\n      ) > 0), \"cap\", \"ON_DEMAND\", \"\",\"\")\n  )[1d:1h])\n)",
+              "expr": "sort_desc(\n  sum_over_time(\n\tsum (\n      label_replace(((\n          (zone_capacity_instance_namespace_node_pod:pod_cpu_requests_instance_cpu_price:spot_pod_cpu_requests_cost{namespace=\"$namespace\", pod=~\"$pod\"})\n          -\n          (zone_capacity_instance_namespace_node_pod:pod_cpu_usage_instance_cpu_price:spot_pod_cpu_usage_cost{namespace=\"$namespace\", pod=~\"$pod\"})\n      ) > 0), \"cap\", \"SPOT\", \"\",\"\")\n      OR\n      label_replace(((\n          (capacity_instance_namespace_node_pod:pod_cpu_requests_instance_cpu_price:on_demand_pod_cpu_requests_cost{namespace=\"$namespace\", pod=~\"$pod\"})\n          -\n          (capacity_instance_namespace_node_pod:pod_cpu_usage_instance_cpu_price:on_demand_pod_cpu_usage_cost{namespace=\"$namespace\", pod=~\"$pod\"})\n      ) > 0), \"cap\", \"ON_DEMAND\", \"\",\"\")\n  )[1d:1h])\n)",
               "hide": false,
               "interval": "",
               "legendFormat": "Total",
@@ -3368,7 +4049,7 @@
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 26
+            "y": 35
           },
           "id": 73,
           "options": {
@@ -3389,7 +4070,7 @@
                 "uid": "PBFA97CFB590B2093"
               },
               "exemplar": true,
-              "expr": "sort_desc(\n  sum_over_time(\n\tsum by (label_beta_kubernetes_io_instance_type, label_eks_amazonaws_com_capacity_type, pod) (\n      label_replace(((\n          (zone_capacity_instance_namespace_node_pod:pod_memory_requests_instance_mem_price:spot_pod_mem_requests_cost{namespace=\"$namespace\"})\n          -\n          (zone_capacity_instance_namespace_node_pod:pod_memory_usage_instance_mem_price:spot_pod_mem_usage_cost{namespace=\"$namespace\"})\n      ) > 0), \"cap\", \"SPOT\", \"\",\"\")\n      OR\n      label_replace(((\n          (capacity_instance_namespace_node_pod:pod_memory_requests_instance_mem_price:on_demand_pod_mem_requests_cost{namespace=\"$namespace\"})\n          -\n          (capacity_instance_namespace_node_pod:pod_memory_usage_instance_mem_price:on_demand_pod_mem_usage_cost{namespace=\"$namespace\"})\n      ) > 0), \"cap\", \"ON_DEMAND\", \"\",\"\")\n  )[1d:1h])\n)",
+              "expr": "sort_desc(\n  sum_over_time(\n\tsum by (label_beta_kubernetes_io_instance_type, label_eks_amazonaws_com_capacity_type, pod) (\n      label_replace(((\n          (zone_capacity_instance_namespace_node_pod:pod_memory_requests_instance_mem_price:spot_pod_mem_requests_cost{namespace=\"$namespace\", pod=~\"$pod\"})\n          -\n          (zone_capacity_instance_namespace_node_pod:pod_memory_usage_instance_mem_price:spot_pod_mem_usage_cost{namespace=\"$namespace\", pod=~\"$pod\"})\n      ) > 0), \"cap\", \"SPOT\", \"\",\"\")\n      OR\n      label_replace(((\n          (capacity_instance_namespace_node_pod:pod_memory_requests_instance_mem_price:on_demand_pod_mem_requests_cost{namespace=\"$namespace\", pod=~\"$pod\"})\n          -\n          (capacity_instance_namespace_node_pod:pod_memory_usage_instance_mem_price:on_demand_pod_mem_usage_cost{namespace=\"$namespace\", pod=~\"$pod\"})\n      ) > 0), \"cap\", \"ON_DEMAND\", \"\",\"\")\n  )[1d:1h])\n)",
               "interval": "",
               "legendFormat": "{{label_beta_kubernetes_io_instance_type}} - {{label_eks_amazonaws_com_capacity_type}} - {{pod}}",
               "refId": "A"
@@ -3400,7 +4081,7 @@
                 "uid": "PBFA97CFB590B2093"
               },
               "exemplar": true,
-              "expr": "sort_desc(\n  sum_over_time(\n\tsum by (label_beta_kubernetes_io_instance_type, label_eks_amazonaws_com_capacity_type, pod) (\n      label_replace(((\n          (zone_capacity_instance_namespace_node_pod:pod_memory_requests_instance_mem_price:spot_pod_mem_requests_cost{namespace=\"$namespace\"})\n          -\n          (zone_capacity_instance_namespace_node_pod:pod_memory_usage_instance_mem_price:spot_pod_mem_usage_cost{namespace=\"$namespace\"})\n      ) > 0), \"cap\", \"SPOT\", \"\",\"\")\n      OR\n      label_replace(((\n          (capacity_instance_namespace_node_pod:pod_memory_requests_instance_mem_price:on_demand_pod_mem_requests_cost{namespace=\"$namespace\"})\n          -\n          (capacity_instance_namespace_node_pod:pod_memory_usage_instance_mem_price:on_demand_pod_mem_usage_cost{namespace=\"$namespace\"})\n      ) > 0), \"cap\", \"ON_DEMAND\", \"\",\"\")\n  )[1d:1h])\n)",
+              "expr": "sort_desc(\n  sum_over_time(\n\tsum (\n      label_replace(((\n          (zone_capacity_instance_namespace_node_pod:pod_memory_requests_instance_mem_price:spot_pod_mem_requests_cost{namespace=\"$namespace\", pod=~\"$pod\"})\n          -\n          (zone_capacity_instance_namespace_node_pod:pod_memory_usage_instance_mem_price:spot_pod_mem_usage_cost{namespace=\"$namespace\", pod=~\"$pod\"})\n      ) > 0), \"cap\", \"SPOT\", \"\",\"\")\n      OR\n      label_replace(((\n          (capacity_instance_namespace_node_pod:pod_memory_requests_instance_mem_price:on_demand_pod_mem_requests_cost{namespace=\"$namespace\", pod=~\"$pod\"})\n          -\n          (capacity_instance_namespace_node_pod:pod_memory_usage_instance_mem_price:on_demand_pod_mem_usage_cost{namespace=\"$namespace\", pod=~\"$pod\"})\n      ) > 0), \"cap\", \"ON_DEMAND\", \"\",\"\")\n  )[1d:1h])\n)",
               "hide": false,
               "interval": "",
               "legendFormat": "Total",
@@ -3466,7 +4147,7 @@
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 34
+            "y": 43
           },
           "id": 39,
           "options": {
@@ -3564,7 +4245,7 @@
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 34
+            "y": 43
           },
           "id": 40,
           "options": {
@@ -3662,7 +4343,7 @@
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 42
+            "y": 51
           },
           "id": 41,
           "options": {
@@ -3760,7 +4441,7 @@
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 42
+            "y": 51
           },
           "id": 42,
           "options": {
@@ -3835,8 +4516,8 @@
             "overrides": [
               {
                 "matcher": {
-                  "id": "byName",
-                  "options": "Cost"
+                  "id": "byRegexp",
+                  "options": ".*Cost"
                 },
                 "properties": [
                   {
@@ -3848,24 +4529,12 @@
               {
                 "matcher": {
                   "id": "byName",
-                  "options": "persistentvolumeclaim"
+                  "options": "PVC (Persistent Volume Claim)"
                 },
                 "properties": [
                   {
                     "id": "custom.width",
-                    "value": 783
-                  }
-                ]
-              },
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "Size"
-                },
-                "properties": [
-                  {
-                    "id": "custom.width",
-                    "value": 336
+                    "value": 554
                   }
                 ]
               }
@@ -3875,7 +4544,7 @@
             "h": 8,
             "w": 24,
             "x": 0,
-            "y": 50
+            "y": 59
           },
           "id": 8,
           "options": {
@@ -3888,7 +4557,12 @@
             },
             "frameIndex": 0,
             "showHeader": true,
-            "sortBy": []
+            "sortBy": [
+              {
+                "desc": true,
+                "displayName": "Underutilization Cost"
+              }
+            ]
           },
           "pluginVersion": "8.3.1",
           "targets": [
@@ -3902,9 +4576,37 @@
               "format": "table",
               "instant": true,
               "interval": "",
-              "intervalFactor": 2,
+              "intervalFactor": 1,
               "legendFormat": "{{persistentvolumeclaim}}",
               "refId": "A"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${promdatasource}"
+              },
+              "exemplar": false,
+              "expr": "sum by (persistentvolumeclaim) (kubelet_volume_stats_used_bytes{namespace=~\"${namespace}\"}/1024/1024/1024)",
+              "format": "table",
+              "hide": false,
+              "instant": true,
+              "interval": "",
+              "legendFormat": "",
+              "refId": "C"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${promdatasource}"
+              },
+              "exemplar": false,
+              "expr": "sum by (persistentvolumeclaim) (kubelet_volume_stats_capacity_bytes{namespace=~\"${namespace}\"}/1024/1024/1024)\n-\nsum by (persistentvolumeclaim) (kubelet_volume_stats_used_bytes{namespace=~\"${namespace}\"}/1024/1024/1024)",
+              "format": "table",
+              "hide": false,
+              "instant": true,
+              "interval": "",
+              "legendFormat": "",
+              "refId": "D"
             },
             {
               "datasource": {
@@ -3912,14 +4614,42 @@
                 "uid": "PBFA97CFB590B2093"
               },
               "exemplar": false,
-              "expr": "sum by (persistentvolumeclaim) (kubelet_volume_stats_capacity_bytes{namespace=~\"${namespace}\"}/1024/1024/1024) * 0.089",
+              "expr": "sum by (persistentvolumeclaim) (kubelet_volume_stats_capacity_bytes{namespace=~\"${namespace}\"}/1024/1024/1024) * $pvcost",
               "format": "table",
               "hide": false,
               "instant": true,
               "interval": "",
-              "intervalFactor": 2,
+              "intervalFactor": 1,
               "legendFormat": "",
               "refId": "B"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${promdatasource}"
+              },
+              "exemplar": false,
+              "expr": "sum by (persistentvolumeclaim) (kubelet_volume_stats_used_bytes{namespace=~\"${namespace}\"}/1024/1024/1024) * $pvcost",
+              "format": "table",
+              "hide": false,
+              "instant": true,
+              "interval": "",
+              "legendFormat": "",
+              "refId": "E"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${promdatasource}"
+              },
+              "exemplar": false,
+              "expr": "(sum by (persistentvolumeclaim) (kubelet_volume_stats_capacity_bytes{namespace=~\"${namespace}\"}/1024/1024/1024)\n-\nsum by (persistentvolumeclaim) (kubelet_volume_stats_used_bytes{namespace=~\"${namespace}\"}/1024/1024/1024))\n* $pvcost",
+              "format": "table",
+              "hide": false,
+              "instant": true,
+              "interval": "",
+              "legendFormat": "",
+              "refId": "F"
             }
           ],
           "title": "Monthly PV Cost Per Pod",
@@ -3949,11 +4679,23 @@
                   "Time": true,
                   "persistentvolumeclaim 2": true
                 },
-                "indexByName": {},
+                "indexByName": {
+                  "Time": 1,
+                  "Value #A": 2,
+                  "Value #B": 3,
+                  "Value #C": 4,
+                  "Value #D": 6,
+                  "Value #E": 5,
+                  "persistentvolumeclaim": 0
+                },
                 "renameByName": {
                   "Value": "Cost",
                   "Value #A": "Size",
-                  "Value #B": "Cost",
+                  "Value #B": "Total Cost",
+                  "Value #C": "Used",
+                  "Value #D": "Free",
+                  "Value #E": "Usage Cost",
+                  "Value #F": "Underutilization Cost",
                   "persistentvolumeclaim": "PVC (Persistent Volume Claim)"
                 }
               }
@@ -4071,6 +4813,15 @@
         "skipUrlSync": false,
         "sort": 1,
         "type": "query"
+      },
+      {
+        "description": "Price of GiB per month",
+        "hide": 2,
+        "label": "PV Cost GB/month",
+        "name": "pvcost",
+        "query": "0.089",
+        "skipUrlSync": false,
+        "type": "constant"
       }
     ]
   },
@@ -4082,6 +4833,6 @@
   "timezone": "",
   "title": "Cost Report",
   "uid": "ZudkNFhnksaf",
-  "version": 3,
+  "version": 2,
   "weekStart": ""
 }
