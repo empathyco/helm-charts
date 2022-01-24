@@ -22,7 +22,7 @@
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
   "id": 79,
-  "iteration": 1643023556399,
+  "iteration": 1643032481747,
   "links": [],
   "liveNow": true,
   "panels": [
@@ -4702,6 +4702,114 @@
             }
           ],
           "type": "table"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${promdatasource}"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 0,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "decgbytes"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 67
+          },
+          "id": 82,
+          "options": {
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom"
+            },
+            "tooltip": {
+              "mode": "single"
+            }
+          },
+          "pluginVersion": "8.3.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "PBFA97CFB590B2093"
+              },
+              "exemplar": true,
+              "expr": "sum by (persistentvolumeclaim) (kubelet_volume_stats_capacity_bytes{namespace=~\"${namespace}\", persistentvolumeclaim=~\"$pvc\"}/1024/1024/1024)",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "{{persistentvolumeclaim}} - Capacity",
+              "refId": "A"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${promdatasource}"
+              },
+              "exemplar": true,
+              "expr": "sum by (persistentvolumeclaim) (kubelet_volume_stats_used_bytes{namespace=~\"${namespace}\", persistentvolumeclaim=~\"$pvc\"}/1024/1024/1024)",
+              "format": "time_series",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "legendFormat": "{{persistentvolumeclaim}} - Usage",
+              "refId": "C"
+            }
+          ],
+          "title": "PV Capacity vs Usage",
+          "transformations": [],
+          "type": "timeseries"
         }
       ],
       "title": "Pod Per Namespace",
@@ -4822,6 +4930,29 @@
         "query": "0.089",
         "skipUrlSync": false,
         "type": "constant"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
+        "definition": "label_values(kubelet_volume_stats_capacity_bytes{namespace=\"$namespace\"}, persistentvolumeclaim)",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Persistent Volume Claim",
+        "multi": true,
+        "name": "pvc",
+        "options": [],
+        "query": {
+          "query": "label_values(kubelet_volume_stats_capacity_bytes{namespace=\"$namespace\"}, persistentvolumeclaim)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
       }
     ]
   },
@@ -4833,6 +4964,6 @@
   "timezone": "",
   "title": "Cost Report",
   "uid": "ZudkNFhnksaf",
-  "version": 2,
+  "version": 3,
   "weekStart": ""
 }
