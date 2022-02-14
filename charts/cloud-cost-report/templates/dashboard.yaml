@@ -9,6 +9,6 @@ metadata:
     {{- toYaml . | nindent 4 }}
   {{- end }}
   labels:
-    grafana_dashboard: {{ include "cost-report.fullname" . }}
-    {{- include "cost-report.labels" . | nindent 4 }}
-  name: {{ include "cost-report.fullname" . }}-dashboard
+    grafana_dashboard: {{ include "cloud-cost-report.fullname" . }}
+    {{- include "cloud-cost-report.labels" . | nindent 4 }}
+  name: {{ include "cloud-cost-report.fullname" . }}-dashboard
