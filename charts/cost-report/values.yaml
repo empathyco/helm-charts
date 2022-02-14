@@ -64,6 +64,10 @@ serviceMonitor:
   dashboards:
     # -- Create Grafana dashboard. This dashboard requires the recording rules in serviceMonitor.prometheusRules
     enabled: true
+    # -- Create Grafana dashboard folder.
+    annotations: {}
+    # grafana-folder: "/tmp/dashboards/FinOps"
+
   prometheusRules:
     # -- Create Prometheus recording rules.
     enabled: true
