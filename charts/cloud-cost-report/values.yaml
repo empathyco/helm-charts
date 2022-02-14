@@ -5,7 +5,7 @@ nameOverride: ""
 fullnameOverride: ""
 
 # -- Dashboard Annotation
-# annotations: 
+annotations: {}
 #   grafana-dashboard-folder: "/tmp/dashboards/SRE"
 
   
