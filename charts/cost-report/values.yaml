@@ -22,8 +22,8 @@ serviceAccount:
   # -- Specifies whether a service account should be created
   create: true
   # -- Annotations to add to the service account
-  annotations:
-    eks.amazonaws.com/role-arn: {}
+  annotations: {}
+    #eks.amazonaws.com/role-arn: {}
   # -- The name of the service account to use. If not set and create is true, a name is generated using the fullname template
   name: ""
 
@@ -64,6 +64,10 @@ serviceMonitor:
   dashboards:
     # -- Create Grafana dashboard. This dashboard requires the recording rules in serviceMonitor.prometheusRules
     enabled: true
+    # -- Create Grafana dashboard folder.
+    annotations: {}
+    # grafana-folder: "/tmp/dashboards/FinOps"
+
   prometheusRules:
     # -- Create Prometheus recording rules.
     enabled: true
