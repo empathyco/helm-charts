@@ -6,7 +6,7 @@ data:
 kind: ConfigMap
 metadata:
   namespace: monitoring
-  {{- with .Values.dashboards.annotations }}
+  {{- with .Values.serviceMonitor.dashboards.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
