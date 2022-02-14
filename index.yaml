@@ -155,6 +155,17 @@ entries:
     urls:
     - https://github.com/empathyco/helm-charts/releases/download/cerebro-0.0.3/cerebro-0.0.3.tgz
     version: 0.0.3
+  cloud-cost-report:
+  - apiVersion: v2
+    appVersion: 0.0.0
+    created: "2022-02-14T12:30:29.538684338Z"
+    description: A Helm chart for Kubernetes
+    digest: 0f707ba0b55fa31a5af81102f38bcf97cb6ef71b9e0ec9c4bc2ed5e022da2e2f
+    name: cloud-cost-report
+    type: application
+    urls:
+    - https://github.com/empathyco/helm-charts/releases/download/cloud-cost-report-0.0.0/cloud-cost-report-0.0.0.tgz
+    version: 0.0.0
   cost-report:
   - apiVersion: v2
     appVersion: 0.0.12
@@ -699,4 +710,4 @@ entries:
     urls:
     - https://github.com/empathyco/helm-charts/releases/download/yace-exporter-0.1.0/yace-exporter-0.1.0.tgz
     version: 0.1.0
-generated: "2022-01-24T15:27:04.372197071Z"
+generated: "2022-02-14T12:30:29.539198647Z"
