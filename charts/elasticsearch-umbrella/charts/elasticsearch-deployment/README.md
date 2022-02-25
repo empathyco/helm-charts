@@ -1,48 +1,15 @@
-# Elasticsearch-mata Helm Chart
+# elasticsearch-deployment
 
-This Helm chart is Empathy's own Helm chart (based on the official [Elasticsearch Helm chart](https://github.com/elastic/helm-charts/tree/master/elasticsearch)) to deploy master Elasticsearch 6.6.2 nodes with a custom Dockerfile habilitating unlimited memory lock (`ulimit -l unlimited`). Additionally, [justwatchcom Elasticsearh Exporter](https://github.com/justwatchcom/elasticsearch_exporter) is deployed as a sidecar container to expose Prometheus metrics in port `9114`. Additionally, a Grafana dashboard is automatically deployed for monitoring Elasticsearch in namespace `monitoring`.
+![Version: 0.7.0](https://img.shields.io/badge/Version-0.7.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 6.8.23](https://img.shields.io/badge/AppVersion-6.8.23-informational?style=flat-square)
 
-**N.B.** Please note this Helm chart is specifically tailored to deploy Elasticsearch nodes with the master role. For a fully functional Elasticsearch deployment you will have to also deploy Elasticsearch data and ingest nodes which can be achieved with Empathy's [Elasticsearch-data Helm chart](../elasticsearch-data).
-
-## Requirements
-
-- Kubernetes >= 1.14
-- [Helm](https://helm.sh/) 3
-- Minimum cluster requirements include the following to run this chart with default settings.
-	- Three Kubernetes nodes to respect the `topologyKey: "kubernetes.io/hostname"` antiaffinity.
-	- 3GB of RAM for the JVM heap.
-	- 1 vCPU available for resource limits.
-
-## Installing
-
-To install the chart with the release name `my-release` and default values, run:
-
-```bash
-$ helm repo add empathy-public https://empathyco.github.io/helm-charts
-$ helm install --name my-release empathy-public/elasticsearch-data
-```
-
-## Uninstalling the Chart
-
-To uninstall/delete the `my-release` deployment:
-
-```bash
-$ helm delete my-release
-```
-
-The command removes all the Kubernetes components associated with the chart and deletes the release.
-
-## Usage notes
-
-- The chart deploys a Deployment and by default will do an automated rolling update of your cluster. It does this by waiting for the cluster health to become green after each instance is updated. If you prefer to update manually you can set OnDelete updateStrategy.
-- It is important to verify that the JVM heap size in `elastic_config.ES_JAVA_OPTS` and to set the CPU/Memory resources to something suitable for your cluster.
-- To simplify chart and maintenance each set of node groups is deployed as a separate Helm release, this chart referring to nodes with the master roles, while the Empathy's [Elasticsearch-data Helm chart](../elasticsearch-data) handles master nodes. This is basically the idea expressed in the official Elasticsearch Helm chart [multi example](https://github.com/elastic/helm-charts/tree/master/elasticsearch/examples/multi/). Without doing this it isn't possible to resize persistent volumes in a StatefulSet. By setting it up this way it makes it possible to add more nodes with a new storage size then drain the old ones. It also solves the problem of allowing the user to determine which node groups to update first when doing upgrades or changes.
-- Although based on the official [Elasticsearch Helm Chart](https://github.com/elastic/helm-charts/tree/master/elasticsearch) and the multi example mentioned in the previous point, this chart is much more opinionated that the official Helm chart. It is only thought to deploy nodes with the master roles, not data nodes, with the [justwatchcom Elasticsearh Exporter](https://github.com/justwatchcom/elasticsearch_exporter) and a custom docker image of Elastic 6.6.2 with an unlimited memory lock. Please make sure this chart fits your needs before using it.
+A Helm chart for Kubernetes
 
 ## Values
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
+| antiAffinity | string | `"soft"` |  |
+| antiAffinityTopologyKey | string | `"kubernetes.io/hostname"` |  |
 | busybox.image | string | `"busybox:1.31"` | Image for busybox initContainers (sysctlInitContainer in official Elasticsearch Helm chart) |
 | elastic_config | object | `{"ES_JAVA_OPTS":"-Xms2048m -Xmx2048m","bootstrap.memory_lock":"true","network.bind_host":"0.0.0.0","node.data":"false","node.ingest":"false","node.master":"false","node.ml":"false","transport.tcp.compress":"true"}` | Elasticsearch configuration added in a configMap and passed to the Elasticsearch pods as Env. Vars. |
 | elastic_config."bootstrap.memory_lock" | string | `"true"` | Elasticsearch enable memory lock to avoid swapping |
@@ -56,8 +23,8 @@ The command removes all the Kubernetes components associated with the chart and 
 | enabled | bool | `true` | Enabling or disabling master nodes |
 | fullnameOverride | string | `""` | Overrides the clusterName and nodeGroup when used in the naming of resources. This should only be used when using a single nodeGroup, otherwise you will have name conflicts |
 | image.pullPolicy | string | `"IfNotPresent"` | The Kubernetes imagePullPolicy value |
-| image.repository | string | `"eu.gcr.io/carrefour-fr-750c11a47fecaeff/empathy-search/elasticsearch-gcp"` | Docker repository for Elasticsearch image |
-| image.tag | string | `"6.6.2-memlock1"` | Overrides the image tag whose default is the chart appVersion. |
+| image.repository | string | `"empathyco/elasticsearch"` | Docker repository for Elasticsearch image |
+| image.tag | string | `"6.8.23-memlock"` | Overrides the image tag whose default is the chart appVersion. |
 | imagePullSecrets | list | `[]` | Configuration for imagePullSecrets so that you can use a private registry for your image |
 | ingress.annotations | object | `{}` | Annotations for Kubernetes Ingress |
 | ingress.className | string | `""` | IngressClass name for ingress exposition |
@@ -65,12 +32,14 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingress.hosts | list | `[]` | Host and path for Kubernetes Ingress. See values.yaml for an example |
 | ingress.tls | list | `[]` | TLS secret for exposing Elasticsearch with https. See values.yaml for an example |
 | nameOverride | string | `""` | Overrides the clusterName when used in the naming of resources |
+| nodeAffinity | object | `{}` |  |
 | nodeSelector | object | `{}` | Configurable nodeSelector so that you can target specific nodes for your Elasticsearch cluster |
 | podAnnotations | object | `{}` | Configurable annotations applied to all Elasticsearch pods |
 | podSecurityContext | object | `{}` | Allows you to set the securityContext for the pod |
 | podSecurityPolicy.create | bool | `false` | Create a podSecurityPolicy with minimal permissions to run this Helm chart. Be sure to also set rbac.create to true, otherwise Role and RoleBinding won't be created. |
 | podSecurityPolicy.name | string | `""` | The name of the podSecurityPolicy to use. If not set and create is true, a name is generated using the fullname template |
 | podSecurityPolicy.spec | object | `{}` | Spec to apply to the podSecurityPolicy. See values.yaml for an example |
+| priorityClassName | string | `""` |  |
 | prometheus.annotations | object | `{"app":"prometheus-operator","release":"prometheus"}` | Annotations to include in the ServiceMonitor |
 | prometheus.dashboard | object | `{"enabled":true,"namespace":"monitoring"}` | Deploy a Grafana Dashboard |
 | prometheus.enabled | bool | `true` | Deploy a ServiceMonitor for Prometheus scrapping |
