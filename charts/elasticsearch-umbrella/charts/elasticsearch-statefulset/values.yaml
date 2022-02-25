@@ -12,7 +12,7 @@ replicaCount: 3
 
 image:
   # -- Docker repository for Elasticsearch image
-  repository: harbor.internal.shared.empathy.co/empathyco/elasticsearch
+  repository: "empathyco/elasticsearch"
   # -- The Kubernetes imagePullPolicy value
   pullPolicy: IfNotPresent
   # -- Overrides the image tag whose default is the chart appVersion.
