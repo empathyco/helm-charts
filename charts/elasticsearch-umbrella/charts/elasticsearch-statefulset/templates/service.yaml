@@ -37,7 +37,14 @@ metadata:
     {{- include "statefulset.labels" . | nindent 4 }}
 spec:
   clusterIP: None
+  {{- if semverCompare ">=7.0.0-0" .Values.image.tag }}
+  publishNotReadyAddresses: true
+  {{- end }}
   ports:
+    - port: 9200
+      targetPort: http
+      protocol: TCP
+      name: http
     - port: 9300
       targetPort: transport
       protocol: TCP

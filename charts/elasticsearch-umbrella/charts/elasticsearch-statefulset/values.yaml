@@ -12,11 +12,11 @@ replicaCount: 3
 
 image:
   # -- Docker repository for Elasticsearch image
-  repository: eu.gcr.io/carrefour-fr-750c11a47fecaeff/empathy-search/elasticsearch-gcp
+  repository: harbor.internal.shared.empathy.co/empathyco/elasticsearch
   # -- The Kubernetes imagePullPolicy value
   pullPolicy: IfNotPresent
   # -- Overrides the image tag whose default is the chart appVersion.
-  tag: "6.6.2-memlock1"
+  tag: "6.8.23-memlock"
   
 # -- Configuration for imagePullSecrets so that you can use a private registry for your image
 imagePullSecrets: []
@@ -85,6 +85,10 @@ prometheus:
   exporter:
   # -- Exporter image to deploy as a sidecar container
     image: justwatch/elasticsearch_exporter:1.1.0
+
+# -- The default is to deploy all pods serially. By setting this to parallel all pods are started at
+# the same time when bootstrapping the cluster
+podManagementPolicy: ""
 
 # -- Configurable annotations applied to all Elasticsearch pods
 podAnnotations: {}

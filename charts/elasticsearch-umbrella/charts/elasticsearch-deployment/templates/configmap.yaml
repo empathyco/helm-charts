@@ -6,7 +6,7 @@ data:
   discovery.zen.ping.unicast.hosts: {{ .Values.global.masterFullname }}-discovery
 kind: ConfigMap
 metadata:
-  annotations:
+  annotations: {}
   labels:
     {{- include "deployment.labels" . | nindent 4 }}
   name: {{ include "deployment.fullname" . }}

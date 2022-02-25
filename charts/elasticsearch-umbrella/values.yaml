@@ -15,11 +15,11 @@ master:
 
   image:
     # -- Docker repository for Elasticsearch image
-    repository: "empathyco/elasticsearch"
+    repository: harbor.internal.shared.empathy.co/empathyco/elasticsearch
     # -- The Kubernetes imagePullPolicy value
     pullPolicy: IfNotPresent
     # -- Overrides the image tag whose default is the chart appVersion.
-    tag: "6.6.2-memlock"
+    tag: "6.8.23-memlock"
 
   # -- Configuration for imagePullSecrets so that you can use a private registry for your image
   imagePullSecrets: []
@@ -205,11 +205,11 @@ data:
 
   image:
     # -- Docker repository for Elasticsearch image
-    repository: "empathyco/elasticsearch"
+    repository: harbor.internal.shared.empathy.co/empathyco/elasticsearch
     # -- The Kubernetes imagePullPolicy value
     pullPolicy: IfNotPresent
     # -- Overrides the image tag whose default is the chart appVersion.
-    tag: "6.6.2-memlock"
+    tag: "6.8.23-memlock"
     
   # -- Configuration for imagePullSecrets so that you can use a private registry for your image
   imagePullSecrets: []
@@ -393,11 +393,11 @@ index:
 
   image:
     # -- Docker repository for Elasticsearch image
-    repository: "empathyco/elasticsearch"
+    repository: harbor.internal.shared.empathy.co/empathyco/elasticsearch
     # -- The Kubernetes imagePullPolicy value
     pullPolicy: IfNotPresent
     # -- Overrides the image tag whose default is the chart appVersion.
-    tag: "6.6.2-memlock"
+    tag: "6.8.23-memlock"
     
   # -- Configuration for imagePullSecrets so that you can use a private registry for your image
   imagePullSecrets: []
