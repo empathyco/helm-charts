@@ -7,6 +7,9 @@ metadata:
     {{- include "statefulset.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
+  {{- with .Values.podManagementPolicy }}
+  podManagementPolicy: {{ . }}
+  {{- end }}
   selector:
     matchLabels:
       {{- include "statefulset.selectorLabels" . | nindent 6 }}

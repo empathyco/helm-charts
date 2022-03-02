@@ -19,7 +19,7 @@ master:
     # -- The Kubernetes imagePullPolicy value
     pullPolicy: IfNotPresent
     # -- Overrides the image tag whose default is the chart appVersion.
-    tag: "6.6.2-memlock"
+    tag: "6.8.23-memlock"
 
   # -- Configuration for imagePullSecrets so that you can use a private registry for your image
   imagePullSecrets: []
@@ -209,7 +209,7 @@ data:
     # -- The Kubernetes imagePullPolicy value
     pullPolicy: IfNotPresent
     # -- Overrides the image tag whose default is the chart appVersion.
-    tag: "6.6.2-memlock"
+    tag: "6.8.23-memlock"
     
   # -- Configuration for imagePullSecrets so that you can use a private registry for your image
   imagePullSecrets: []
@@ -397,7 +397,7 @@ index:
     # -- The Kubernetes imagePullPolicy value
     pullPolicy: IfNotPresent
     # -- Overrides the image tag whose default is the chart appVersion.
-    tag: "6.6.2-memlock"
+    tag: "6.8.23-memlock"
     
   # -- Configuration for imagePullSecrets so that you can use a private registry for your image
   imagePullSecrets: []
@@ -583,7 +583,7 @@ client:
     # -- The Kubernetes imagePullPolicy value
     pullPolicy: IfNotPresent
     # -- Overrides the image tag whose default is the chart appVersion.
-    tag: "6.6.2-memlock"
+    tag: "6.8.23-memlock"
     
   # -- Configuration for imagePullSecrets so that you can use a private registry for your image
   imagePullSecrets: []
