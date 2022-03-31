@@ -16,7 +16,8 @@ A Helm chart for Kubernetes
 | image.repository | string | `"test"` |  |
 | image.tag | string | `""` |  |
 | imagePullSecrets | list | `[]` |  |
-| ingresses.enabled | bool | `false` |  |
+| ingress.enabled | bool | `false` |  |
+| ingress.ingresses | object | `{}` |  |
 | nameOverride | string | `""` |  |
 | nodeSelector | object | `{}` |  |
 | podAnnotations | object | `{}` |  |
@@ -28,6 +29,7 @@ A Helm chart for Kubernetes
 | serviceAccount.create | bool | `true` |  |
 | serviceAccount.name | string | `""` |  |
 | serviceMonitor.enabled | bool | `false` |  |
+| serviceMonitors | object | `{}` |  |
 | services[0].name | string | `"example1"` |  |
 | services[0].ports.name | string | `"http"` |  |
 | services[0].ports.port | int | `80` |  |

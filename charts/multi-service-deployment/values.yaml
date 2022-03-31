@@ -35,35 +35,36 @@ services:
       protocol: TCP
       name: http
 
-ingresses:
+ingress:
   enabled: false
-#     - className: "example1"
-#       backend:
-#         service:
-#           name: "example1"
-#           portName: "http"
-#       annotations: {}
-#       hosts:
-#         - host: chart-example1.local
-#           paths:
-#             - path: /
-#               pathType: ImplementationSpecific
-#       tls: []
-#     - service:
-#         name: "example2"
-#         portName: "http"
-#       className: "example2"
-#       annotations: {}
-#       hosts:
-#         - host: chart-example2.local
-#           paths:
-#             - path: /
-#               pathType: ImplementationSpecific
-#       tls: []
+  ingresses: {}
+    # - className: "example1"
+    #   backend:
+    #     service:
+    #       name: "example1"
+    #       portName: "http"
+    #   annotations: {}
+    #   hosts:
+    #     - host: chart-example1.local
+    #       paths:
+    #         - path: /
+    #           pathType: ImplementationSpecific
+    #   tls: []
+    # - service:
+    #     name: "example2"
+    #     portName: "http"
+    #   className: "example2"
+    #   annotations: {}
+    #   hosts:
+    #     - host: chart-example2.local
+    #       paths:
+    #         - path: /
+    #           pathType: ImplementationSpecific
+    #   tls: []
 
 serviceMonitor:
   enabled: false
-# serviceMonitors:
+serviceMonitors: {}
 #     - serviceName: "example1"
 #       metricsPortName: "metrics"
 #       metricsPath: "/metrics"
