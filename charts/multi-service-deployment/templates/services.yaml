@@ -1,0 +1,18 @@
+{{- range .Values.services }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "multi-service-deployment.serviceAccountName" $ }}-{{ .name }}
+  labels:
+    {{- include "multi-service-deployment.labels" $ | nindent 4 }}
+spec:
+  type: {{ .type | default "ClusterIP" }}
+  ports:
+    - port: {{ .ports.port }}
+      targetPort: {{ .ports.targetPort }}
+      protocol: {{ .ports.protocol }}
+      name: {{ .ports.name }}
+  selector:
+    {{- include "multi-service-deployment.selectorLabels" $ | nindent 4 }}
+{{ end }}

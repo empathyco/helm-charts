@@ -1,0 +1,106 @@
+fullnameOverride: ""
+replicaCount: 1
+
+image:
+  repository: test
+  pullPolicy: IfNotPresent
+  tag: ""
+
+imagePullSecrets: []
+nameOverride: ""
+
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+
+podAnnotations: {}
+podSecurityContext: {}
+securityContext: {}
+
+services:
+  - name: "example1"
+    type: ClusterIP
+    ports:
+      port: 80
+      targetPort: 8080
+      protocol: TCP
+      name: http
+
+  - name: "example2"
+    type: ClusterIP
+    ports:
+      port: 90
+      targetPort: 9090
+      protocol: TCP
+      name: http
+
+ingresses:
+  enabled: false
+#     - className: "example1"
+#       backend:
+#         service:
+#           name: "example1"
+#           portName: "http"
+#       annotations: {}
+#       hosts:
+#         - host: chart-example1.local
+#           paths:
+#             - path: /
+#               pathType: ImplementationSpecific
+#       tls: []
+#     - service:
+#         name: "example2"
+#         portName: "http"
+#       className: "example2"
+#       annotations: {}
+#       hosts:
+#         - host: chart-example2.local
+#           paths:
+#             - path: /
+#               pathType: ImplementationSpecific
+#       tls: []
+
+serviceMonitor:
+  enabled: false
+# serviceMonitors:
+#     - serviceName: "example1"
+#       metricsPortName: "metrics"
+#       metricsPath: "/metrics"
+#       scrapeInterval: "15"
+#     - serviceName: "example1"
+#       metricsPortName: "metrics"
+#       metricsPath: "/metrics"
+#       scrapeInterval: "15"
+
+autoscaling:
+  enabled: false
+  # minReplicas: 1
+  # maxReplicas: 100
+  # targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+
+env: {}
+  # - name: NAME
+  #   valueFrom:
+  #     secretKeyRef:
+  #       name: KEY_NAME
+  #       key: SECRET_KEY
+
+prometheusRule:
+  enabled: false
+  # rules:
+  # - alert: HighRequestLatency
+  #   expr: job:request_latency_seconds:mean5m{job="myjob"} > 0.5
+  #   for: 10m
+  #   labels:
+  #     severity: page
+  #   annotations:
+  #     summary: High request latency

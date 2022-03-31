@@ -1,0 +1,26 @@
+{{- if .Values.serviceMonitor.enabled }}
+{{- range .Values.serviceMonitors }}
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ include "multi-service-deployment.fullname" $ }}-{{ .serviceName }}
+  labels:
+    {{- include "multi-service-deployment.labels" $ | nindent 4 }}
+spec:
+  endpoints:
+  - interval: {{ .scrapeInterval | default "15s" }}
+    scrapeTimeout: {{ .scrapeTimeout| default "10s"  }}
+    honorLabels: true
+    port: {{ .metricsPortName | default "metrics"  }}
+    path: {{ .metricsPath | default "/metrics" }}
+    scheme: {{ .metricsScheme | default "http"  }}
+  jobLabel: "{{ $.Release.Name }}"
+  selector:
+    matchLabels:
+    {{- include "multi-service-deployment.selectorLabels" $ | nindent 6 }}
+  namespaceSelector:
+    matchNames:
+      - {{ $.Release.Namespace }}
+{{ end }}
+{{- end }}
