@@ -1,4 +1,4 @@
-{{- if .Values.ingresses.enabled -}}
+{{- if .Values.ingress.enabled -}}
 {{- range .Values.ingresses }}
 {{- $svcName := .backend.service.name -}}
 {{- $svcPortName := .backend.service.portName -}}
