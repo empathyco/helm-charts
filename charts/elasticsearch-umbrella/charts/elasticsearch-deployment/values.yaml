@@ -5,6 +5,9 @@
 # -- Enabling or disabling master nodes
 enabled: true
 
+autoscaling:
+  # -- Enable/Disable autoscaling for the StatefulSet
+  enabled: false
 # -- Kubernetes replica count for the Statefulset (i.e. how many pods)
 replicaCount: 3
 
