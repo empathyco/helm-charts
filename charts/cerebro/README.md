@@ -40,7 +40,7 @@ A Helm chart for Cerebro - a web admin tool that replaces Kopf.
 | image.repository | string | `"lmenezes/cerebro"` | The image to run |
 | image.tag | string | `"0.9.4"` | The image tag to pull |
 | ingress.annotations | object | `{}` | Additional annotations for Ingress |
-| ingress.className | string | `"internal"` | IngresClass name for Ingress |
+| ingress.className | string | `""` | IngresClass name for Ingress |
 | ingress.enabled | bool | `false` | Enable Kubernetes Ingress to expose cerebro pods |
 | ingress.hosts | list | `[{"host":"chart-example.local","paths":[{"path":"/","pathType":"ImplementationSpecific"}]}]` | List of hosts to expose cerebro |
 | ingress.labels | object | `{}` | Additional labels for Ingress |

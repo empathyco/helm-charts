@@ -7,6 +7,9 @@ enabled: true
 # -- This property indicates its the master
 isMaster: true
 
+autoscaling:
+# -- Enable/Disable autoscaling for the StatefulSet
+  enabled: false
 # -- Kubernetes replica count for the StatefulSet (i.e. how many pods)
 replicaCount: 3
 

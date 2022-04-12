@@ -1,19 +1,8 @@
-# YACE - yet another cloudwatch exporter Helm chart
+# yace-exporter
 
-A Helm chart for [nerdwords's YACE - yet another cloudwatch exporter](https://github.com/pingcap/dead-mans-switch). This Helm chart does not modify the YACE image in any way, and all credit for YACE belongs to the contributiors and maintainers of [nerdwords's YACE - yet another cloudwatch exporter](https://github.com/pingcap/dead-mans-switch).
+![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.32.0-alpha](https://img.shields.io/badge/AppVersion-v0.32.0--alpha-informational?style=flat-square)
 
-## Installation
-
-To install the chart, run:
-
-```bash
-$ helm repo add empathy-public https://empathyco.github.io/helm-charts
-$ helm install my-release empathy-public/yace-exporter
-```
-
-## Configuration
-
-[YACE](https://github.com/nerdswords/yet-another-cloudwatch-exporter) is configured through a [YAML file](https://github.com/nerdswords/yet-another-cloudwatch-exporter#configuration), mounted in the container as a configmap in this Helm chart. The contents of this YAML file should be included in the `config` parameter of the Helm chart `values.yaml`.
+A Helm chart for Kubernetes
 
 ## Values
 
@@ -30,11 +19,11 @@ $ helm install my-release empathy-public/yace-exporter
 | metrics.prometheusRule.namespace | string | `""` | Namespace for the PrometheusRule Resource |
 | metrics.prometheusRule.rules | list | `[]` | Prometheus Rule definitions |
 | metrics.prometheusRule.selector | object | `{}` | Prometheus instance selector labels |
-| metrics.serviceMonitor.enabled | bool | `true` | if true, creates a Prometheus Operator ServiceMonitor |
+| metrics.serviceMonitor.enabled | bool | `false` | if true, creates a Prometheus Operator ServiceMonitor |
 | metrics.serviceMonitor.interval | string | `nil` | Interval at which metrics should be scraped. |
 | metrics.serviceMonitor.namespace | string | `""` | Namespace for the ServiceMonitor Resource (defaults to the Release Namespace). |
 | metrics.serviceMonitor.scrapeTimeout | string | `nil` | Timeout after which the scrape is ended  |
-| metrics.serviceMonitor.selector | object | `{"release":"prometheus"}` | Prometheus instance selector labels |
+| metrics.serviceMonitor.selector | object | `{}` | Prometheus instance selector labels |
 | nameOverride | string | `""` | Chart name override |
 | nodeSelector | object | `{}` | Kubernetes node selector |
 | podAnnotations | object | `{}` | Custom pod annotations |

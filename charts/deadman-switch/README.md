@@ -1,45 +1,8 @@
-# Dead mans Switch
+# deadman-switch
 
-A Helm chart based on [Pingcap's dead-mans-switch](https://github.com/pingcap/dead-mans-switch) for Prometheus' Alertmanager. This Helm chart does not modify the Pingcap's dead man's switch image in any way.
+![Version: 0.0.2](https://img.shields.io/badge/Version-0.0.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
 
-This Helm chart provides a simple way to install a dead man's switch for Alertmanager integrated with Pagerduty. A dead man's switch in Prometheus is a simple alert that is always firing, to test that the alerting pipeline is healthy. This dead man's switch integrates with Pagerduty, so that if this "always firing alert" is not firing (e.g. the "watchdog" alert from [kube-prometheus-stack](https://github.com/prometheus-community/helm-charts/blob/main/charts/kube-prometheus-stack/templates/prometheus/rules-1.14/general.rules.yaml)), a notification will be sent to Pagerduty.
-
-## Installation
-
-To install the chart, run:
-
-```bash
-$ helm repo add empathy-public https://empathyco.github.io/helm-charts
-$ helm install my-release empathy-public/deadman-switch
-```
-
-## Configuration
-
-[Pingcap's dead-mans-switch](https://github.com/pingcap/dead-mans-switch) is configured through a [YAML file](https://github.com/pingcap/dead-mans-switch/blob/master/manifest/config.example.yaml), mounted in the container as a secret in this Helm chart. The contents of this YAML file should be included in the `secret` parameter of the Helm chart `values.yaml`.
-
-### Alertmanager configuration
-
-Taken from [Pingcap's dead-mans-switch](https://github.com/pingcap/dead-mans-switch), Alertmanager should be configured as follows:
-
-Create a route for the always firing alert in Alertmanager:
-```yaml
-route:
-  routes:
-    - receiver: dead-mans-switch
-      group_wait: 10s
-      group_interval: 30s
-      repeat_interval: 15s
-      match:
-        alertname: 'Watchdog'
-```
-
-Use the Kubernetes service as a webhook receiver:
-```yaml
-receivers:
-- name: dead-mans-switch
-  webhook_configs:
-  - url: http://<DEAD-MANS-SWITCH-SVC>:8080/webhook
-```
+A Helm chart for Kubernetes
 
 ## Values
 
