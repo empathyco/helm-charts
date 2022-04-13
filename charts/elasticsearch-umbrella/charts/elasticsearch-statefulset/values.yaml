@@ -19,7 +19,7 @@ image:
   # -- The Kubernetes imagePullPolicy value
   pullPolicy: IfNotPresent
   # -- Overrides the image tag whose default is the chart appVersion.
-  tag: "6.8.23-memlock"
+  tag: "7.17.2-memlock"
   
 # -- Configuration for imagePullSecrets so that you can use a private registry for your image
 imagePullSecrets: []
@@ -89,7 +89,7 @@ prometheus:
   # -- Exporter image to deploy as a sidecar container
     image: justwatch/elasticsearch_exporter:1.1.0
 
-# -- The default is to deploy all pods serially. By setting this to parallel all pods are started at
+# -- The default is to deploy all pods serially. By setting this to "Parallel" all pods are started at
 # the same time when bootstrapping the cluster
 podManagementPolicy: ""
 

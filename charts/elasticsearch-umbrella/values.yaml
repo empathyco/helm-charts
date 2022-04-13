@@ -19,7 +19,7 @@ master:
     # -- The Kubernetes imagePullPolicy value
     pullPolicy: IfNotPresent
     # -- Overrides the image tag whose default is the chart appVersion.
-    tag: "6.8.23-memlock"
+    tag: "7.17.2-memlock"
 
   # -- Configuration for imagePullSecrets so that you can use a private registry for your image
   imagePullSecrets: []
@@ -93,6 +93,10 @@ master:
     exporter:
     # -- Exporter image to deploy as a sidecar container
       image: justwatch/elasticsearch_exporter:1.1.0
+
+  # -- The default is to deploy all pods serially. By setting this to "Parallel" all pods are started at
+  # the same time when bootstrapping the cluster
+  podManagementPolicy: "Parallel"
 
   # -- Configurable annotations applied to all Elasticsearch pods
   podAnnotations: {}
@@ -209,7 +213,7 @@ data:
     # -- The Kubernetes imagePullPolicy value
     pullPolicy: IfNotPresent
     # -- Overrides the image tag whose default is the chart appVersion.
-    tag: "6.8.23-memlock"
+    tag: "7.17.2-memlock"
     
   # -- Configuration for imagePullSecrets so that you can use a private registry for your image
   imagePullSecrets: []
@@ -397,7 +401,7 @@ index:
     # -- The Kubernetes imagePullPolicy value
     pullPolicy: IfNotPresent
     # -- Overrides the image tag whose default is the chart appVersion.
-    tag: "6.8.23-memlock"
+    tag: "7.17.2-memlock"
     
   # -- Configuration for imagePullSecrets so that you can use a private registry for your image
   imagePullSecrets: []
@@ -583,7 +587,7 @@ client:
     # -- The Kubernetes imagePullPolicy value
     pullPolicy: IfNotPresent
     # -- Overrides the image tag whose default is the chart appVersion.
-    tag: "6.8.23-memlock"
+    tag: "7.17.2-memlock"
     
   # -- Configuration for imagePullSecrets so that you can use a private registry for your image
   imagePullSecrets: []
