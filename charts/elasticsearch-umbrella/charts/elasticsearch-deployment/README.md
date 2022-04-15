@@ -10,6 +10,7 @@ A Helm chart for Kubernetes
 |-----|------|---------|-------------|
 | antiAffinity | string | `"soft"` |  |
 | antiAffinityTopologyKey | string | `"kubernetes.io/hostname"` |  |
+| antiAffinityWeight | string | `""` |  |
 | autoscaling.enabled | bool | `false` | Enable/Disable autoscaling for the StatefulSet |
 | busybox.image | string | `"busybox:1.31"` | Image for busybox initContainers (sysctlInitContainer in official Elasticsearch Helm chart) |
 | elastic_config | object | `{"ES_JAVA_OPTS":"-Xms2048m -Xmx2048m","bootstrap.memory_lock":"true","network.bind_host":"0.0.0.0","node.data":"false","node.ingest":"false","node.master":"false","node.ml":"false","transport.tcp.compress":"true"}` | Elasticsearch configuration added in a configMap and passed to the Elasticsearch pods as Env. Vars. |

@@ -10,6 +10,7 @@ A Helm chart for Kubernetes
 |-----|------|---------|-------------|
 | antiAffinity | string | `"soft"` |  |
 | antiAffinityTopologyKey | string | `"kubernetes.io/hostname"` |  |
+| antiAffinityWeight | string | `""` |  |
 | autoscaling.enabled | bool | `false` | Enable/Disable autoscaling for the StatefulSet |
 | busybox.image | string | `"busybox:1.31"` | Image for busybox initContainers (sysctlInitContainer in official Elasticsearch Helm chart) |
 | elastic_config | object | `{"ES_JAVA_OPTS":"-Xms2048m -Xmx2048m","bootstrap.memory_lock":"true","logger.org.elasticsearch.discovery.gce":"TRACE","network.bind_host":"0.0.0.0","node.attr.type":"search","node.data":"true","node.ingest":"true","node.master":"false","node.ml":"false","transport.tcp.compress":"true"}` | Elasticsearch configuration added in a configMap and passed to the Elasticsearch pods as Env. Vars. |
@@ -39,7 +40,7 @@ A Helm chart for Kubernetes
 | nodeAffinity | object | `{}` |  |
 | nodeSelector | object | `{}` | Configurable nodeSelector so that you can target specific nodes for your Elasticsearch cluster |
 | podAnnotations | object | `{}` | Configurable annotations applied to all Elasticsearch pods |
-| podManagementPolicy | string | `""` | The default is to deploy all pods serially. By setting this to parallel all pods are started at the same time when bootstrapping the cluster |
+| podManagementPolicy | string | `""` | The default is to deploy all pods serially. By setting this to "Parallel" all pods are started at the same time when bootstrapping the cluster |
 | podSecurityContext | object | `{}` | Allows you to set the securityContext for the pod |
 | podSecurityPolicy.create | bool | `false` | Create a podSecurityPolicy with minimal permissions to run this Helm chart. Be sure to also set rbac.create to true, otherwise Role and RoleBinding won't be created. |
 | podSecurityPolicy.name | string | `""` | The name of the podSecurityPolicy to use. If not set and create is true, a name is generated using the fullname template |
