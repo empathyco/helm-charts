@@ -1,6 +1,6 @@
 # elasticsearch-deployment
 
-![Version: 0.7.0](https://img.shields.io/badge/Version-0.7.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 6.8.23](https://img.shields.io/badge/AppVersion-6.8.23-informational?style=flat-square)
+![Version: 0.8.0](https://img.shields.io/badge/Version-0.8.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 7.17.2](https://img.shields.io/badge/AppVersion-7.17.2-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -10,6 +10,8 @@ A Helm chart for Kubernetes
 |-----|------|---------|-------------|
 | antiAffinity | string | `"soft"` |  |
 | antiAffinityTopologyKey | string | `"kubernetes.io/hostname"` |  |
+| antiAffinityWeight | string | `""` |  |
+| autoscaling.enabled | bool | `false` | Enable/Disable autoscaling for the StatefulSet |
 | busybox.image | string | `"busybox:1.31"` | Image for busybox initContainers (sysctlInitContainer in official Elasticsearch Helm chart) |
 | elastic_config | object | `{"ES_JAVA_OPTS":"-Xms2048m -Xmx2048m","bootstrap.memory_lock":"true","network.bind_host":"0.0.0.0","node.data":"false","node.ingest":"false","node.master":"false","node.ml":"false","transport.tcp.compress":"true"}` | Elasticsearch configuration added in a configMap and passed to the Elasticsearch pods as Env. Vars. |
 | elastic_config."bootstrap.memory_lock" | string | `"true"` | Elasticsearch enable memory lock to avoid swapping |
@@ -24,7 +26,7 @@ A Helm chart for Kubernetes
 | fullnameOverride | string | `""` | Overrides the clusterName and nodeGroup when used in the naming of resources. This should only be used when using a single nodeGroup, otherwise you will have name conflicts |
 | image.pullPolicy | string | `"IfNotPresent"` | The Kubernetes imagePullPolicy value |
 | image.repository | string | `"empathyco/elasticsearch"` | Docker repository for Elasticsearch image |
-| image.tag | string | `"6.8.23-memlock"` | Overrides the image tag whose default is the chart appVersion. |
+| image.tag | string | `"7.17.2-memlock"` | Overrides the image tag whose default is the chart appVersion. |
 | imagePullSecrets | list | `[]` | Configuration for imagePullSecrets so that you can use a private registry for your image |
 | ingress.annotations | object | `{}` | Annotations for Kubernetes Ingress |
 | ingress.className | string | `""` | IngressClass name for ingress exposition |

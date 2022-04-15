@@ -200,7 +200,7 @@ spec:
       {{- else if eq .Values.antiAffinity "soft" }}
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 1
+          - weight: {{ .Values.antiAffinityWeight |default 1 }}
             podAffinityTerm:
               topologyKey: {{ .Values.antiAffinityTopologyKey }}
               labelSelector:

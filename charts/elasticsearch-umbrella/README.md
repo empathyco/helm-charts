@@ -1,6 +1,6 @@
 # elasticsearch-umbrella
 
-![Version: 0.7.0](https://img.shields.io/badge/Version-0.7.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 6.8.23](https://img.shields.io/badge/AppVersion-6.8.23-informational?style=flat-square)
+![Version: 0.8.0](https://img.shields.io/badge/Version-0.8.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 7.17.2](https://img.shields.io/badge/AppVersion-7.17.2-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -8,10 +8,10 @@ A Helm chart for Kubernetes
 
 | Repository | Name | Version |
 |------------|------|---------|
-|  | client(elasticsearch-deployment) | 0.7.0 |
-|  | master(elasticsearch-statefulset) | 0.7.0 |
-|  | data(elasticsearch-statefulset) | 0.7.0 |
-|  | index(elasticsearch-statefulset) | 0.7.0 |
+|  | client(elasticsearch-deployment) | 0.8.0 |
+|  | master(elasticsearch-statefulset) | 0.8.0 |
+|  | data(elasticsearch-statefulset) | 0.8.0 |
+|  | index(elasticsearch-statefulset) | 0.8.0 |
 
 ## Values
 
@@ -31,7 +31,7 @@ A Helm chart for Kubernetes
 | client.fullnameOverride | string | `""` | Overrides the clusterName and nodeGroup when used in the naming of resources. This should only be used when using a single nodeGroup, otherwise you will have name conflicts |
 | client.image.pullPolicy | string | `"IfNotPresent"` | The Kubernetes imagePullPolicy value |
 | client.image.repository | string | `"empathyco/elasticsearch"` | Docker repository for Elasticsearch image |
-| client.image.tag | string | `"6.8.23-memlock"` | Overrides the image tag whose default is the chart appVersion. |
+| client.image.tag | string | `"7.17.2-memlock"` | Overrides the image tag whose default is the chart appVersion. |
 | client.imagePullSecrets | list | `[]` | Configuration for imagePullSecrets so that you can use a private registry for your image |
 | client.ingress.annotations | object | `{}` | Annotations for Kubernetes Ingress |
 | client.ingress.className | string | `""` | IngressClass name for ingress exposition |
@@ -81,7 +81,7 @@ A Helm chart for Kubernetes
 | data.fullnameOverride | string | `""` | Overrides the clusterName and nodeGroup when used in the naming of resources. This should only be used when using a single nodeGroup, otherwise you will have name conflicts |
 | data.image.pullPolicy | string | `"IfNotPresent"` | The Kubernetes imagePullPolicy value |
 | data.image.repository | string | `"empathyco/elasticsearch"` | Docker repository for Elasticsearch image |
-| data.image.tag | string | `"6.8.23-memlock"` | Overrides the image tag whose default is the chart appVersion. |
+| data.image.tag | string | `"7.17.2-memlock"` | Overrides the image tag whose default is the chart appVersion. |
 | data.imagePullSecrets | list | `[]` | Configuration for imagePullSecrets so that you can use a private registry for your image |
 | data.ingress.annotations | object | `{}` | Annotations for Kubernetes Ingress |
 | data.ingress.className | string | `""` | IngressClass name for ingress exposition |
@@ -137,7 +137,7 @@ A Helm chart for Kubernetes
 | index.fullnameOverride | string | `""` | Overrides the clusterName and nodeGroup when used in the naming of resources. This should only be used when using a single nodeGroup, otherwise you will have name conflicts |
 | index.image.pullPolicy | string | `"IfNotPresent"` | The Kubernetes imagePullPolicy value |
 | index.image.repository | string | `"empathyco/elasticsearch"` | Docker repository for Elasticsearch image |
-| index.image.tag | string | `"6.8.23-memlock"` | Overrides the image tag whose default is the chart appVersion. |
+| index.image.tag | string | `"7.17.2-memlock"` | Overrides the image tag whose default is the chart appVersion. |
 | index.imagePullSecrets | list | `[]` | Configuration for imagePullSecrets so that you can use a private registry for your image |
 | index.ingress.annotations | object | `{}` | Annotations for Kubernetes Ingress |
 | index.ingress.className | string | `""` | IngressClass name for ingress exposition |
@@ -190,7 +190,7 @@ A Helm chart for Kubernetes
 | master.fullnameOverride | string | `""` | Overrides the clusterName and nodeGroup when used in the naming of resources. This should only be used when using a single nodeGroup, otherwise you will have name conflicts |
 | master.image.pullPolicy | string | `"IfNotPresent"` | The Kubernetes imagePullPolicy value |
 | master.image.repository | string | `"empathyco/elasticsearch"` | Docker repository for Elasticsearch image |
-| master.image.tag | string | `"6.8.23-memlock"` | Overrides the image tag whose default is the chart appVersion. |
+| master.image.tag | string | `"7.17.2-memlock"` | Overrides the image tag whose default is the chart appVersion. |
 | master.imagePullSecrets | list | `[]` | Configuration for imagePullSecrets so that you can use a private registry for your image |
 | master.ingress.annotations | object | `{}` | Annotations for Kubernetes Ingress |
 | master.ingress.className | string | `""` | IngressClass name for ingress exposition |
