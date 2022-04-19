@@ -1,6 +1,6 @@
 # elasticsearch-umbrella
 
-![Version: 0.8.0](https://img.shields.io/badge/Version-0.8.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 7.17.2](https://img.shields.io/badge/AppVersion-7.17.2-informational?style=flat-square)
+![Version: 0.8.2](https://img.shields.io/badge/Version-0.8.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 7.17.2](https://img.shields.io/badge/AppVersion-7.17.2-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -8,10 +8,10 @@ A Helm chart for Kubernetes
 
 | Repository | Name | Version |
 |------------|------|---------|
-|  | client(elasticsearch-deployment) | 0.8.0 |
-|  | master(elasticsearch-statefulset) | 0.8.0 |
-|  | data(elasticsearch-statefulset) | 0.8.0 |
-|  | index(elasticsearch-statefulset) | 0.8.0 |
+|  | client(elasticsearch-deployment) | 0.8.2 |
+|  | master(elasticsearch-statefulset) | 0.8.2 |
+|  | data(elasticsearch-statefulset) | 0.8.2 |
+|  | index(elasticsearch-statefulset) | 0.8.2 |
 
 ## Values
 
@@ -47,7 +47,7 @@ A Helm chart for Kubernetes
 | client.podSecurityPolicy.spec | object | `{}` | Spec to apply to the podSecurityPolicy. See values.yaml for an example |
 | client.prometheus.annotations | object | `{"app":"prometheus-operator","release":"prometheus"}` | Annotations to include in the ServiceMonitor |
 | client.prometheus.enabled | bool | `false` | Deploy a ServiceMonitor for Prometheus scrapping |
-| client.prometheus.exporter.image | string | `"justwatch/elasticsearch_exporter:1.1.0"` | Exporter image to deploy as a sidecar container |
+| client.prometheus.exporter.image | string | `"prometheuscommunity/elasticsearch-exporter:v1.3.0"` | Exporter image to deploy as a sidecar container |
 | client.prometheus.resources.limits.cpu | string | `"100m"` |  |
 | client.prometheus.resources.limits.memory | string | `"128Mi"` |  |
 | client.prometheus.resources.requests.cpu | string | `"100m"` |  |
@@ -98,7 +98,7 @@ A Helm chart for Kubernetes
 | data.podSecurityPolicy.spec | object | `{}` | Spec to apply to the podSecurityPolicy. See values.yaml for an example |
 | data.prometheus.annotations | object | `{"app":"prometheus-operator","release":"prometheus"}` | Annotations to include in the ServiceMonitor |
 | data.prometheus.enabled | bool | `false` | Deploy a ServiceMonitor for Prometheus scrapping |
-| data.prometheus.exporter.image | string | `"justwatch/elasticsearch_exporter:1.1.0"` | Exporter image to deploy as a sidecar container |
+| data.prometheus.exporter.image | string | `"prometheuscommunity/elasticsearch-exporter:v1.3.0"` | Exporter image to deploy as a sidecar container |
 | data.prometheus.resources.limits.cpu | string | `"100m"` |  |
 | data.prometheus.resources.limits.memory | string | `"128Mi"` |  |
 | data.prometheus.resources.requests.cpu | string | `"100m"` |  |
@@ -154,7 +154,7 @@ A Helm chart for Kubernetes
 | index.podSecurityPolicy.spec | object | `{}` | Spec to apply to the podSecurityPolicy. See values.yaml for an example |
 | index.prometheus.annotations | object | `{"app":"prometheus-operator","release":"prometheus"}` | Annotations to include in the ServiceMonitor |
 | index.prometheus.enabled | bool | `false` | Deploy a ServiceMonitor for Prometheus scrapping |
-| index.prometheus.exporter.image | string | `"justwatch/elasticsearch_exporter:1.1.0"` | Exporter image to deploy as a sidecar container |
+| index.prometheus.exporter.image | string | `"prometheuscommunity/elasticsearch-exporter:v1.3.0"` | Exporter image to deploy as a sidecar container |
 | index.prometheus.resources.limits.cpu | string | `"100m"` |  |
 | index.prometheus.resources.limits.memory | string | `"128Mi"` |  |
 | index.prometheus.resources.requests.cpu | string | `"100m"` |  |
@@ -201,6 +201,7 @@ A Helm chart for Kubernetes
 | master.nameOverride | string | `""` | Overrides the clusterName when used in the naming of resources |
 | master.nodeSelector | object | `{}` | Configurable nodeSelector so that you can target specific nodes for your Elasticsearch cluster |
 | master.podAnnotations | object | `{}` | Configurable annotations applied to all Elasticsearch pods |
+| master.podManagementPolicy | string | `"Parallel"` | The default is to deploy all pods serially. By setting this to "Parallel" all pods are started at the same time when bootstrapping the cluster |
 | master.podSecurityContext | object | `{}` | Allows you to set the securityContext for the pod |
 | master.podSecurityPolicy.create | bool | `false` | Create a podSecurityPolicy with minimal permissions to run this Helm chart. Be sure to also set rbac.create to true, otherwise Role and RoleBinding won't be created. |
 | master.podSecurityPolicy.name | string | `""` | The name of the podSecurityPolicy to use. If not set and create is true, a name is generated using the fullname template |
@@ -209,7 +210,7 @@ A Helm chart for Kubernetes
 | master.prometheus.dashboard.enabled | bool | `true` |  |
 | master.prometheus.dashboard.namespace | string | `"monitoring"` |  |
 | master.prometheus.enabled | bool | `false` | Deploy a ServiceMonitor for Prometheus scrapping |
-| master.prometheus.exporter.image | string | `"justwatch/elasticsearch_exporter:1.1.0"` | Exporter image to deploy as a sidecar container |
+| master.prometheus.exporter.image | string | `"prometheuscommunity/elasticsearch-exporter:v1.3.0"` | Exporter image to deploy as a sidecar container |
 | master.prometheus.resources | object | `{"limits":{"cpu":"100m","memory":"128Mi"},"requests":{"cpu":"100m","memory":"128Mi"}}` | Deploy a Grafana Dashboard |
 | master.rbac.create | bool | `false` | Whether RBAC rules should be created (Role and Rolebinding) |
 | master.replicaCount | int | `3` | Kubernetes replica count for the Statefulset (i.e. how many pods) |

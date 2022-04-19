@@ -92,7 +92,7 @@ master:
       app: prometheus-operator
     exporter:
     # -- Exporter image to deploy as a sidecar container
-      image: justwatch/elasticsearch_exporter:1.1.0
+      image: prometheuscommunity/elasticsearch-exporter:v1.3.0
 
   # -- The default is to deploy all pods serially. By setting this to "Parallel" all pods are started at
   # the same time when bootstrapping the cluster
@@ -284,7 +284,7 @@ data:
       app: prometheus-operator
     exporter:
     # -- Exporter image to deploy as a sidecar container
-      image: justwatch/elasticsearch_exporter:1.1.0
+      image: prometheuscommunity/elasticsearch-exporter:v1.3.0
 
   # -- Configurable annotations applied to all Elasticsearch pods
   podAnnotations: {}
@@ -472,7 +472,7 @@ index:
       app: prometheus-operator
     exporter:
     # -- Exporter image to deploy as a sidecar container
-      image: justwatch/elasticsearch_exporter:1.1.0
+      image: prometheuscommunity/elasticsearch-exporter:v1.3.0
 
   # -- Configurable annotations applied to all Elasticsearch pods
   podAnnotations: {}
@@ -644,7 +644,7 @@ client:
       app: prometheus-operator
     exporter:
     # -- Exporter image to deploy as a sidecar container
-      image: justwatch/elasticsearch_exporter:1.1.0
+      image: prometheuscommunity/elasticsearch-exporter:v1.3.0
 
   # -- Configurable annotations applied to all Elasticsearch pods
   podAnnotations: {}
