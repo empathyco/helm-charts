@@ -1,6 +1,6 @@
 # elasticsearch-umbrella
 
-![Version: 0.8.1](https://img.shields.io/badge/Version-0.8.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 7.17.2](https://img.shields.io/badge/AppVersion-7.17.2-informational?style=flat-square)
+![Version: 0.8.2](https://img.shields.io/badge/Version-0.8.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 7.17.2](https://img.shields.io/badge/AppVersion-7.17.2-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -8,10 +8,10 @@ A Helm chart for Kubernetes
 
 | Repository | Name | Version |
 |------------|------|---------|
-|  | client(elasticsearch-deployment) | 0.8.1 |
-|  | master(elasticsearch-statefulset) | 0.8.1 |
-|  | data(elasticsearch-statefulset) | 0.8.1 |
-|  | index(elasticsearch-statefulset) | 0.8.1 |
+|  | client(elasticsearch-deployment) | 0.8.2 |
+|  | master(elasticsearch-statefulset) | 0.8.2 |
+|  | data(elasticsearch-statefulset) | 0.8.2 |
+|  | index(elasticsearch-statefulset) | 0.8.2 |
 
 ## Values
 
