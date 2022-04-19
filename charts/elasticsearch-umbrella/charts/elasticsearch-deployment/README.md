@@ -1,6 +1,6 @@
 # elasticsearch-deployment
 
-![Version: 0.8.0](https://img.shields.io/badge/Version-0.8.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 7.17.2](https://img.shields.io/badge/AppVersion-7.17.2-informational?style=flat-square)
+![Version: 0.8.1](https://img.shields.io/badge/Version-0.8.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 7.17.2](https://img.shields.io/badge/AppVersion-7.17.2-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -45,7 +45,7 @@ A Helm chart for Kubernetes
 | prometheus.annotations | object | `{"app":"prometheus-operator","release":"prometheus"}` | Annotations to include in the ServiceMonitor |
 | prometheus.dashboard | object | `{"enabled":true,"namespace":"monitoring"}` | Deploy a Grafana Dashboard |
 | prometheus.enabled | bool | `true` | Deploy a ServiceMonitor for Prometheus scrapping |
-| prometheus.exporter.image | string | `"justwatch/elasticsearch_exporter:1.1.0"` | Exporter image to deploy as a sidecar container |
+| prometheus.exporter.image | string | `"prometheuscommunity/elasticsearch-exporter:v1.3.0"` | Exporter image to deploy as a sidecar container |
 | rbac.create | bool | `false` | Whether RBAC rules should be created (Role and Rolebinding) |
 | replicaCount | int | `3` | Kubernetes replica count for the Statefulset (i.e. how many pods) |
 | resources.limits.cpu | string | `"1000m"` | CPU limits for the Deployment |

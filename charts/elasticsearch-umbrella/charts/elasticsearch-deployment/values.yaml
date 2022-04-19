@@ -71,7 +71,7 @@ prometheus:
     app: prometheus-operator
   exporter:
   # -- Exporter image to deploy as a sidecar container
-    image: justwatch/elasticsearch_exporter:1.1.0
+    image: prometheuscommunity/elasticsearch-exporter:v1.3.0
 
 # -- Configurable annotations applied to all Elasticsearch pods
 podAnnotations: {}
