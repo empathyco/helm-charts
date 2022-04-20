@@ -6,7 +6,9 @@ metadata:
   labels:
     {{- include "statefulset.labels" . | nindent 4 }}
 spec:
+  {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
+  {{- end }}
   {{- with .Values.podManagementPolicy }}
   podManagementPolicy: {{ . }}
   {{- end }}
