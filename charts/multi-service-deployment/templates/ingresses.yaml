@@ -1,4 +1,5 @@
 {{- if .Values.ingress.enabled -}}
+{{ $counter := 0 | int }}
 {{- range .Values.ingresses }}
 {{- $svcName := .backend.service.name -}}
 {{- $svcPortName := .backend.service.portName -}}
@@ -12,7 +13,7 @@ apiVersion: extensions/v1beta1
 {{- end }}
 kind: Ingress
 metadata:
-  name: {{ include "multi-service-deployment.fullname" $ }}-{{ $svcName }}
+  name: {{ include "multi-service-deployment.fullname" $ }}-{{ $svcName }}-{{ $counter }}
   labels:
     {{- include "multi-service-deployment.labels" $ | nindent 4 }}
   {{- with .annotations }}
@@ -50,5 +51,6 @@ spec:
                   name: {{ $svcPortName }}
           {{- end }}
     {{- end }}
+{{ $counter = add1 $counter }}
 {{ end }}
 {{ end }}
