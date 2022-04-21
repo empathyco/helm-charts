@@ -1,6 +1,6 @@
 # multi-service-deployment
 
-![Version: 0.1.3](https://img.shields.io/badge/Version-0.1.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.1.1](https://img.shields.io/badge/AppVersion-0.1.1-informational?style=flat-square)
+![Version: 0.1.4](https://img.shields.io/badge/Version-0.1.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.1.1](https://img.shields.io/badge/AppVersion-0.1.1-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -11,13 +11,14 @@ A Helm chart for Kubernetes
 | affinity | object | `{}` |  |
 | autoscaling.enabled | bool | `false` |  |
 | env | object | `{}` |  |
+| extraenv | object | `{}` |  |
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"test"` |  |
 | image.tag | string | `""` |  |
 | imagePullSecrets | list | `[]` |  |
 | ingress.enabled | bool | `false` |  |
-| ingress.ingresses | object | `{}` |  |
+| ingresses | object | `{}` |  |
 | nameOverride | string | `""` |  |
 | nodeSelector | object | `{}` |  |
 | podAnnotations | object | `{}` |  |
@@ -34,7 +35,7 @@ A Helm chart for Kubernetes
 | services[0].ports.name | string | `"http"` |  |
 | services[0].ports.port | int | `80` |  |
 | services[0].ports.protocol | string | `"TCP"` |  |
-| services[0].ports.targetPort | int | `8080` |  |
+| services[0].ports.targetPort | int | `1000` |  |
 | services[0].type | string | `"ClusterIP"` |  |
 | services[1].name | string | `"example2"` |  |
 | services[1].ports.name | string | `"http"` |  |

@@ -7,6 +7,9 @@ enabled: true
 # -- This property indicates its the master
 isMaster: true
 
+autoscaling:
+  # -- Enable/Disable autoscaling for the StatefulSet
+  enabled: false
 # -- Kubernetes replica count for the StatefulSet (i.e. how many pods)
 replicaCount: 3
 
@@ -16,7 +19,7 @@ image:
   # -- The Kubernetes imagePullPolicy value
   pullPolicy: IfNotPresent
   # -- Overrides the image tag whose default is the chart appVersion.
-  tag: "6.8.23-memlock"
+  tag: "7.17.2-memlock"
   
 # -- Configuration for imagePullSecrets so that you can use a private registry for your image
 imagePullSecrets: []
@@ -84,9 +87,9 @@ prometheus:
     app: prometheus-operator
   exporter:
   # -- Exporter image to deploy as a sidecar container
-    image: justwatch/elasticsearch_exporter:1.1.0
+    image: prometheuscommunity/elasticsearch-exporter:v1.3.0
 
-# -- The default is to deploy all pods serially. By setting this to parallel all pods are started at
+# -- The default is to deploy all pods serially. By setting this to "Parallel" all pods are started at
 # the same time when bootstrapping the cluster
 podManagementPolicy: ""
 
@@ -167,6 +170,14 @@ priorityClassName: ""
 # By default this will make sure two pods don't end up on the same node
 # Changing this to a region would allow you to spread pods across regions
 antiAffinityTopologyKey: "kubernetes.io/hostname"
+
+# You can specify a weight between 1 and 100 for each instance of the
+# preferredDuringSchedulingIgnoredDuringExecution affinity type. 
+# When the scheduler finds nodes that meet all the other scheduling 
+# requirements of the Pod, the scheduler iterates through every
+# preferred rule that the node satisfies and adds the value of 
+# the weight for that expression to a sum.
+antiAffinityWeight: ""
 
 # Hard means that by default pods will only be scheduled if there are enough nodes for them
 # and that they will never end up on the same node. Setting this to soft will do this "best effort"

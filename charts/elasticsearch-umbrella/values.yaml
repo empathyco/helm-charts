@@ -19,7 +19,7 @@ master:
     # -- The Kubernetes imagePullPolicy value
     pullPolicy: IfNotPresent
     # -- Overrides the image tag whose default is the chart appVersion.
-    tag: "6.8.23-memlock"
+    tag: "7.17.2-memlock"
 
   # -- Configuration for imagePullSecrets so that you can use a private registry for your image
   imagePullSecrets: []
@@ -92,7 +92,11 @@ master:
       app: prometheus-operator
     exporter:
     # -- Exporter image to deploy as a sidecar container
-      image: justwatch/elasticsearch_exporter:1.1.0
+      image: prometheuscommunity/elasticsearch-exporter:v1.3.0
+
+  # -- The default is to deploy all pods serially. By setting this to "Parallel" all pods are started at
+  # the same time when bootstrapping the cluster
+  podManagementPolicy: "Parallel"
 
   # -- Configurable annotations applied to all Elasticsearch pods
   podAnnotations: {}
@@ -209,7 +213,7 @@ data:
     # -- The Kubernetes imagePullPolicy value
     pullPolicy: IfNotPresent
     # -- Overrides the image tag whose default is the chart appVersion.
-    tag: "6.8.23-memlock"
+    tag: "7.17.2-memlock"
     
   # -- Configuration for imagePullSecrets so that you can use a private registry for your image
   imagePullSecrets: []
@@ -280,7 +284,7 @@ data:
       app: prometheus-operator
     exporter:
     # -- Exporter image to deploy as a sidecar container
-      image: justwatch/elasticsearch_exporter:1.1.0
+      image: prometheuscommunity/elasticsearch-exporter:v1.3.0
 
   # -- Configurable annotations applied to all Elasticsearch pods
   podAnnotations: {}
@@ -397,7 +401,7 @@ index:
     # -- The Kubernetes imagePullPolicy value
     pullPolicy: IfNotPresent
     # -- Overrides the image tag whose default is the chart appVersion.
-    tag: "6.8.23-memlock"
+    tag: "7.17.2-memlock"
     
   # -- Configuration for imagePullSecrets so that you can use a private registry for your image
   imagePullSecrets: []
@@ -468,7 +472,7 @@ index:
       app: prometheus-operator
     exporter:
     # -- Exporter image to deploy as a sidecar container
-      image: justwatch/elasticsearch_exporter:1.1.0
+      image: prometheuscommunity/elasticsearch-exporter:v1.3.0
 
   # -- Configurable annotations applied to all Elasticsearch pods
   podAnnotations: {}
@@ -583,7 +587,7 @@ client:
     # -- The Kubernetes imagePullPolicy value
     pullPolicy: IfNotPresent
     # -- Overrides the image tag whose default is the chart appVersion.
-    tag: "6.8.23-memlock"
+    tag: "7.17.2-memlock"
     
   # -- Configuration for imagePullSecrets so that you can use a private registry for your image
   imagePullSecrets: []
@@ -640,7 +644,7 @@ client:
       app: prometheus-operator
     exporter:
     # -- Exporter image to deploy as a sidecar container
-      image: justwatch/elasticsearch_exporter:1.1.0
+      image: prometheuscommunity/elasticsearch-exporter:v1.3.0
 
   # -- Configurable annotations applied to all Elasticsearch pods
   podAnnotations: {}

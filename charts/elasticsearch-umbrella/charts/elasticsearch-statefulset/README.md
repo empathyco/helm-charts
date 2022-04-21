@@ -1,6 +1,6 @@
 # elasticsearch-statefulset
 
-![Version: 0.7.0](https://img.shields.io/badge/Version-0.7.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 6.8.23](https://img.shields.io/badge/AppVersion-6.8.23-informational?style=flat-square)
+![Version: 0.8.2](https://img.shields.io/badge/Version-0.8.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 7.17.2](https://img.shields.io/badge/AppVersion-7.17.2-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -10,6 +10,8 @@ A Helm chart for Kubernetes
 |-----|------|---------|-------------|
 | antiAffinity | string | `"soft"` |  |
 | antiAffinityTopologyKey | string | `"kubernetes.io/hostname"` |  |
+| antiAffinityWeight | string | `""` |  |
+| autoscaling.enabled | bool | `false` | Enable/Disable autoscaling for the StatefulSet |
 | busybox.image | string | `"busybox:1.31"` | Image for busybox initContainers (sysctlInitContainer in official Elasticsearch Helm chart) |
 | elastic_config | object | `{"ES_JAVA_OPTS":"-Xms2048m -Xmx2048m","bootstrap.memory_lock":"true","logger.org.elasticsearch.discovery.gce":"TRACE","network.bind_host":"0.0.0.0","node.attr.type":"search","node.data":"true","node.ingest":"true","node.master":"false","node.ml":"false","transport.tcp.compress":"true"}` | Elasticsearch configuration added in a configMap and passed to the Elasticsearch pods as Env. Vars. |
 | elastic_config."bootstrap.memory_lock" | string | `"true"` | Elasticsearch enable memory lock to avoid swapping |
@@ -26,7 +28,7 @@ A Helm chart for Kubernetes
 | fullnameOverride | string | `""` | Overrides the clusterName and nodeGroup when used in the naming of resources. This should only be used when using a single nodeGroup, otherwise you will have name conflicts |
 | image.pullPolicy | string | `"IfNotPresent"` | The Kubernetes imagePullPolicy value |
 | image.repository | string | `"empathyco/elasticsearch"` | Docker repository for Elasticsearch image |
-| image.tag | string | `"6.8.23-memlock"` | Overrides the image tag whose default is the chart appVersion. |
+| image.tag | string | `"7.17.2-memlock"` | Overrides the image tag whose default is the chart appVersion. |
 | imagePullSecrets | list | `[]` | Configuration for imagePullSecrets so that you can use a private registry for your image |
 | ingress.annotations | object | `{}` | Annotations for Kubernetes Ingress |
 | ingress.className | string | `""` | IngressClass name for ingress exposition |
@@ -38,7 +40,7 @@ A Helm chart for Kubernetes
 | nodeAffinity | object | `{}` |  |
 | nodeSelector | object | `{}` | Configurable nodeSelector so that you can target specific nodes for your Elasticsearch cluster |
 | podAnnotations | object | `{}` | Configurable annotations applied to all Elasticsearch pods |
-| podManagementPolicy | string | `""` | The default is to deploy all pods serially. By setting this to parallel all pods are started at the same time when bootstrapping the cluster |
+| podManagementPolicy | string | `""` | The default is to deploy all pods serially. By setting this to "Parallel" all pods are started at the same time when bootstrapping the cluster |
 | podSecurityContext | object | `{}` | Allows you to set the securityContext for the pod |
 | podSecurityPolicy.create | bool | `false` | Create a podSecurityPolicy with minimal permissions to run this Helm chart. Be sure to also set rbac.create to true, otherwise Role and RoleBinding won't be created. |
 | podSecurityPolicy.name | string | `""` | The name of the podSecurityPolicy to use. If not set and create is true, a name is generated using the fullname template |
@@ -47,7 +49,7 @@ A Helm chart for Kubernetes
 | prometheus.annotations | object | `{"app":"prometheus-operator","release":"prometheus"}` | Annotations to include in the ServiceMonitor |
 | prometheus.dashboard | object | `{"enabled":true,"namespace":"monitoring"}` | Deploy a Grafana Dashboard |
 | prometheus.enabled | bool | `true` | Deploy a ServiceMonitor for Prometheus scrapping |
-| prometheus.exporter.image | string | `"justwatch/elasticsearch_exporter:1.1.0"` | Exporter image to deploy as a sidecar container |
+| prometheus.exporter.image | string | `"prometheuscommunity/elasticsearch-exporter:v1.3.0"` | Exporter image to deploy as a sidecar container |
 | rbac.create | bool | `false` | Whether RBAC rules should be created (Role and Rolebinding) |
 | replicaCount | int | `3` | Kubernetes replica count for the StatefulSet (i.e. how many pods) |
 | resources.limits.cpu | string | `"1000m"` | CPU limits for the StatefulSet |
