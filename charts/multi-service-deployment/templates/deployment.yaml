@@ -38,7 +38,9 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             {{- toYaml .Values.env | nindent 12 }}
+            {{- if .Values.extraenv  }}
             {{- toYaml .Values.extraenv | nindent 12 }}
+            {{- end }}
           ports:
             {{- toYaml .Values.ports | nindent 12 }}
           livenessProbe:
