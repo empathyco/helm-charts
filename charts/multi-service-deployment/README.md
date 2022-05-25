@@ -10,16 +10,6 @@ A Helm chart for Kubernetes
 |-----|------|---------|-------------|
 | affinity | object | `{}` |  |
 | autoscaling.enabled | bool | `false` |  |
-| autoscaling.keda.apiVersion | string | `"keda.sh/v1alpha1"` |  |
-| autoscaling.keda.behavior | object | `{}` |  |
-| autoscaling.keda.cooldownPeriod | int | `300` |  |
-| autoscaling.keda.enabled | bool | `false` |  |
-| autoscaling.keda.maxReplicas | int | `5` |  |
-| autoscaling.keda.minReplicas | int | `2` |  |
-| autoscaling.keda.pollingInterval | int | `30` |  |
-| autoscaling.keda.restoreToOriginalReplicaCount | bool | `false` |  |
-| autoscaling.keda.scaledObject.annotations | object | `{}` |  |
-| autoscaling.keda.triggers | list | `[]` |  |
 | env | object | `{}` |  |
 | extraenv | object | `{}` |  |
 | fullnameOverride | string | `""` |  |
@@ -29,6 +19,16 @@ A Helm chart for Kubernetes
 | imagePullSecrets | list | `[]` |  |
 | ingress.enabled | bool | `false` |  |
 | ingresses | object | `{}` |  |
+| keda.apiVersion | string | `"keda.sh/v1alpha1"` |  |
+| keda.behavior | object | `{}` |  |
+| keda.cooldownPeriod | int | `300` |  |
+| keda.enabled | bool | `false` |  |
+| keda.maxReplicas | int | `5` |  |
+| keda.minReplicas | int | `2` |  |
+| keda.pollingInterval | int | `30` |  |
+| keda.restoreToOriginalReplicaCount | bool | `false` |  |
+| keda.scaledObject.annotations | object | `{}` |  |
+| keda.triggers | list | `[]` |  |
 | nameOverride | string | `""` |  |
 | nodeSelector | object | `{}` |  |
 | podAnnotations | object | `{}` |  |

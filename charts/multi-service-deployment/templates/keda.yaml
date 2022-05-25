@@ -20,7 +20,7 @@ spec:
   triggers:
 {{- with .Values.keda.triggers }}
 {{ toYaml . | indent 2 }}
-{{ end }}
+{{- end }}
   advanced:
     restoreToOriginalReplicaCount: {{ .Values.keda.restoreToOriginalReplicaCount }}
 {{- if .Values.keda.behavior }}
