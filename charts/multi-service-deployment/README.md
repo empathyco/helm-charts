@@ -1,6 +1,6 @@
 # multi-service-deployment
 
-![Version: 0.1.4](https://img.shields.io/badge/Version-0.1.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.1.1](https://img.shields.io/badge/AppVersion-0.1.1-informational?style=flat-square)
+![Version: 0.1.6](https://img.shields.io/badge/Version-0.1.6-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.1.1](https://img.shields.io/badge/AppVersion-0.1.1-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -10,6 +10,16 @@ A Helm chart for Kubernetes
 |-----|------|---------|-------------|
 | affinity | object | `{}` |  |
 | autoscaling.enabled | bool | `false` |  |
+| autoscaling.keda.apiVersion | string | `"keda.sh/v1alpha1"` |  |
+| autoscaling.keda.behavior | object | `{}` |  |
+| autoscaling.keda.cooldownPeriod | int | `300` |  |
+| autoscaling.keda.enabled | bool | `false` |  |
+| autoscaling.keda.maxReplicas | int | `5` |  |
+| autoscaling.keda.minReplicas | int | `2` |  |
+| autoscaling.keda.pollingInterval | int | `30` |  |
+| autoscaling.keda.restoreToOriginalReplicaCount | bool | `false` |  |
+| autoscaling.keda.scaledObject.annotations | object | `{}` |  |
+| autoscaling.keda.triggers | list | `[]` |  |
 | env | object | `{}` |  |
 | extraenv | object | `{}` |  |
 | fullnameOverride | string | `""` |  |
@@ -22,6 +32,7 @@ A Helm chart for Kubernetes
 | nameOverride | string | `""` |  |
 | nodeSelector | object | `{}` |  |
 | podAnnotations | object | `{}` |  |
+| podLabels | object | `{}` |  |
 | podSecurityContext | object | `{}` |  |
 | prometheusRule.enabled | bool | `false` |  |
 | replicaCount | int | `1` |  |
