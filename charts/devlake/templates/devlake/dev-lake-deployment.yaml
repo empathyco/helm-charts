@@ -43,6 +43,14 @@ spec:
             - sh
             - -c
             - "cat /appenv/env* > /tmp/config/.env && chmod 644 /tmp/config/.env"
+        {{- if .Values.mysql.enabled }}    
+        - name: busybox-mysql
+          image: busybox
+          command:
+            - sh
+            - -c 
+            - "while [ $(timeout 5 nc -zv devlake-mysql 3306; echo $?) -ne 0 ]; do echo 'Waiting for MySQL Pod...'; sleep 2; done; echo 'MySQL Pod Ready!'"
+        {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
@@ -82,7 +90,7 @@ spec:
           secret:
             secretName: {{.Values.devlake.dotEnvFileSecretName}}
       securityContext:
-        runAsNonRoot: true #hacer que el init container se lance con el id correcto para que lo reconozca el de devlake
+        runAsNonRoot: true 
         runAsUser: 1000
         fsGroup: 1000
       {{- with .Values.devlake.nodeSelector }}

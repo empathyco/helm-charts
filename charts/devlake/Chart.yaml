@@ -4,7 +4,6 @@ description: Helm chart for DevLake
 
 type: application
 
-
 version: 1.0.0
 
 appVersion: "20220523"
