@@ -1,0 +1,99 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "devlake.fullname" . }}
+  labels:
+    {{- include "devlake.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.devlake.autoscaling.enabled }}
+  replicas: {{ .Values.devlake.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "devlake.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.devlake.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "devlake.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.devlake.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "devlake.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.devlake.podSecurityContext | nindent 8 }}
+      initContainers:
+        - name: busybox-init
+          image: busybox
+          volumeMounts:
+          - name: shared
+            mountPath: /tmp/config
+          - name: env-cm
+            mountPath: /appenv/env-cm
+            subPath: env-cm
+          - name: env-secret
+            mountPath: /appenv/env-secret
+            subPath: env-secret
+          command:
+            - sh
+            - -c
+            - "cat /appenv/env* > /tmp/config/.env && chmod 644 /tmp/config/.env"
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.devlake.securityContext | nindent 12 }}
+          image: "{{ .Values.devlake.image.repository }}:{{ .Values.devlake.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.devlake.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          volumeMounts:
+          - name: shared
+            mountPath: /tmp/config
+          env:
+            - name: ENV_PATH
+              value: /tmp/config/.env
+          livenessProbe:
+            tcpSocket:              
+              port: http
+            failureThreshold: 3
+            periodSeconds: 10
+          readinessProbe:
+            tcpSocket:
+              port: http
+            failureThreshold: 3
+            periodSeconds: 10
+          
+          resources:
+            {{- toYaml .Values.devlake.resources | nindent 12 }}
+      volumes:
+        - name: shared
+          emptyDir: {}
+        - name: env-cm
+          configMap:
+            name: {{ include "devlake.fullname" . }}-env-config
+        - name: env-secret
+          secret:
+            secretName: {{.Values.devlake.dotEnvFileSecretName}}
+      securityContext:
+        runAsNonRoot: true #hacer que el init container se lance con el id correcto para que lo reconozca el de devlake
+        runAsUser: 1000
+        fsGroup: 1000
+      {{- with .Values.devlake.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.devlake.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.devlake.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

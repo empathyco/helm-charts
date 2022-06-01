@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "configui.fullname" . }}
+  labels:
+    {{- include "configui.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.configui.autoscaling.enabled }}
+  replicas: {{ .Values.configui.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "configui.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.configui.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "configui.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.configui.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "configui.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.configui.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.configui.securityContext | nindent 12 }}
+          image: "{{ .Values.configui.image.repository }}:{{ .Values.configui.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.configui.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+            {{- toYaml .Values.configui.resources | nindent 12 }}
+          env:
+            - name: GRAFANA_ENDPOINT
+              value: {{default "http://grafana:8080" .Values.configui.grafana.endpoint}}
+            - name: DEVLAKE_ENDPOINT
+              value: {{ include "devlake.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.devlake.service.port }}
+      {{- with .Values.configui.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.configui.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.configui.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
