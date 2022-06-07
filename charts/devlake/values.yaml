@@ -105,7 +105,7 @@ devlake:
     API_RETRY: 3
     JIRA_BOARD_GITLAB_PROJECTS:
     GITHUB_ISSUE_COMPONENT: component/(.*)$
-    GITHUB_ISSUE_TYPE_BUG: ^(bug|failure|error|pepe)$
+    GITHUB_ISSUE_TYPE_BUG: ^(bug|failure|error)$
     GITHUB_PR_BODY_CLOSE_PATTERN: '''(?mi)(fix|close|resolve|fixes|closes|resolves|fixed|closed|resolved)[\s]*.*(((and )?(#|https:\/\/github.com\/%s\/%s\/issues\/)\d+[ ]*)+)'''
     GITLAB_PROXY:
     TEMPORAL_TASK_QUEUE:
@@ -129,7 +129,7 @@ devlake:
     GITHUB_ISSUE_SEVERITY: severity/(.*)$
     ASYNC_CF: true
 
-  dotEnvFileSecretName: env-secret   
+  dotEnvFileSecretName: 
 
 
 
@@ -178,10 +178,12 @@ configui:
     enabled: true
     className: ""
     annotations: {}
-      # kubernetes.io/ingress.class: nginx
-      # kubernetes.io/tls-acme: "true"
+      #nginx.ingress.kubernetes.io/auth-signin: 
+      #nginx.ingress.kubernetes.io/auth-url: 
+      #nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+
     hosts:
-      - host: devlake.infra.internal.test.empathy.co
+      - host: 
         paths:
           - path: /
             pathType: ImplementationSpecific
@@ -217,6 +219,8 @@ configui:
 
   grafana:
     endpoint: 
+  
+  envFromSecret: 
 
 mysql:
   enabled: true
@@ -231,7 +235,7 @@ mysql:
 
   auth:
     database: lake
-    existingSecret: "devlake-mysql-auth"
+    existingSecret: 
     username: merico
 
     

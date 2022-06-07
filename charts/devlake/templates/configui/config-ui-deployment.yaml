@@ -38,13 +38,29 @@ spec:
               containerPort: 80
               protocol: TCP
           livenessProbe:
+          {{- if .Values.configui.envFromSecret }}
+            exec:
+              command:
+                - "sh"
+                - "-c"
+                - "curl -s -u ${ADMIN_USER}:${ADMIN_PASS} http://localhost:80"
+          {{- else}}
             httpGet:
               path: /
               port: http
+          {{- end }}
           readinessProbe:
+          {{- if .Values.configui.envFromSecret }}
+            exec:
+              command:
+                - "sh"
+                - "-c"
+                - "curl -s -u ${ADMIN_USER}:${ADMIN_PASS} http://localhost:80"
+          {{- else}}
             httpGet:
               path: /
               port: http
+          {{- end }}
           resources:
             {{- toYaml .Values.configui.resources | nindent 12 }}
           env:
@@ -52,6 +68,11 @@ spec:
               value: {{default "http://grafana:8080" .Values.configui.grafana.endpoint}}
             - name: DEVLAKE_ENDPOINT
               value: {{ include "devlake.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.devlake.service.port }}
+          {{- if .Values.configui.envFromSecret }}
+          envFrom:
+            - secretRef:
+                name: {{ .Values.configui.envFromSecret }}
+          {{- end }}
       {{- with .Values.configui.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
