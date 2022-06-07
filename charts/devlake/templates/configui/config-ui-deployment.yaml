@@ -73,6 +73,10 @@ spec:
             - secretRef:
                 name: {{ .Values.configui.envFromSecret }}
           {{- end }}
+      securityContext:
+        runAsNonRoot: true 
+        runAsUser: 1000
+        fsGroup: 1000
       {{- with .Values.configui.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
