@@ -308,6 +308,22 @@ entries:
     urls:
     - https://github.com/empathyco/helm-charts/releases/download/deadman-switch-0.0.1/deadman-switch-0.0.1.tgz
     version: 0.0.1
+  devlake:
+  - apiVersion: v2
+    appVersion: "20220523"
+    created: "2022-06-07T13:50:00.088101083Z"
+    dependencies:
+    - condition: mysql.enabled
+      name: mysql
+      repository: https://charts.bitnami.com/bitnami
+      version: 9.1.1
+    description: Helm chart for DevLake
+    digest: 0e3dab1a678456e5fc087a835767ee7742931248307b78a30a449e65ff614277
+    name: devlake
+    type: application
+    urls:
+    - https://github.com/empathyco/helm-charts/releases/download/devlake-1.0.0/devlake-1.0.0.tgz
+    version: 1.0.0
   elasticsearch-data:
   - apiVersion: v2
     appVersion: 6.6.2
@@ -941,4 +957,4 @@ entries:
     urls:
     - https://github.com/empathyco/helm-charts/releases/download/yace-exporter-0.1.0/yace-exporter-0.1.0.tgz
     version: 0.1.0
-generated: "2022-05-31T11:28:07.113275983Z"
+generated: "2022-06-07T13:50:00.088290383Z"
