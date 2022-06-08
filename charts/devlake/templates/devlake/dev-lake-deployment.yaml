@@ -30,6 +30,11 @@ spec:
       initContainers:
         - name: busybox-init
           image: busybox
+          {{- if .Values.devlake.dotEnvFileSecretName }}
+          envFrom:
+            - secretRef:
+                name: {{ .Values.devlake.dotEnvFileSecretName }}
+          {{- end }}
           volumeMounts:
           - name: shared
             mountPath: /tmp/config
