@@ -4,7 +4,7 @@ description: Helm chart for DevLake
 
 type: application
 
-version: 1.0.1
+version: 1.0.2
 
 appVersion: "0.10.0"
 
