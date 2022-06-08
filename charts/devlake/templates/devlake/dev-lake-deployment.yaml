@@ -36,13 +36,10 @@ spec:
           - name: env-cm
             mountPath: /appenv/env-cm
             subPath: env-cm
-          - name: env-secret
-            mountPath: /appenv/env-secret
-            subPath: env-secret
           command:
             - sh
             - -c
-            - "cat /appenv/env* > /tmp/config/.env && chmod 644 /tmp/config/.env"
+            - "env|grep -E '^PLACEHOLDER_'|sed 's/^PLACEHOLDER_//g' > /tmp/env-secret && cat /appenv/env-cm /tmp/env-secret > /tmp/config/.env && chmod 644 /tmp/config/.env"
         {{- if .Values.mysql.enabled }}    
         - name: busybox-mysql
           image: busybox
@@ -86,9 +83,6 @@ spec:
         - name: env-cm
           configMap:
             name: {{ include "devlake.fullname" . }}-env-config
-        - name: env-secret
-          secret:
-            secretName: {{.Values.devlake.dotEnvFileSecretName}}
       securityContext:
         runAsNonRoot: true 
         runAsUser: 1000
