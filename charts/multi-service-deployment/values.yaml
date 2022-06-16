@@ -19,6 +19,10 @@ podAnnotations: {}
 podSecurityContext: {}
 securityContext: {}
 
+maxUnavailable: 1
+
+topologySpreadConstraints: []
+
 services:
   - name: "example1"
     type: ClusterIP
@@ -38,7 +42,8 @@ services:
 
 ingress:
   enabled: false
-ingresses: {}
+ingresses:
+  {}
   # - className: "example1"
   #   backend:
   #     service:
@@ -100,19 +105,20 @@ keda:
   #      metricName: http_requests_total
   #      threshold: '100'
   #      query: sum(rate(http_requests_total{deployment="deployment"}[2m]))
-  behavior: {}
+  behavior:
+    {}
     # scaleDown:
-      # stabilizationWindowSeconds: 300
-      # policies:
-      # - type: Pods
-        # value: 1
-        # periodSeconds: 180
+    # stabilizationWindowSeconds: 300
+    # policies:
+    # - type: Pods
+    # value: 1
+    # periodSeconds: 180
     # scaleUp:
-      # stabilizationWindowSeconds: 300
-      # policies:
-      # - type: Pods
-        # value: 2
-        # periodSeconds: 60
+    # stabilizationWindowSeconds: 300
+    # policies:
+    # - type: Pods
+    # value: 2
+    # periodSeconds: 60
 
 nodeSelector: {}
 
@@ -120,14 +126,15 @@ tolerations: []
 
 affinity: {}
 
-
-env: {}
+env:
+  {}
   # - name: NAME
   #   valueFrom:
   #     secretKeyRef:
   #       name: KEY_NAME
   #       key: SECRET_KEY
-extraenv: {}
+extraenv:
+  {}
   # - name: NAME
   #   valueFrom:
   #     secretKeyRef:
