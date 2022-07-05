@@ -10,6 +10,8 @@ spec:
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   {{- end }}
+  minReadySeconds: {{ .Values.minReadySeconds | default 30 }}
+  revisionHistoryLimit: {{ .Values.revisionHistoryLimit | default 3 }}
   selector:
     matchLabels:
       {{- include "multi-service-deployment.selectorLabels" . | nindent 6 }}
@@ -25,6 +27,7 @@ spec:
         {{- toYaml .Values.podLabels | nindent 8 }}
         {{- end }}
     spec:
+      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds | default 60 }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
