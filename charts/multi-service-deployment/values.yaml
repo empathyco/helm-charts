@@ -150,3 +150,7 @@ prometheusRule:
   #     severity: page
   #   annotations:
   #     summary: High request latency
+
+livenessProbe: {}
+readinessProbe: {}
+startupProbe: {}
