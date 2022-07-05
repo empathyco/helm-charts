@@ -150,3 +150,10 @@ prometheusRule:
   #     severity: page
   #   annotations:
   #     summary: High request latency
+
+revisionHistoryLimit: 3
+minReadySeconds: 30
+terminationGracePeriodSeconds: 60
+livenessProbe: {}
+readinessProbe: {}
+startupProbe: {}
