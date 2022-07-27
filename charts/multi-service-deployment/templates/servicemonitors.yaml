@@ -1,5 +1,5 @@
-{{- if .Values.serviceMonitor.enabled }}
-{{- range .Values.serviceMonitors }}
+{{- if .Values.metrics.enabled }}
+{{- range .Values.metrics.serviceMonitors }}
 ---
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
@@ -7,6 +7,9 @@ metadata:
   name: {{ include "multi-service-deployment.fullname" $ }}-{{ .serviceName }}
   labels:
     {{- include "multi-service-deployment.labels" $ | nindent 4 }}
+    {{- range $key, $value := .labels }}
+    {{ $key }}: {{ $value | quote }}
+    {{- end }}
 spec:
   endpoints:
   - interval: {{ .scrapeInterval | default "15s" }}

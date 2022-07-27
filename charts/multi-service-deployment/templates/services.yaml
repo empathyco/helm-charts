@@ -3,9 +3,18 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "multi-service-deployment.serviceAccountName" $ }}-{{ .name }}
+  name: {{ include "multi-service-deployment.fullname" $ }}-{{ .name }}
   labels:
     {{- include "multi-service-deployment.labels" $ | nindent 4 }}
+    {{- range $key, $value := .labels }}
+    {{ $key }}: {{ $value | quote }}
+    {{- end }}
+  {{- if .annotations }}
+  annotations:
+    {{- range $key, $value := .annotations }}
+    {{ $key }}: {{ $value | quote }}
+    {{- end }}
+  {{- end }}
 spec:
   type: {{ .type | default "ClusterIP" }}
   ports:

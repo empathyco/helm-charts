@@ -1,49 +1,75 @@
+# -- Overrides the clusterName when used in the naming of resources
+nameOverride: ""
+# -- Overrides the clusterName and nodeGroup when used in the naming of resources. This should only be used when using a single nodeGroup, otherwise you will have name conflicts
 fullnameOverride: ""
+
+# -----------
+# Deployment
+# -----------
+
+# -- Number of replicas
 replicaCount: 1
+# -- How many old ReplicaSets to maintain for the Deployment
+revisionHistoryLimit: 3
 
 image:
+  # -- Docker image repository
   repository: test
+  # -- The Kubernetes imagePullPolicy value
   pullPolicy: IfNotPresent
+  # -- Overrides the image tag whose default is the chart appVersion.
   tag: ""
 
+# -- Configuration for imagePullSecrets so that you can use a private registry for your image
 imagePullSecrets: []
-nameOverride: ""
 
 serviceAccount:
+  # -- Specifies whether a service account should be created
   create: true
+  # -- Annotations to add to the service account
   annotations: {}
+  # -- The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
   name: ""
 
+# -- Configurable labels applied to all pods
 podLabels: {}
+
+# -- Configurable annotations applied to all pods
 podAnnotations: {}
+
+# -- Allows you to set the securityContext for the pod
 podSecurityContext: {}
+  # fsGroup: 2000
+
+# -- Allows you to set the securityContext for the container
 securityContext: {}
 
-maxUnavailable: 1
+# -- Enable livenessProbe
+livenessProbe: {}
+# -- Enable readinessProbe
+readinessProbe: {}
+# -- Enable startupProbe
+startupProbe: {}
 
-topologySpreadConstraints: []
+# -- Specifies the minimum number of seconds for which a newly created Pod should be ready without any of its containers crashing, for it to be considered available
+minReadySeconds: 30
 
-services:
-  - name: "example1"
-    type: ClusterIP
-    ports:
-      port: 80
-      targetPort: 1000
-      protocol: TCP
-      name: http
+# -- TBD
+terminationGracePeriodSeconds: 60
 
-  - name: "example2"
-    type: ClusterIP
-    ports:
-      port: 90
-      targetPort: 9090
-      protocol: TCP
-      name: http
+# -- Specifies the strategy used to replace old Pods by new ones
+strategy:
+  rollingUpdate:
+    maxSurge: 25%
+    maxUnavailable: 25%
+  type: RollingUpdate
 
 ingress:
+  # -- Enable Kubernetes Ingress to expose pods
   enabled: false
-ingresses:
-  {}
+
+ingresses: {}
   # - className: "example1"
   #   backend:
   #     service:
@@ -69,17 +95,88 @@ ingresses:
   #           pathType: ImplementationSpecific
   #   tls: []
 
-serviceMonitor:
-  enabled: false
-serviceMonitors: {}
-#     - serviceName: "example1"
-#       metricsPortName: "metrics"
-#       metricsPath: "/metrics"
-#       scrapeInterval: "15"
-#     - serviceName: "example1"
-#       metricsPortName: "metrics"
-#       metricsPath: "/metrics"
-#       scrapeInterval: "15"
+resources:
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  limits:
+    # -- CPU limits for the Deployment
+    cpu: 500m
+    # -- Memory limits for the Deployment
+    memory: 256Mi
+  requests:
+    # -- CPU requests for the Deployment
+    cpu: 1000m
+    # -- Memory requests for the Deployment
+    memory: 512Mi
+
+# -- Configurable nodeSelector so that you can target specific nodes for your deployment
+nodeSelector: {}
+
+# -- Settings for affinity
+affinity: {}
+
+# -- Configurable tolerations
+tolerations: []
+  # - effect: NoExecute
+  #   key: example/node-type
+  #   operator: Equal
+  #   value: applications
+
+# -- Instruct the kube-scheduler how to place each incoming Pod in relation to the existing Pods across your cluster
+topologySpreadConstraints: []
+
+env: {}
+  # - name: NAME
+  #   valueFrom:
+  #     secretKeyRef:
+  #       name: KEY_NAME
+  #       key: SECRET_KEY
+
+extraenv: {}
+  # - name: NAME
+  #   valueFrom:
+  #     secretKeyRef:
+  #       name: KEY_NAME
+  #       key: SECRET_KEY
+
+
+# ---------
+# Services
+# ---------
+
+services:
+  - name: "example1"
+    type: ClusterIP
+    labels: {}
+    annotations: {}
+    ports:
+      port: 80
+      targetPort: 1000
+      protocol: TCP
+      name: http
+
+  - name: "example2"
+    type: ClusterIP
+    ports:
+      port: 90
+      targetPort: 9090
+      protocol: TCP
+      name: http
+
+
+# ----------------------
+# Pod Disruption Budget
+# ----------------------
+
+# -- TBD
+maxUnavailable: 1
+
+
+# ------------
+# Autoscaling
+# ------------
 
 autoscaling:
   enabled: false
@@ -88,10 +185,15 @@ autoscaling:
   # targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
 
+
+# -----
+# Keda
+# -----
+
 keda:
   apiVersion: "keda.sh/v1alpha1"
-  enabled: false
-  minReplicas: 2
+  enabled: true
+  minReplicas: 1
   maxReplicas: 5
   pollingInterval: 30
   cooldownPeriod: 300
@@ -99,61 +201,64 @@ keda:
   scaledObject:
     annotations: {}
   triggers: []
-  # - type: prometheus
-  #    metadata:
-  #      serverAddress: http://<prometheus-host>:9090
-  #      metricName: http_requests_total
-  #      threshold: '100'
-  #      query: sum(rate(http_requests_total{deployment="deployment"}[2m]))
-  behavior:
-    {}
+    # - type: prometheus
+    #   metadata:
+    #     serverAddress: https://<prometheus-host>:9090
+    #     metricName: http_requests_total
+    #     threshold: '100'
+    #     query: sum(rate(http_requests_total{deployment="deployment"}[2m]))
+  behavior: {}
     # scaleDown:
-    # stabilizationWindowSeconds: 300
-    # policies:
-    # - type: Pods
-    # value: 1
-    # periodSeconds: 180
-    # scaleUp:
-    # stabilizationWindowSeconds: 300
-    # policies:
-    # - type: Pods
-    # value: 2
-    # periodSeconds: 60
+    #   stabilizationWindowSeconds: 300
+    #   policies:
+    #     - type: Pods
+    #       value: 1
+    #       periodSeconds: 180
+    #  scaleUp:
+    #   stabilizationWindowSeconds: 300
+    #   policies:
+    #     - type: Pods
+    #       value: 2
+    #       periodSeconds: 60
 
-nodeSelector: {}
 
-tolerations: []
+# -----------
+# Monitoring
+# -----------
 
-affinity: {}
-
-env:
-  {}
-  # - name: NAME
-  #   valueFrom:
-  #     secretKeyRef:
-  #       name: KEY_NAME
-  #       key: SECRET_KEY
-extraenv:
-  {}
-  # - name: NAME
-  #   valueFrom:
-  #     secretKeyRef:
-  #       name: KEY_NAME
-  #       key: SECRET_KEY
-prometheusRule:
+metrics:
+  # -- Enable and configure a Prometheus serviceMonitor for the chart under this key.
+  # @default -- See values.yaml
   enabled: false
-  # rules:
-  # - alert: HighRequestLatency
-  #   expr: job:request_latency_seconds:mean5m{job="myjob"} > 0.5
-  #   for: 10m
-  #   labels:
-  #     severity: page
-  #   annotations:
-  #     summary: High request latency
 
-revisionHistoryLimit: 3
-minReadySeconds: 30
-terminationGracePeriodSeconds: 60
-livenessProbe: {}
-readinessProbe: {}
-startupProbe: {}
+  serviceMonitors: {}
+    # - serviceName: "example1"
+    #   labels: {}
+    #   scrapeInterval: "15s"
+    #   scrapeTimeout: "10s"
+    #   metricsPortName: "metrics"
+    #   metricsPath: "/metrics"
+    #   metricsScheme: "http"
+
+  # -- Enable and configure Prometheus Rules for the chart under this key.
+  # @default -- See values.yaml
+  prometheusRule:
+    enabled: false
+    labels: {}
+
+    # -- Configure additional alerting rules for the chart under this key
+    alerting:
+      rules: []
+        # - alert: HighRequestLatency
+        #   expr: job:request_latency_seconds:mean5m{job="myjob"} > 0.5
+        #   for: 10m
+        #   labels:
+        #     severity: page
+        #   annotations:
+        #     summary: High request latency
+
+    # -- Configure additional recording rules for the chart under this key
+    recording:
+      rules: []
+        # - record: instance_id:node_cpu:count
+        #   expr: count(node_cpu_seconds_total{mode="idle"}) without (cpu,mode)

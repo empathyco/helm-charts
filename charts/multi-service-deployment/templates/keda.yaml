@@ -17,17 +17,17 @@ spec:
   cooldownPeriod: {{ .Values.keda.cooldownPeriod }}
   minReplicaCount: {{ .Values.keda.minReplicas }}
   maxReplicaCount: {{ .Values.keda.maxReplicas }}
+  {{- with .Values.keda.triggers }}
   triggers:
-{{- with .Values.keda.triggers }}
-{{ toYaml . | indent 2 }}
-{{- end }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   advanced:
     restoreToOriginalReplicaCount: {{ .Values.keda.restoreToOriginalReplicaCount }}
 {{- if .Values.keda.behavior }}
     horizontalPodAutoscalerConfig:
+      {{- with .Values.keda.behavior }}
       behavior:
-{{ with .Values.keda.behavior -}}
-{{ toYaml . | indent 8 }}
-{{ end }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
 {{- end }}
 {{- end }}
