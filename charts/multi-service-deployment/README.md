@@ -1,6 +1,6 @@
 # multi-service-deployment
 
-![Version: 0.1.7](https://img.shields.io/badge/Version-0.1.7-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.1.1](https://img.shields.io/badge/AppVersion-0.1.1-informational?style=flat-square)
+![Version: 0.2.0](https://img.shields.io/badge/Version-0.2.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.1.1](https://img.shields.io/badge/AppVersion-0.1.1-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -29,13 +29,18 @@ A Helm chart for Kubernetes
 | keda.restoreToOriginalReplicaCount | bool | `false` |  |
 | keda.scaledObject.annotations | object | `{}` |  |
 | keda.triggers | list | `[]` |  |
+| livenessProbe | object | `{}` |  |
+| maxUnavailable | int | `1` |  |
+| minReadySeconds | int | `30` |  |
 | nameOverride | string | `""` |  |
 | nodeSelector | object | `{}` |  |
 | podAnnotations | object | `{}` |  |
 | podLabels | object | `{}` |  |
 | podSecurityContext | object | `{}` |  |
 | prometheusRule.enabled | bool | `false` |  |
+| readinessProbe | object | `{}` |  |
 | replicaCount | int | `1` |  |
+| revisionHistoryLimit | int | `3` |  |
 | securityContext | object | `{}` |  |
 | serviceAccount.annotations | object | `{}` |  |
 | serviceAccount.create | bool | `true` |  |
@@ -54,7 +59,10 @@ A Helm chart for Kubernetes
 | services[1].ports.protocol | string | `"TCP"` |  |
 | services[1].ports.targetPort | int | `9090` |  |
 | services[1].type | string | `"ClusterIP"` |  |
+| startupProbe | object | `{}` |  |
+| terminationGracePeriodSeconds | int | `60` |  |
 | tolerations | list | `[]` |  |
+| topologySpreadConstraints | list | `[]` |  |
 | volumeClaimTemplates.accessModes | string | `"ReadWriteOnce"` |  |
 | volumeClaimTemplates.enabled | bool | `false` |  |
 | volumeClaimTemplates.storage | string | `"10Gi"` |  |
