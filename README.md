@@ -32,6 +32,7 @@ Following the list complete list of supported Helm Charts:
 * cerebro
 * cloud-cost-report
 * deadman-switch
+* devlake
 * elasticsearch-umbrella
 * imagepullsecret-patcher
 * multi-service-deployment
