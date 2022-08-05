@@ -1,6 +1,6 @@
 fullnameOverride: ""
 replicaCount: 1
-
+kind: Deployment
 image:
   repository: test
   pullPolicy: IfNotPresent

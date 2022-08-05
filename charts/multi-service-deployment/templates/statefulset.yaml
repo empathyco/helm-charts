@@ -1,17 +1,18 @@
-{{- if eq .Values.kind  "Deployment"  }}
+{{- if eq .Values.kind "StatefulSet"  }}
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: {{ include "multi-service-deployment.fullname" . }}
   labels:
     {{- include "multi-service-deployment.labels" . | nindent 4 }}
 spec:
+  podManagementPolicy: OrderedReady
   {{- if not .Values.autoscaling.enabled  }}
   {{- if not .Values.keda.enabled }}
   replicas: {{ .Values.replicaCount }}
+  serviceName: {{ include "multi-service-deployment.fullname" . }}
   {{- end }}
   {{- end }}
-  minReadySeconds: {{ .Values.minReadySeconds | default 30 }}
   revisionHistoryLimit: {{ .Values.revisionHistoryLimit | default 3 }}
   selector:
     matchLabels:
@@ -75,4 +76,21 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+  {{- if .Values.volumeClaimTemplates.enabled }}
+  volumeClaimTemplates:
+    - apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        labels:
+          {{- include "multi-service-deployment.labels" . | nindent 10 }}
+        name: {{ include "multi-service-deployment.fullname" . }}
+      spec:
+        accessModes:
+          - {{ .Values.volumeClaimTemplates.accessModes }}
+        resources:
+          requests:
+            storage: {{ .Values.volumeClaimTemplates.storage }}
+        storageClassName: {{ .Values.volumeClaimTemplates.storageClassName }}
+        volumeMode: {{ .Values.volumeClaimTemplates.volumeMode }}
+  {{- end }}
 {{- end }}
