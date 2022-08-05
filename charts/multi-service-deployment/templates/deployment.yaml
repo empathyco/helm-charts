@@ -72,3 +72,20 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+  {{- if .Values.volumeClaimTemplates.enabled }}
+  volumeClaimTemplates:
+    - apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        labels:
+          {{- include "multi-service-deployment.labels" . | nindent 8 }}
+        name: {{ include "multi-service-deployment.fullname" . }}
+      spec:
+        accessModes:
+          - {{ .Values.volumeClaimTemplates.accessModes }}
+        resources:
+          requests:
+            storage: {{ .Values.volumeClaimTemplates.storage }}
+        storageClassName: {{ .Values.volumeClaimTemplates.storageClassName }}
+        volumeMode: {{ .Values.volumeClaimTemplates.volumeMode }}
+  {{- end }}

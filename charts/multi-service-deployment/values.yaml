@@ -157,3 +157,10 @@ terminationGracePeriodSeconds: 60
 livenessProbe: {}
 readinessProbe: {}
 startupProbe: {}
+
+volumeClaimTemplates:
+  enabled: false
+  accessModes: ReadWriteOnce
+  storage: 10Gi
+  storageClassName: gp3
+  volumeMode: Filesystem
