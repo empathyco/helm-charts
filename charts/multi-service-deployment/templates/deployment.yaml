@@ -80,7 +80,7 @@ spec:
       kind: PersistentVolumeClaim
       metadata:
         labels:
-          {{- include "multi-service-deployment.labels" . | nindent 8 }}
+          {{- include "multi-service-deployment.labels" . | nindent 10 }}
         name: {{ include "multi-service-deployment.fullname" . }}
       spec:
         accessModes:
