@@ -157,6 +157,7 @@ terminationGracePeriodSeconds: 60
 livenessProbe: {}
 readinessProbe: {}
 startupProbe: {}
+volumeMounts: {}
 
 volumeClaimTemplates:
   enabled: false
