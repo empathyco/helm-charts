@@ -923,6 +923,16 @@ entries:
   multi-service-deployment:
   - apiVersion: v2
     appVersion: 0.1.1
+    created: "2022-08-05T13:01:07.673906418Z"
+    description: A Helm chart for Kubernetes
+    digest: b3c3a0ae93e20da46f2ab5fd7c9997090152269aa334c95b4581569d9d37c5e9
+    name: multi-service-deployment
+    type: application
+    urls:
+    - https://github.com/empathyco/helm-charts/releases/download/multi-service-deployment-0.2.2/multi-service-deployment-0.2.2.tgz
+    version: 0.2.2
+  - apiVersion: v2
+    appVersion: 0.1.1
     created: "2022-08-05T12:38:46.587577022Z"
     description: A Helm chart for Kubernetes
     digest: 15805eac8373c6001909a079ac0b3ba1ebd979d8c1a380ea92b9dfff64beb3ab
@@ -1042,4 +1052,4 @@ entries:
     urls:
     - https://github.com/empathyco/helm-charts/releases/download/yace-exporter-0.1.0/yace-exporter-0.1.0.tgz
     version: 0.1.0
-generated: "2022-08-05T12:38:46.587817623Z"
+generated: "2022-08-05T13:01:07.674101721Z"
