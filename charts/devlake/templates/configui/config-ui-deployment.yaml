@@ -35,7 +35,7 @@ spec:
           imagePullPolicy: {{ .Values.configui.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: 80
+              containerPort: {{ default "4000" .Values.configui.containerPortOverride }}
               protocol: TCP
           livenessProbe:
           {{- if .Values.configui.envFromSecret }}
@@ -43,7 +43,7 @@ spec:
               command:
                 - "sh"
                 - "-c"
-                - "curl -s -u ${ADMIN_USER}:${ADMIN_PASS} http://localhost:80"
+                - "curl -s -u ${ADMIN_USER}:${ADMIN_PASS} http://localhost:{{ default "4000" .Values.configui.containerPortOverride }}"
           {{- else}}
             httpGet:
               path: /
@@ -55,7 +55,7 @@ spec:
               command:
                 - "sh"
                 - "-c"
-                - "curl -s -u ${ADMIN_USER}:${ADMIN_PASS} http://localhost:80"
+                - "curl -s -u ${ADMIN_USER}:${ADMIN_PASS} http://localhost:{{ default "4000" .Values.configui.containerPortOverride }}"
           {{- else}}
             httpGet:
               path: /
