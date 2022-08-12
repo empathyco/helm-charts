@@ -311,6 +311,21 @@ entries:
   devlake:
   - apiVersion: v2
     appVersion: 0.10.0
+    created: "2022-08-12T07:43:36.295976234Z"
+    dependencies:
+    - condition: mysql.enabled
+      name: mysql
+      repository: https://charts.bitnami.com/bitnami
+      version: 9.1.1
+    description: Helm chart for DevLake
+    digest: af768151684ebf1b3a4215a6c5a0887c967ef9b3f838886161ab65e130a7e29c
+    name: devlake
+    type: application
+    urls:
+    - https://github.com/empathyco/helm-charts/releases/download/devlake-1.0.4/devlake-1.0.4.tgz
+    version: 1.0.4
+  - apiVersion: v2
+    appVersion: 0.10.0
     created: "2022-06-08T13:57:05.838539099Z"
     dependencies:
     - condition: mysql.enabled
@@ -1052,4 +1067,4 @@ entries:
     urls:
     - https://github.com/empathyco/helm-charts/releases/download/yace-exporter-0.1.0/yace-exporter-0.1.0.tgz
     version: 0.1.0
-generated: "2022-08-05T13:01:07.674101721Z"
+generated: "2022-08-12T07:43:36.296447139Z"
