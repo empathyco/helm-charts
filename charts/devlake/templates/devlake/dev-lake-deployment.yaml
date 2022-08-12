@@ -61,7 +61,7 @@ spec:
           imagePullPolicy: {{ .Values.devlake.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: 8080
+              containerPort: {{ default 8080 .Values.devlake.containerPortOverride }}
               protocol: TCP
           volumeMounts:
           - name: shared
