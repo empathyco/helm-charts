@@ -2,7 +2,7 @@ fullnameOverride: ""
 replicaCount: 1
 
 image:
-  repository: test
+  repository: ""
   pullPolicy: IfNotPresent
   tag: ""
 
