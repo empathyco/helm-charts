@@ -60,10 +60,3 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
-
-{{/*
-Create secret for docker registry
-*/}}
-{{- define "imagePullSecret" }}
-{{- printf "{\"auths\": {\"%s\": {\"auth\": \"%s\"}}}" .Values.conf.imageCredentials.registry (printf "%s:%s" .Values.conf.imageCredentials.username .Values.conf.imageCredentials.password | b64enc) | b64enc }}
-{{- end }}

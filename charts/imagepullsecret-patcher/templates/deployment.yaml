@@ -48,7 +48,7 @@ spec:
               value: "{{- join "," .Values.conf.excluded_namespaces }}"
             {{- end }}
             - name: CONFIG_SECRETNAME
-              value: "{{ include "imagepullsecret-patcher.fullname" . }}"
+              value: "{{ .Values.conf.secretName }}"
             - name: CONFIG_DOCKERCONFIGJSONPATH
               value: "/app/secrets/.dockerconfigjson"
             - name: CONFIG_LOOP_DURATION
@@ -71,7 +71,7 @@ spec:
       volumes:
         - name: src-dockerconfigjson
           secret: 
-            secretName: {{ include "imagepullsecret-patcher.fullname" . }}
+            secretName: {{ .Values.conf.secretName }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

@@ -21,16 +21,9 @@ conf:
   # -- comma-separated namespaces excluded from processing
   excluded_namespaces: []
   # -- duration string which defines how often namespaces are checked, see https://golang.org/pkg/time/#ParseDuration for more examples
-  interval: '10'
-
-  imageCredentials:
-    # -- registry to login
-    registry: docker.io
-    # -- registry username 
-    username: empathyco
-    # -- registry password
-    password: supersecret
-
+  interval: "10"
+  # -- Docker credentials secret < .dockerconfigjson = {"auths": {"docker.io": {"auth": "username:password" | b64enc }}} | b64enc >
+  secretName: ""
 
 imagePullSecrets: []
 nameOverride: ""
@@ -46,17 +39,18 @@ serviceAccount:
 
 podAnnotations: {}
 
-podSecurityContext: {}
+podSecurityContext:
+  {}
   # fsGroup: 2000
 
-securityContext: {}
+securityContext:
+  {}
   # capabilities:
   #   drop:
   #   - ALL
   # readOnlyRootFilesystem: true
   # runAsNonRoot: true
   # runAsUser: 1000
-
 
 nodeSelector: {}
 
