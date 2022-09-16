@@ -2,9 +2,9 @@ fullnameOverride: ""
 replicaCount: 1
 
 image:
-  repository: test
+  repository: hello-world
+  tag: latest
   pullPolicy: IfNotPresent
-  tag: ""
 
 imagePullSecrets: []
 nameOverride: ""
