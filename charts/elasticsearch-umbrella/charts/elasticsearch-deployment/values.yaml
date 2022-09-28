@@ -122,8 +122,6 @@ resources:
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
   limits:
-    # -- CPU limits for the Deployment
-    cpu: 1000m
     # -- Memory limits for the Deployment
     memory: 3Gi
   requests:
