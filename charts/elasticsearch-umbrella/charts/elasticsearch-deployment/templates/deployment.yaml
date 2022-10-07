@@ -190,6 +190,9 @@ spec:
       {{- end }}
       affinity:
       {{- end }}
+      {{- if .Values.affinityOverride }}
+        {{- toYaml .Values.affinityOverride | nindent 8 }}
+      {{- else }}
       {{- if eq .Values.antiAffinity "hard" }}
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -198,7 +201,7 @@ spec:
               - key: "app.kubernetes.io/name"
                 operator: In
                 values:
-                - {{ include "statefulset.fullname" . }}
+                - {{ include "deployment.fullname" . }}
             topologyKey: {{ .Values.antiAffinityTopologyKey }}
       {{- else if eq .Values.antiAffinity "soft" }}
         podAntiAffinity:
@@ -211,7 +214,8 @@ spec:
                 - key: "app.kubernetes.io/name"
                   operator: In
                   values:
-                  - {{ include "statefulset.fullname" . }}
+                  - {{ include "deployment.fullname" . }}
+      {{- end }}
       {{- end }}
       {{- with .Values.nodeAffinity }}
         nodeAffinity:
