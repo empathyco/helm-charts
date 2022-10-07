@@ -190,6 +190,9 @@ spec:
       {{- end }}
       affinity:
       {{- end }}
+      {{- if .Values.affinityOverride }}
+        {{- toYaml .Values.affinityOverride | nindent 8 }}
+      {{- else }}
       {{- if eq .Values.antiAffinity "hard" }}
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -212,6 +215,7 @@ spec:
                   operator: In
                   values:
                   - {{ include "deployment.fullname" . }}
+      {{- end }}
       {{- end }}
       {{- with .Values.nodeAffinity }}
         nodeAffinity:
