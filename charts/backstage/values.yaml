@@ -1,0 +1,283 @@
+## Backstage
+## Repository: https://github.com/empathyco/platform-backstage
+
+# -- Enable the local database (only for testing purposes)
+postgres-test:
+  enabled: false
+
+
+## -- Set up of the local database for test purposes
+global:
+  postgresql:
+    postgresqlUsername: 
+    postgresqlPassword: 
+
+
+## -- Configuration of the lighthouse plugin resources
+
+lighthouse:
+  image: #spotify/lighthouse-audit-service:latest
+  name: #lighthouse
+  imagePullPolicy: #Always
+  ports:
+    - containerPort: #7777
+      protocol: #TCP
+      name: #lighthouse
+
+  ## -- Lighthouse service configuration
+
+  service:
+    name: #lighthouse
+    port: #7777
+    type: #ClusterIP
+
+  ## -- Lighthouse ingress configuration
+
+  ingress:
+    enabled: #true
+    className: #"internal"
+    annotations:
+      nginx.ingress.kubernetes.io/force-ssl-redirect: #"true"
+    hosts:
+      - host: 
+        paths:
+          - backend:
+              serviceName: #lighthouse
+            path: #/
+            pathType: #Prefix
+
+image:
+  # -- URL of the container image to be pulled from
+  repository: backstage
+  # -- Policy to pull the container image from the container registry.
+  pullPolicy: IfNotPresent
+  # -- Overrides the image tag whose default is the chart appVersion.
+  #tag: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations:
+    {}
+    # eks.amazonaws.com/role-arn: arn:aws:iam::927637044349:role/backstage_role
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ''
+
+## -- Backstage service configuration
+
+service:
+  type: ClusterIP
+  port: 7007
+
+## -- Backstage ingress configuration
+
+ingress:
+  enabled: true
+  className: 'internal'
+  annotations:
+    nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: 
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources:
+  {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 1
+  #   memory: 2Gi
+  # requests:
+  #   cpu: 1
+  #   memory: 2Gi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+## -- Reference to the secretes that store the sensitive values
+
+secretRef:
+  # database secret contains the following entries: user (name of the user in the database)
+  # , database (name of the database), password (password of the database), url (url of the database).
+  database:
+  # auth secret must contains the following entries: github-clientId, github-clientSecret for GitHub auth
+  # and if you prefer to use Google auth google-clientId and google-clientSecret.
+  auth: 
+  # tools secret must contains the entries for the different plugins. Supported plugins: argocd, jira, jenkins,
+  # kubernetes
+  # pagerduty-token, sonarqube-token, 
+  tools: 
+  # gihub secret must contain the entries to set up the integration with GitHub Plugins: clientSecret, privateKey
+  # webhookSecret, webhookUrl, appId, clientId. 
+  github: 
+
+## -- Environment variables loaded into the Backstagage container to reference them in the config section
+## for the plugins which need tokens or api-keys. 
+
+extraArgs:
+- name: 
+  valueFrom: 
+    secretKeyRef: 
+      name: 
+      key: 
+
+
+## config section sets up the configuration of the plugins.
+
+config:
+  app:
+    title: Backstage
+    baseUrl: http://localhost:3000
+
+  organization:
+    name:
+
+  ## Kubernetes plugin. Oficial documentation: https://backstage.io/docs/features/kubernetes/configuration
+
+  kubernetes:
+    serviceLocatorMethod: 
+    clusterLocatorMethods:
+      ## ## -- Config for config cluster locator method
+      - type: 'config'
+        clusters:
+          - name: 
+            url: 
+            serviceAccountToken: 
+            authProvider: 
+            skipTLSVerify: 
+      
+      ## -- Config for other valid cluster locator methods: catalog, localKubectlProxy, gke, custom KubernetesClustersSupplier
+
+      # - type: 
+      #  projectId: 
+      #  region: 
+      #  skipTLSVerify: 
+      #  skipMetricsLookup: 
+      #  exposeDashboard: 
+          
+
+  backend:
+    baseUrl: http://backstage.localhost
+    listen:
+      port: 7007
+    csp:
+      connectsrc: ["'self'", "'http:'", "'https:'"]
+      imgsrc:
+        # "'self'" and 'data' are from the backstage default but must be set since img-src is overriden
+        - "'self'"
+        - "'data:'"
+        - "'http:'"
+        - "'https:'"
+        # Allow your Jira instance for @roadiehq/backstage-plugin-jira
+        - "'https://searchbroker.atlassian.net/'"
+      framesrc:
+        - "'self'"
+        - "'https://docs.google.com'"
+    cors:
+      origin: http://localhost:3000
+      methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
+      credentials: true
+    database:
+      # config  options: https://node-postgres.com/api/client
+      client: 
+      connection:
+        port: 
+    cache:
+      store: #memory
+    # workingDirectory: /tmp # Use this to configure a working directory for the scaffolder, defaults to the OS temp-dir
+
+  integrations:
+    github:
+      - host: #github.com
+        apps:
+          - appId: #${GITHUB_APPID}
+            webhookUrl: #${GITHUB_WEBHOOKURL}
+            clientId: #${GITHUB_CLIENTID}
+            clientSecret: #${GITHUB_CLIENTSECRET}
+            webhookSecret: #${GITHUB_WEBHOOKSECRET}
+            privateKey: #${GITHUB_PRIVATEKEY}
+
+  lighthouse:
+    baseUrl: 
+
+  # Reference documentation https://backstage.io/docs/plugins/proxying
+  proxy:
+    - endpoint: 
+      config:
+        target: 
+        changeOrigin: true
+        secure: false
+        headers:
+          Cookie:
+
+  # Redirect URLs for those plugins which need it. 
+  redirectUrls:
+    argocd:
+      baseUrl: 
+
+  techdocs:
+    builder: # Options: 'local' - 'external'
+    generator:
+      runIn: #'local'
+    publisher:
+      type: #'awsS3'
+      awsS3:
+        bucketName: #'shared-services-shared-services-backstage'
+
+  auth:
+    # see https://backstage.io/docs/auth/ to learn about auth providers
+    providers:
+      github:
+        development: {}
+
+  scaffolder:
+    defaultAuthor:
+      name: 
+      email: 
+
+  catalog:
+    rules:
+      allow:
+        [
+          Component,
+          API,
+          Resource,
+          Group,
+          User,
+          Template,
+          System,
+          Domain,
+          Location,
+        ]
+    locations:
+      # Users and teams from GitHub Org
+      - type: github-org
+        target: https://github.com/empathyco
+      # All empathyco repos (components)
+      - type: github-discovery
+        target: #https://github.com/<your_org>/*/blob/main/catalog-info.yaml
+      - type: github-discovery
+        target: #https://github.com/<your_org>/*/blob/master/catalog-info.yaml
+        # All empathyco repos (APIs)
+      - type: github-discovery
+        target: #https://github.com/<your_org>/*/blob/main/api-info.yaml
+      - type: github-discovery
+        target: #https://github.com/<your_org>/*/blob/master/api-info.yaml
+      # Backstage example templates
+      - type: file
+        target: #https://github.com/backstage/backstage/blob/master/plugins/scaffolder-backend/sample-templates/all-templates.yaml

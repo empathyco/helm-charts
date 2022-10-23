@@ -1,0 +1,152 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "helm.fullname" . }}
+  labels:
+    {{- include "helm.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "helm.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:     
+      annotations:
+        checksum/cm-content: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "helm.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "helm.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+      - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        name: {{ .Chart.Name }}
+        securityContext:
+          {{- toYaml .Values.securityContext | nindent 12 }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+          - name: backstage
+            containerPort: 7007
+            protocol: TCP
+        livenessProbe:
+          failureThreshold: 3
+          initialDelaySeconds: 60
+          periodSeconds: 30
+          timeoutSeconds: 10
+          httpGet:
+            path: /healthcheck
+            port: backstage
+        readinessProbe:
+          failureThreshold: 3
+          initialDelaySeconds: 60
+          periodSeconds: 30
+          timeoutSeconds: 10
+          httpGet:
+            path: /healthcheck
+            port: backstage
+        envFrom:
+          - secretRef:
+              name: {{ .Values.secretRef.database }}
+        volumeMounts:
+          - name: backstage-config
+            mountPath: /app/app-config.yaml
+            subPath: app-config.yaml
+        resources:
+          {{- toYaml .Values.resources | nindent 12 }}
+        env:
+          - name: APP_CONFIG_backend_database_connection_user
+            valueFrom: 
+              secretKeyRef: 
+                name: {{ .Values.secretRef.database }}
+                key: user
+
+          - name: APP_CONFIG_backend_database_connection_password
+            valueFrom: 
+              secretKeyRef:
+                name: {{ .Values.secretRef.database }}
+                key: password
+          
+          - name: APP_CONFIG_backend_database_connection_host
+            valueFrom: 
+              secretKeyRef:
+                name: {{ .Values.secretRef.database }}
+                key: url
+
+          - name: APP_CONFIG_auth_providers_github_development_clientId
+            valueFrom: 
+              secretKeyRef: 
+                name: {{ .Values.secretRef.auth }} 
+                key: github-clientId
+
+          - name: APP_CONFIG_auth_providers_github_development_clientSecret
+            valueFrom: 
+              secretKeyRef: 
+                name: {{ .Values.secretRef.auth }}
+                key: github-clientSecret
+
+          {{- toYaml .Values.extraArgs | nindent 10 -}}
+
+      {{- if .Values.lighthouse }}
+      - image: {{ .Values.lighthouse.image }}
+        name: {{ .Values.lighthouse.name }}
+        imagePullPolicy: {{ .Values.lighthouse.imagePullPolicy }}
+        ports: {{ toYaml .Values.lighthouse.ports | nindent 10 }}  
+        resources: {}
+        env:
+          - name: LAS_CORS
+            value: "true"
+
+          - name: LAS_PORT
+            value: {{ .Values.lighthouse.service.port | quote }}
+
+          - name: PGHOST
+            valueFrom: 
+              secretKeyRef:
+                name: {{ .Values.secretRef.database }}
+                key: url
+
+          - name: PGDATABASE
+            valueFrom: 
+              secretKeyRef:
+                name: {{ .Values.secretRef.database }}
+                key: database  
+
+          - name: PGPORT
+            value: {{ .Values.config.backend.database.connection.port | quote }}   
+
+          - name: PGUSER
+            valueFrom: 
+              secretKeyRef: 
+                name: {{ .Values.secretRef.database }}
+                key: user
+
+          - name: PGPASSWORD
+            valueFrom: 
+              secretKeyRef:
+                name: {{ .Values.secretRef.database }}
+                key: password
+      {{- end }}
+      volumes:
+        - name: backstage-config
+          configMap:
+            name: {{ include "helm.name" . }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
