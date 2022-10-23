@@ -958,6 +958,27 @@ entries:
     urls:
     - https://github.com/empathyco/helm-charts/releases/download/elasticsearch-umbrella-0.1.0/elasticsearch-umbrella-0.1.0.tgz
     version: 0.1.0
+  empathyco-backstage:
+  - apiVersion: v2
+    created: "2022-10-23T15:02:51.87582814Z"
+    dependencies:
+    - condition: postgres-test.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.9.6
+    description: Custom helm for Backstage
+    digest: f141a8ba7e3d036f3cd2706d3e1d70b5ae0464b1a25367fe769a2f2ad5efd802
+    icon: https://avatars.githubusercontent.com/u/72526453?s=200&v=4
+    keywords:
+    - Backstage
+    maintainers:
+    - email: platform@empathy.co
+      name: Empathy Platform Engineering Team
+    name: empathyco-backstage
+    type: application
+    urls:
+    - https://github.com/empathyco/helm-charts/releases/download/empathyco-backstage-1.0.0/empathyco-backstage-1.0.0.tgz
+    version: 1.0.0
   imagepullsecret-patcher:
   - apiVersion: v2
     appVersion: "0.14"
@@ -1018,4 +1039,4 @@ entries:
     urls:
     - https://github.com/empathyco/helm-charts/releases/download/yace-exporter-0.1.0/yace-exporter-0.1.0.tgz
     version: 0.1.0
-generated: "2022-10-07T10:24:26.181073296Z"
+generated: "2022-10-23T15:02:51.875975248Z"
