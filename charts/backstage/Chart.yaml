@@ -1,5 +1,5 @@
 apiVersion: v2
-name: backstage
+name: empathyco-backstage
 description: Custom helm for Backstage
 
 # A chart can be either an 'application' or a 'library' chart.
