@@ -57,7 +57,7 @@ master:
     # -- Elasticsearch ml node role
     node.ml: "false"
     # -- Elasticsearch JVM options
-    ES_JAVA_OPTS: "-Xms2048m -Xmx2048m"
+    #ES_JAVA_OPTS: "-Xms2048m -Xmx2048m"
     # -- Elasticsearch enable compression between nodes
     transport.tcp.compress: "true"
     # -- Elasticsearch enable memory lock to avoid swapping
@@ -243,7 +243,7 @@ data:
     # -- Elasticsearch ml node role
     node.ml: "false"
     # -- Elasticsearch JVM options
-    ES_JAVA_OPTS: "-Xms2048m -Xmx2048m"
+    #ES_JAVA_OPTS: "-Xms2048m -Xmx2048m"
     # -- Elasticsearch enable compression between nodes
     transport.tcp.compress: "true"
     # -- Elasticsearch enable memory lock to avoid swapping
@@ -425,7 +425,7 @@ index:
     # -- Elasticsearch ml node role
     node.ml: "false"
     # -- Elasticsearch JVM options
-    ES_JAVA_OPTS: "-Xms2048m -Xmx2048m"
+    #ES_JAVA_OPTS: "-Xms2048m -Xmx2048m"
     # -- Elasticsearch enable compression between nodes
     transport.tcp.compress: "true"
     # -- Elasticsearch enable memory lock to avoid swapping
@@ -593,7 +593,7 @@ client:
     # -- Elasticsearch ml node role
     node.ml: "false"
     # -- Elasticsearch JVM options
-    ES_JAVA_OPTS: "-Xms2048m -Xmx2048m"
+    #ES_JAVA_OPTS: "-Xms2048m -Xmx2048m"
     # -- Elasticsearch enable compression between nodes
     transport.tcp.compress: "true"
     # -- Elasticsearch enable memory lock to avoid swapping
