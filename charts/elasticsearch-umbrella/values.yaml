@@ -57,7 +57,7 @@ master:
     # -- Elasticsearch ml node role
     node.ml: "false"
     # -- Elasticsearch JVM options
-    ES_JAVA_OPTS: "-Xms2048m -Xmx2048m"
+    #ES_JAVA_OPTS: "-Xms2048m -Xmx2048m"
     # -- Elasticsearch enable compression between nodes
     transport.tcp.compress: "true"
     # -- Elasticsearch enable memory lock to avoid swapping
@@ -77,9 +77,6 @@ master:
     enabled: false
     # -- Deploy a Grafana Dashboard
     resources:
-      limits:
-        cpu: 100m
-        memory: 128Mi
       requests:
         cpu: 100m
         memory: 128Mi
@@ -146,9 +143,6 @@ master:
     # choice for the user. This also increases chances charts run on environments with little
     # resources, such as Minikube. If you do want to specify resources, uncomment the following
     # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-    limits:
-      # -- Memory limits for the Deployment
-      memory: 3Gi
     requests:
       # -- CPU requests for the Deployment
       cpu: 1000m
@@ -249,7 +243,7 @@ data:
     # -- Elasticsearch ml node role
     node.ml: "false"
     # -- Elasticsearch JVM options
-    ES_JAVA_OPTS: "-Xms2048m -Xmx2048m"
+    #ES_JAVA_OPTS: "-Xms2048m -Xmx2048m"
     # -- Elasticsearch enable compression between nodes
     transport.tcp.compress: "true"
     # -- Elasticsearch enable memory lock to avoid swapping
@@ -272,9 +266,6 @@ data:
     # -- Deploy a ServiceMonitor for Prometheus scrapping
     enabled: false
     resources:
-      limits:
-        cpu: 100m
-        memory: 128Mi
       requests:
         cpu: 100m
         memory: 128Mi
@@ -334,9 +325,6 @@ data:
     # choice for the user. This also increases chances charts run on environments with little
     # resources, such as Minikube. If you do want to specify resources, uncomment the following
     # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-    limits:
-      # -- Memory limits for the StatefulSet
-      memory: 3Gi
     requests:
       # -- CPU requests for the StatefulSet
       cpu: 1000m
@@ -437,7 +425,7 @@ index:
     # -- Elasticsearch ml node role
     node.ml: "false"
     # -- Elasticsearch JVM options
-    ES_JAVA_OPTS: "-Xms2048m -Xmx2048m"
+    #ES_JAVA_OPTS: "-Xms2048m -Xmx2048m"
     # -- Elasticsearch enable compression between nodes
     transport.tcp.compress: "true"
     # -- Elasticsearch enable memory lock to avoid swapping
@@ -460,9 +448,6 @@ index:
     # -- Deploy a ServiceMonitor for Prometheus scrapping
     enabled: false
     resources:
-      limits:
-        cpu: 100m
-        memory: 128Mi
       requests:
         cpu: 100m
         memory: 128Mi
@@ -522,9 +507,6 @@ index:
     # choice for the user. This also increases chances charts run on environments with little
     # resources, such as Minikube. If you do want to specify resources, uncomment the following
     # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-    limits:
-      # -- Memory limits for the StatefulSet
-      memory: 3Gi
     requests:
       # -- CPU requests for the StatefulSet
       cpu: 1000m
@@ -611,7 +593,7 @@ client:
     # -- Elasticsearch ml node role
     node.ml: "false"
     # -- Elasticsearch JVM options
-    ES_JAVA_OPTS: "-Xms2048m -Xmx2048m"
+    #ES_JAVA_OPTS: "-Xms2048m -Xmx2048m"
     # -- Elasticsearch enable compression between nodes
     transport.tcp.compress: "true"
     # -- Elasticsearch enable memory lock to avoid swapping
@@ -632,9 +614,6 @@ client:
     # -- Deploy a ServiceMonitor for Prometheus scrapping
     enabled: false
     resources:
-      limits:
-        cpu: 100m
-        memory: 128Mi
       requests:
         cpu: 100m
         memory: 128Mi
@@ -694,9 +673,6 @@ client:
     # choice for the user. This also increases chances charts run on environments with little
     # resources, such as Minikube. If you do want to specify resources, uncomment the following
     # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-    limits:
-      # -- Memory limits for the StatefulSet
-      memory: 3Gi
     requests:
       # -- CPU requests for the StatefulSet
       cpu: 1000m
