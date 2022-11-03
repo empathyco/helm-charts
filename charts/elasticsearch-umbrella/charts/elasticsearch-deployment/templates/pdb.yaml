@@ -13,5 +13,5 @@ spec:
   maxUnavailable: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ include "deployment.name" . }}
+      {{- include "statefulset.selectorLabels" . | nindent 6 }}
 {{- end -}}
