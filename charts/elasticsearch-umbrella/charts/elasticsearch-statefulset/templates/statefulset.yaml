@@ -285,8 +285,6 @@ spec:
         annotations:
           {{- toYaml . | nindent 10 }}
         {{- end }}
-        labels:
-        {{- include "statefulset.labels" . | nindent 10 }}
         name: data
       spec:
         accessModes:
