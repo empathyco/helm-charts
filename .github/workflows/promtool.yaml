@@ -14,4 +14,4 @@ jobs:
       path: templates/prometheusrule.yaml
       working-directory: charts/yace-exporter
     secrets:
-      GITHUB_TOKEN: ${{ secrets.SUPPORT_TOKEN }}
+      GH_TOKEN: ${{ secrets.SUPPORT_TOKEN }}
