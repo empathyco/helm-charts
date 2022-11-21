@@ -13,5 +13,6 @@ jobs:
     with:
       path: templates/prometheusrule.yaml
       working-directory: charts/yace-exporter
+      publicRepo: true
     secrets:
       GH_TOKEN: ${{ secrets.SUPPORT_TOKEN }}
