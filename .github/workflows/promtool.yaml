@@ -11,7 +11,7 @@ jobs:
     if: "! github.event.pull_request.head.repo.fork"
     uses: empathyco/platform-reusable-github-actions/.github/workflows/promtool.yml@main
     with:
-      rules-generator: templates/prometheusrule.yaml
+      path: templates/prometheusrule.yaml
       working-directory: charts/yace-exporter
     secrets:
       GH_TOKEN: ${{ secrets.SUPPORT_TOKEN }}
