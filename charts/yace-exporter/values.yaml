@@ -12,7 +12,7 @@ image:
   pullPolicy: IfNotPresent
   # -- Image tag
   tag: "v0.32.0-alpha"
-   
+    
 # -- Image pull secrets
 imagePullSecrets: []
 # -- Chart name override
