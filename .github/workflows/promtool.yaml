@@ -1,0 +1,18 @@
+name: Promtool
+on:
+  pull_request:
+    paths:
+    - 'charts/**'
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref_name }}
+  cancel-in-progress: true
+jobs:
+  promtool:
+    if: "! github.event.pull_request.head.repo.fork"
+    uses: empathyco/platform-reusable-github-actions/.github/workflows/promtool.yml@main
+    with:
+      rules-generator: templates/prometheusrule.yaml
+      working-directory: charts/yace-exporter
+    secrets:
+      GH_TOKEN: ${{ secrets.SUPPORT_TOKEN }}
+      JIRA_TOKEN: '${{ secrets.JIRA_USER_EMAIL }}:${{ secrets.JIRA_API_TOKEN }}'
