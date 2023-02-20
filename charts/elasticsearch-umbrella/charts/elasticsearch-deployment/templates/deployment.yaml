@@ -90,6 +90,10 @@ spec:
           volumeMounts:
             - mountPath: /data
               name: storage
+            {{- with .Values.extraVolumeMounts }}
+              {{- toYaml . | nindent 12 }}
+            {{- end }}
+
 
         {{ if .Values.prometheus.enabled }}
         
@@ -176,10 +180,18 @@ spec:
           name: increase-fd-unlimited
           securityContext:
             privileged: true
+        {{- with .Values.extraInitContainers }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
+
       volumes:
       - emptyDir:
           medium: ""
         name: storage
+      {{- with .Values.extraVolumes }}
+        {{- toYaml . | nindent 6 }}
+      {{- end }}
+
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
