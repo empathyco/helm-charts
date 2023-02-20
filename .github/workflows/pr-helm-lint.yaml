@@ -18,16 +18,16 @@ jobs:
     runs-on: 'ubuntu-latest'
     steps:
       - name: "Checkout current PR"
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: "Checkout main branch"
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           ref: main
           path: main
 
       - name: "Install Helm"
-        uses: azure/setup-helm@v1
+        uses: azure/setup-helm@v3.5
         with:
           version: "${{ env.HELM_VERSION }}"
 
@@ -37,7 +37,7 @@ jobs:
           chmod u+x gomplate
 
       - name: "Get Helm Charts changed"
-        uses: jitterbit/get-changed-files@v1
+        uses: masesgroup/retrieve-changed-files@v2
         id: updated_files
         with:
           format: csv
