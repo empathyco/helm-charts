@@ -193,6 +193,29 @@ master:
 
   affinityOverride: {}
 
+  # -- Extra initContainers to be run after the ones needed by Elasticsearch
+  extraInitContainers: []
+    #- command:
+    #  - sh
+    #  - -c
+    #  - |
+    #    echo "Hello World"
+    #  image: busybox:1.31
+    #  imagePullPolicy: IfNotPresent
+    #  name: my-init-container
+
+  # -- Extra volumes, these can be later mounted on the extraInitContainers or to the Elasticsearch container.
+  extraVolumes: []
+    #- name: foo
+    #  configMap:
+    #    name: myconfigmap
+
+  # -- Extra volume to mount to the Elasticsearch container. Those must be first specified in the extraVolumes field.
+  extraVolumeMounts: []
+    #- name: foo
+    #  mountPath: "/etc/foo"
+    #  readOnly: true
+
 data:
   # -- Enabling or disabling data nodes
   enabled: true
@@ -374,6 +397,29 @@ data:
       #  - emptyDir
 
   affinityOverride: {}
+
+  # -- Extra initContainers to be run after the ones needed by Elasticsearch
+  extraInitContainers: []
+    #- command:
+    #  - sh
+    #  - -c
+    #  - |
+    #    echo "Hello World"
+    #  image: busybox:1.31
+    #  imagePullPolicy: IfNotPresent
+    #  name: my-init-container
+
+  # -- Extra volumes, these can be later mounted on the extraInitContainers or to the Elasticsearch container.
+  extraVolumes: []
+    #- name: foo
+    #  configMap:
+    #    name: myconfigmap
+
+  # -- Extra volume to mount to the Elasticsearch container. Those must be first specified in the extraVolumes field.
+  extraVolumeMounts: []
+    #- name: foo
+    #  mountPath: "/etc/foo"
+    #  readOnly: true
 
 index:
   # -- Enabling or disabling index nodes
@@ -557,6 +603,29 @@ index:
 
   affinityOverride: {}
 
+  # -- Extra initContainers to be run after the ones needed by Elasticsearch
+  extraInitContainers: []
+    #- command:
+    #  - sh
+    #  - -c
+    #  - |
+    #    echo "Hello World"
+    #  image: busybox:1.31
+    #  imagePullPolicy: IfNotPresent
+    #  name: my-init-container
+
+  # -- Extra volumes, these can be later mounted on the extraInitContainers or to the Elasticsearch container.
+  extraVolumes: []
+    #- name: foo
+    #  configMap:
+    #    name: myconfigmap
+
+  # -- Extra volume to mount to the Elasticsearch container. Those must be first specified in the extraVolumes field.
+  extraVolumeMounts: []
+    #- name: foo
+    #  mountPath: "/etc/foo"
+    #  readOnly: true
+
 client:
   # -- Enabling or disabling client nodes
   enabled: true
@@ -722,3 +791,26 @@ client:
       #  - emptyDir
 
   affinityOverride: {}
+
+  # -- Extra initContainers to be run after the ones needed by Elasticsearch
+  extraInitContainers: []
+    #- command:
+    #  - sh
+    #  - -c
+    #  - |
+    #    echo "Hello World"
+    #  image: busybox:1.31
+    #  imagePullPolicy: IfNotPresent
+    #  name: my-init-container
+
+  # -- Extra volumes, these can be later mounted on the extraInitContainers or to the Elasticsearch container.
+  extraVolumes: []
+    #- name: foo
+    #  configMap:
+    #    name: myconfigmap
+
+  # -- Extra volume to mount to the Elasticsearch container. Those must be first specified in the extraVolumes field.
+  extraVolumeMounts: []
+    #- name: foo
+    #  mountPath: "/etc/foo"
+    #  readOnly: true

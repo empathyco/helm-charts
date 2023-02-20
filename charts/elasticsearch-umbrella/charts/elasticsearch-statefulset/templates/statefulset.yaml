@@ -26,6 +26,10 @@ spec:
       labels:
         {{- include "statefulset.selectorLabels" . | nindent 8 }}
     spec:
+      volumes:
+      {{- with .Values.extraVolumes }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -89,6 +93,9 @@ spec:
           volumeMounts:
             - mountPath: /usr/share/elasticsearch/data
               name: data
+          {{- with .Values.extraVolumeMounts }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
         {{ if .Values.isMaster }}      
         - command:
           - sh
@@ -234,6 +241,9 @@ spec:
           name: increase-fd-unlimited
           securityContext:
             privileged: true
+        {{- with .Values.extraInitContainers }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
