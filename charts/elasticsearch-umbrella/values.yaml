@@ -6,7 +6,6 @@ global:
   masterFullname: es-master
 
 master:
-
   # -- Enabling or disabling master nodes
   enabled: true
   # -- This property indicates its the master
