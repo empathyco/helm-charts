@@ -20,7 +20,7 @@ master:
     # -- The Kubernetes imagePullPolicy value
     pullPolicy: IfNotPresent
     # -- Overrides the image tag whose default is the chart appVersion.
-    tag: "7.17.7-memlock-repo-plugins"
+    tag: "7.17.2-memlock"
 
   # -- Configuration for imagePullSecrets so that you can use a private registry for your image
   imagePullSecrets: []
@@ -231,7 +231,7 @@ data:
     # -- The Kubernetes imagePullPolicy value
     pullPolicy: IfNotPresent
     # -- Overrides the image tag whose default is the chart appVersion.
-    tag: "7.17.7-memlock-repo-plugins"
+    tag: "7.17.2-memlock"
     
   # -- Configuration for imagePullSecrets so that you can use a private registry for your image
   imagePullSecrets: []
