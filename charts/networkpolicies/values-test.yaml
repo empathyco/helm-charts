@@ -1,0 +1,63 @@
+# Default values for networkpolicies.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+nameOverride: ""
+fullnameOverride: ""
+podSelector:
+  matchLabels:
+    app.kubernetes.io/name: networkpolicies
+    app.kubernetes.io/instance: networkpolicies
+egressRules: 
+- selectors:
+    - ipBlock:
+        cidr: 0.0.0.0/0
+  ports:
+  # S3 and ingress
+  - port: 443
+    protocol: TCP
+    # Redis
+- selectors:
+  - namespaceSelector: {}
+    podSelector:
+      matchLabels:
+        empathy.co/component: test-service
+  ports:
+  - port: 8080
+    protocol: TCP
+ingressRules:
+- selectors:
+  - namespaceSelector: {}
+    podSelector:
+      matchLabels:
+        empathy.co/np-connect-tagging-service: true
+# Ingress
+  - namespaceSelector: {}
+    podSelector:
+      matchLabels:
+        app.kubernetes.io/name: ingress-nginx
+  ports:
+    - port: 8080
+      protocol: TCP
+- selectors:
+  - namespaceSelector: {}
+    podSelector:
+      matchLabels:
+        release: prometheus
+        app: prometheus-operator
+dns: 
+  namespace: kube-system
+  app: kube-dns
+aws:
+  enabled: false
+  s3: false
+  kinesis: false
+  sqs: false
+  sns: false
+  redis: false
+  redisCIDR: 0.0.0.0/0
+  redisPort: 6379
+mongoAtlas:
+  enabled: false
+  cidr: 0.0.0.0/0
+  port: 27017
+    
