@@ -9,8 +9,8 @@ dns:
   namespace: kube-system
   app: kube-dns
 aws:
-  enabled: true
-  dns: true
+  enabled: false
+  dns: false
   s3: false
   kinesis: false
   sqs: false
@@ -19,7 +19,7 @@ aws:
   redisCIDR: 0.0.0.0/0
   redisPort: 6379
 mongoAtlas:
-  enabled: true
+  enabled: false
   cidr: 0.0.0.0/0
   port: 27017
     
