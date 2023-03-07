@@ -32,12 +32,12 @@ spec:
 {{- end }}
 
 {{- if eq .Values.aws.redis true }}
-		- to:
-			- ipBlock:
-					cidr:
-					- {{ .Values.aws.redisCIDR }}
-			ports:
-			- protocol: TCP
-				port: {{ .Values.aws.redisPort }}
+    - to:
+      - ipBlock:
+          cidr:
+          - {{ .Values.aws.redisCIDR }}
+      ports:
+      - protocol: TCP
+        port: {{ .Values.aws.redisPort }}
 {{- end }}
 {{- end }}
