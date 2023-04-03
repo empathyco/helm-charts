@@ -195,7 +195,10 @@ spec:
           volumeMounts:
           - mountPath: /data
             name: data
-
+          {{- with .Values.initContainersResources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
         - command:
           - sysctl
           - -w
@@ -205,6 +208,10 @@ spec:
           name: increase-vm-max-map
           securityContext:
             privileged: true
+          {{- with .Values.initContainersResources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
         - command:
           - sysctl
           - -w
@@ -214,6 +221,10 @@ spec:
           name: increase-vm-dirty-ratio
           securityContext:
             privileged: true
+          {{- with .Values.initContainersResources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
         - command:
           - sysctl
           - -w
@@ -223,6 +234,10 @@ spec:
           name: increase-vm-dirty-background-ratio
           securityContext:
             privileged: true
+          {{- with .Values.initContainersResources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
         - command:
           - sh
           - -c
@@ -232,6 +247,10 @@ spec:
           name: increase-fd-ulimit
           securityContext:
             privileged: true
+          {{- with .Values.initContainersResources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
         - command:
           - sh
           - -c
@@ -241,6 +260,10 @@ spec:
           name: increase-fd-unlimited
           securityContext:
             privileged: true
+          {{- with .Values.initContainersResources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
         {{- with .Values.extraInitContainers }}
         {{- toYaml . | nindent 8 }}
         {{- end }}

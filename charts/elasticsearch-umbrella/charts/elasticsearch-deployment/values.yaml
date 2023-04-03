@@ -218,3 +218,12 @@ extraVolumeMounts: []
   #- name: foo
   #  mountPath: "/etc/foo"
   #  readOnly: true
+
+# -- Set up resources of default Elasticsearch initContainers (same for all)
+initContainersResources: {}
+  #requests:
+  #  cpu: 100m
+  #  memory: 128Mi
+  #limits:
+  #  cpu: 100m
+  #  memory: 128Mi
