@@ -216,6 +216,15 @@ master:
     #  mountPath: "/etc/foo"
     #  readOnly: true
 
+  # -- Set up resources of default Elasticsearch initContainers (same for all)
+  initContainersResources: {}
+    #requests:
+    #  cpu: 100m
+    #  memory: 128Mi
+    #limits:
+    #  cpu: 100m
+    #  memory: 128Mi
+
 data:
   # -- Enabling or disabling data nodes
   enabled: true
@@ -420,6 +429,15 @@ data:
     #- name: foo
     #  mountPath: "/etc/foo"
     #  readOnly: true
+
+  # -- Set up resources of default Elasticsearch initContainers (same for all)
+  initContainersResources: {}
+    #requests:
+    #  cpu: 100m
+    #  memory: 128Mi
+    #limits:
+    #  cpu: 100m
+    #  memory: 128Mi
 
 index:
   # -- Enabling or disabling index nodes
@@ -626,6 +644,15 @@ index:
     #  mountPath: "/etc/foo"
     #  readOnly: true
 
+  # -- Set up resources of default Elasticsearch initContainers (same for all)
+  initContainersResources: {}
+    #requests:
+    #  cpu: 100m
+    #  memory: 128Mi
+    #limits:
+    #  cpu: 100m
+    #  memory: 128Mi
+
 client:
   # -- Enabling or disabling client nodes
   enabled: true
@@ -814,3 +841,12 @@ client:
     #- name: foo
     #  mountPath: "/etc/foo"
     #  readOnly: true
+
+  # -- Set up resources of default Elasticsearch initContainers (same for all)
+  initContainersResources: {}
+    #requests:
+    #  cpu: 100m
+    #  memory: 128Mi
+    #limits:
+    #  cpu: 100m
+    #  memory: 128Mi
