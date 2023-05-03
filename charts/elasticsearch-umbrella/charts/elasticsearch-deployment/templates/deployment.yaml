@@ -45,7 +45,15 @@ spec:
               fieldRef:
                 fieldPath: metadata.name
           securityContext:
+            {{- if .Values.global.memlock.enabled }}
             {{- toYaml .Values.securityContext | nindent 12 }}
+            {{- else}}
+            capabilities:
+              drop:
+                - ALL
+            runAsNonRoot: true
+            runAsUser: 1000
+            {{- end }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:

@@ -106,7 +106,7 @@ master:
   podSecurityContext: {}
     # fsGroup: 2000
 
-  # -- Allows you to set the securityContext for the container
+  # -- Allows you to set the securityContext for the container. This will be ignored while disabling memlock
   securityContext:
     capabilities:
       add:
