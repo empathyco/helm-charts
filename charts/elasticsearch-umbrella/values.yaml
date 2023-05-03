@@ -5,6 +5,10 @@ global:
   # -- Fullname of the master, necessary to connect
   masterFullname: es-master
 
+  # -- Enable or disable memlock capabilities which are configured by the initContainers.
+  memlock:
+    enabled: true
+
 master:
   # -- Enabling or disabling master nodes
   enabled: true
