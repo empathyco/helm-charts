@@ -77,6 +77,10 @@ serviceAccount:
 prometheus:
   # -- Deploy a ServiceMonitor for Prometheus scrapping
   enabled: true
+  # -- Commands for elastic-exporter 
+  command: 
+  - /bin/elasticsearch_exporter
+  - --es.uri=http://127.0.0.1:9200
   # -- Deploy a Grafana Dashboard
   dashboard:
     enabled: true

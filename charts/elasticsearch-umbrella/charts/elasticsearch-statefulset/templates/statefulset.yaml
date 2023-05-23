@@ -146,9 +146,8 @@ spec:
               memory: 256Mi
         {{- end }}
         {{ if .Values.prometheus.enabled }}      
-        - command:
-          - /bin/elasticsearch_exporter
-          - --es.uri=http://127.0.0.1:9200
+        - command: 
+          {{- toYaml .Values.prometheus.command | nindent 10 }}
           image: {{ .Values.prometheus.exporter.image }}
           imagePullPolicy: IfNotPresent
           name: elastic-exporter
