@@ -75,6 +75,9 @@ master:
   prometheus:
     # -- Deploy a ServiceMonitor for Prometheus scrapping
     enabled: false
+    command:
+    - /bin/elasticsearch_exporter
+    - --es.uri=https://127.0.0.1:9200
     # -- Deploy a Grafana Dashboard
     resources:
       requests:
@@ -297,6 +300,9 @@ data:
   prometheus:
     # -- Deploy a ServiceMonitor for Prometheus scrapping
     enabled: false
+    command:
+    - /bin/elasticsearch_exporter
+    - --es.uri=https://127.0.0.1:9200
     resources:
       requests:
         cpu: 100m
@@ -510,7 +516,10 @@ index:
 
   prometheus:
     # -- Deploy a ServiceMonitor for Prometheus scrapping
-    enabled: false
+    enabled: true
+    command:
+    - /bin/elasticsearch_exporter
+    - --es.uri=https://127.0.0.1:9200
     resources:
       requests:
         cpu: 100m
@@ -709,6 +718,9 @@ client:
   prometheus:
     # -- Deploy a ServiceMonitor for Prometheus scrapping
     enabled: false
+    command:
+    - /bin/elasticsearch_exporter
+    - --es.uri=https://127.0.0.1:9200
     resources:
       requests:
         cpu: 100m
