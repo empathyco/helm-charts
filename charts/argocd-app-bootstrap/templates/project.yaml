@@ -1,0 +1,30 @@
+{{- range $projectName, $projectSettings := .Values.projects }}
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: {{ $projectName }}
+  namespace: {{ default $.Values.global.metadata.namespace .namespace }}
+  labels:
+    {{- toYaml (merge (default (dict) $projectSettings.labels) $.Values.global.metadata.labels) | nindent 4}}
+spec:
+{{ toYaml (default $.Values.global.projectSpec $projectSettings.projectSpec) | indent 2}}
+  roles:
+    - name: projectAdmin
+      description: Admin privileges on the project
+      policies:
+        - p, proj:{{ .name }}:projectAdmin, applications, get, {{ $projectName }}/*, allow
+        - p, proj:{{ .name }}:projectAdmin, applications, create, {{ $projectName }}/*, allow
+        - p, proj:{{ .name }}:projectAdmin, applications, update, {{ $projectName }}/*, allow
+        - p, proj:{{ .name }}:projectAdmin, applications, delete, {{ $projectName }}/*, allow
+        - p, proj:{{ .name }}:projectAdmin, applications, sync, {{ $projectName }}/*, allow
+        - p, proj:{{ .name }}:projectAdmin, applications, override, {{ $projectName }}/*, allow
+        - p, proj:{{ .name }}:projectAdmin, applications, action/*, {{ $projectName }}/*, allow
+      groups:
+        {{- with $projectSettings.adminGroups }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
+{{- with $projectSettings.extraRoles }}
+  {{- toYaml . | nindent 4 }}
+{{- end }}
+---
+{{- end }}
