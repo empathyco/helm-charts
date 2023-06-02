@@ -1,0 +1,32 @@
+global:
+  metadata:
+    labels:
+      app.kubernetes.io/team: not-set
+    namespace: argocd
+  projectSpec:
+    clusterResourceWhitelist: []
+    destinations: []
+    sourceRepos: []
+
+projects:
+  global-project-settings:
+    labels:
+      app.kubernetes.io/team: not-set
+    projectSpec:
+      clusterResourceWhitelist: []
+      destinations: []
+      sourceRepos: []
+    adminGroups: []
+#  my-project:
+#    adminGroups:
+#      - admin@example.com
+#    applications:
+#      - name: app-name
+#        chart: chart-name
+#        extraValuesFiles:
+#          - extra-values-file.yaml
+#        namespace: my-namespace
+#        autoSync:
+#          enabled: true
+#          selfHeal: true
+#          prune: true

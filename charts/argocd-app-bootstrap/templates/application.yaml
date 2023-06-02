@@ -1,0 +1,41 @@
+{{- range $projectName, $projectSettings := .Values.projects }}
+{{- range $projectSettings.applications }}
+{{- $appName := .name -}}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ $appName }}
+  namespace: argocd-changeme
+  labels:
+    {{- toYaml (merge (default (dict) .labels) $.Values.global.metadata.labels) | nindent 4}}
+spec:
+  project: '{{ $projectName }}'
+  syncPolicy:
+    {{- if .autoSync.enabled }}
+    automated:
+      selfHeal: {{ .autoSync.selfHeal }}
+      prune: {{ .autoSync.prune }}
+    {{- end }}
+    managedNamespaceMetadata:
+      labels:
+        project: {{ $projectName }}
+    syncOptions:
+    - CreateNamespace=true
+  sources:
+    - repoURL: 'https://github.com/empathyco/platform-gitops-sandbox.git'
+      targetRevision: HEAD
+      ref: values
+    - repoURL: 'https://github.com/empathyco/platform-gitops-sandbox.git'
+      targetRevision: HEAD
+      helm:
+        valueFiles:
+          - $values/applications/{{ $projectName }}/{{ $appName }}/values.yaml
+        {{- range .extraValuesFiles }}
+          - $values/applications/{{ $projectName }}/{{ $appName }}/{{ . }}
+        {{- end }}
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: {{ .namespace }}
+---
+{{- end }}
+{{- end }}
