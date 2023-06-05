@@ -7,7 +7,7 @@ metadata:
   name: {{ $appName }}
   namespace: argocd
   labels:
-    {{- toYaml (merge (default (dict) .labels) $.Values.global.metadata.labels) | nindent 4}}
+    {{- toYaml (merge (default (dict) .labels) (index $.Values.projects $projectName).labels) | nindent 4}}
 spec:
   project: '{{ $projectName }}'
   syncPolicy:
