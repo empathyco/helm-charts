@@ -5,7 +5,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: {{ $appName }}
-  namespace: argocd-changeme
+  namespace: argocd
   labels:
     {{- toYaml (merge (default (dict) .labels) $.Values.global.metadata.labels) | nindent 4}}
 spec:
