@@ -27,6 +27,7 @@ spec:
       ref: values
     - repoURL: 'https://github.com/empathyco/platform-gitops-sandbox.git'
       targetRevision: HEAD
+      path: applications/{{ $projectName }}/{{ $appName }}
       helm:
         valueFiles:
           - $values/applications/{{ $projectName }}/{{ $appName }}/values.yaml
