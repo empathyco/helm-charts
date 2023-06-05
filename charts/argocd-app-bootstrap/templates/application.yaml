@@ -37,6 +37,10 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: {{ .namespace }}
+  {{- with .ignoreDifferences }}
+  ignoreDifferences:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 ---
 {{- end }}
 {{- end }}
