@@ -10,6 +10,16 @@ entries:
     urls:
     - https://github.com/empathyco/helm-charts/releases/download/argo-app-bootstrap-1.0.0/argo-app-bootstrap-1.0.0.tgz
     version: 1.0.0
+  argocd-app-bootstrap:
+  - apiVersion: v1
+    appVersion: 1.0.0
+    created: "2023-06-05T09:05:53.737593651Z"
+    description: Helm chart to automatically provision ArgoCD application and projects
+    digest: c6a1156ee493b341c1a886efef6727a95b9d6b8d9736823fd111ce633d722d49
+    name: argocd-app-bootstrap
+    urls:
+    - https://github.com/empathyco/helm-charts/releases/download/argocd-app-bootstrap-1.0.1/argocd-app-bootstrap-1.0.1.tgz
+    version: 1.0.1
   cerebro:
   - apiVersion: v2
     appVersion: 0.9.4
@@ -1217,4 +1227,4 @@ entries:
     urls:
     - https://github.com/empathyco/helm-charts/releases/download/yace-exporter-0.1.0/yace-exporter-0.1.0.tgz
     version: 0.1.0
-generated: "2023-06-02T09:59:05.084525714Z"
+generated: "2023-06-05T09:05:53.737858559Z"
