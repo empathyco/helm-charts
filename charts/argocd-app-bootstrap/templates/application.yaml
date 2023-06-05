@@ -22,10 +22,10 @@ spec:
     syncOptions:
     - CreateNamespace=true
   sources:
-    - repoURL: 'https://github.com/empathyco/platform-gitops-sandbox.git'
+    - repoURL: "{{.Values.repoURL}}"
       targetRevision: HEAD
       ref: values
-    - repoURL: 'https://github.com/empathyco/platform-gitops-sandbox.git'
+    - repoURL: "{{.Values.repoURL}}"
       targetRevision: HEAD
       path: applications/{{ $projectName }}/{{ $appName }}
       helm:
