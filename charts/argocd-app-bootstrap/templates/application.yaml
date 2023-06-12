@@ -22,17 +22,17 @@ spec:
     syncOptions:
     - CreateNamespace=true
   sources:
-    - repoURL: "{{$.Values.repoURL}}"
-      targetRevision: HEAD
+    - repoURL: "{{ $.Values.repoURL }}"
+      targetRevision: "{{ $.Values.targetRevision }}"
       ref: values
-    - repoURL: "{{$.Values.repoURL}}"
-      targetRevision: HEAD
-      path: applications/{{ $projectName }}/{{ $appName }}
+    - repoURL: "{{ $.Values.repoURL }}"
+      targetRevision: "{{ $.Values.targetRevision }}"
+      path: {{ $.Values.projectsRoot }}/applications/{{ $projectName }}/{{ $appName }}
       helm:
         valueFiles:
-          - $values/applications/{{ $projectName }}/{{ $appName }}/values.yaml
+          - $values/{{ $.Values.projectsRoot }}/applications/{{ $projectName }}/{{ $appName }}/values.yaml
         {{- range .extraValuesFiles }}
-          - $values/applications/{{ $projectName }}/{{ $appName }}/{{ . }}
+          - $values/{{ $.Values.projectsRoot }}/applications/{{ $projectName }}/{{ $appName }}/{{ . }}
         {{- end }}
   destination:
     server: https://kubernetes.default.svc
