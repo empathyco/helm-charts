@@ -1,4 +1,6 @@
 repoURL: ""
+targetRevision: "main"
+projectsRoot: "environments/test"
 
 global:
   metadata:
