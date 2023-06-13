@@ -7,7 +7,7 @@ metadata:
   labels:
     {{- toYaml (merge (default (dict) $projectSettings.labels) $.Values.global.metadata.labels) | nindent 4}}
 spec:
-{{ toYaml (default $.Values.global.projectSpec $projectSettings.projectSpec) | indent 2}}
+{{- toYaml (merge (default (dict) $projectSettings.projectSpec) $.Values.global.projectSpec) | nindent 2}}
   roles:
     - name: projectAdmin
       description: Admin privileges on the project
