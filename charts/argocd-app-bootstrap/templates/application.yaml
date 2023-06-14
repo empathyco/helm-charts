@@ -21,6 +21,12 @@ spec:
         project: {{ $projectName }}
     syncOptions:
     - CreateNamespace=true
+    retry:
+      limit: 6
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m0s
   sources:
     - repoURL: "{{ $.Values.repoURL }}"
       targetRevision: "{{ $.Values.targetRevision }}"
