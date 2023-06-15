@@ -12,13 +12,13 @@ spec:
     - name: projectAdmin
       description: Admin privileges on the project
       policies:
-        - p, proj:{{ .name }}:projectAdmin, applications, get, {{ $projectName }}/*, allow
-        - p, proj:{{ .name }}:projectAdmin, applications, create, {{ $projectName }}/*, allow
-        - p, proj:{{ .name }}:projectAdmin, applications, update, {{ $projectName }}/*, allow
-        - p, proj:{{ .name }}:projectAdmin, applications, delete, {{ $projectName }}/*, allow
-        - p, proj:{{ .name }}:projectAdmin, applications, sync, {{ $projectName }}/*, allow
-        - p, proj:{{ .name }}:projectAdmin, applications, override, {{ $projectName }}/*, allow
-        - p, proj:{{ .name }}:projectAdmin, applications, action/*, {{ $projectName }}/*, allow
+        - p, proj:{{ $projectName }}:projectAdmin, applications, get, {{ $projectName }}/*, allow
+        - p, proj:{{ $projectName }}:projectAdmin, applications, create, {{ $projectName }}/*, allow
+        - p, proj:{{ $projectName }}:projectAdmin, applications, update, {{ $projectName }}/*, allow
+        - p, proj:{{ $projectName }}:projectAdmin, applications, delete, {{ $projectName }}/*, allow
+        - p, proj:{{ $projectName }}:projectAdmin, applications, sync, {{ $projectName }}/*, allow
+        - p, proj:{{ $projectName }}:projectAdmin, applications, override, {{ $projectName }}/*, allow
+        - p, proj:{{ $projectName }}:projectAdmin, applications, action/*, {{ $projectName }}/*, allow
       groups:
         {{- with $projectSettings.adminGroups }}
           {{- toYaml . | nindent 8 }}
