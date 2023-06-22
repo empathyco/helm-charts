@@ -1,6 +1,7 @@
 {{- range $projectName, $projectSettings := .Values.projects }}
 {{- range $projectSettings.applications }}
-{{- $appName := .name -}}
+{{ if (ne .enabled false) }}
+{{- $appName := .name }}
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -9,7 +10,7 @@ metadata:
   labels:
     {{- toYaml (merge (default (dict) .labels) (index $.Values.projects $projectName).labels) | nindent 4}}
 spec:
-  project: '{{ $projectName }}'
+  project: "{{ $projectName }}"
   syncPolicy:
     {{- if .autoSync.enabled }}
     automated:
@@ -18,7 +19,7 @@ spec:
     {{- end }}
     managedNamespaceMetadata:
       labels:
-        project: {{ $projectName }}
+        {{- toYaml (merge (default (dict) .labels) (index $.Values.projects $projectName).labels) | nindent 8}}
     syncOptions:
     - CreateNamespace=true
     retry:
@@ -48,5 +49,6 @@ spec:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 ---
+{{- end }}
 {{- end }}
 {{- end }}
