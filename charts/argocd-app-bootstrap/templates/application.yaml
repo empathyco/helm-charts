@@ -28,19 +28,16 @@ spec:
         duration: 5s
         factor: 2
         maxDuration: 3m0s
-  sources:
-    - repoURL: "{{ $.Values.repoURL }}"
-      targetRevision: "{{ $.Values.targetRevision }}"
-      ref: values
-    - repoURL: "{{ $.Values.repoURL }}"
-      targetRevision: "{{ $.Values.targetRevision }}"
-      path: {{ $.Values.projectsRoot }}/applications/{{ $projectName }}/{{ $appName }}
-      helm:
-        valueFiles:
-          - $values/{{ $.Values.projectsRoot }}/applications/{{ $projectName }}/{{ $appName }}/values.yaml
-        {{- range .extraValuesFiles }}
-          - $values/{{ $.Values.projectsRoot }}/applications/{{ $projectName }}/{{ $appName }}/{{ . }}
-        {{- end }}
+  source:
+    repoURL: "{{ $.Values.repoURL }}"
+    targetRevision: "{{ $.Values.targetRevision }}"
+    path: {{ $.Values.projectsRoot }}/applications/{{ $projectName }}/{{ $appName }}
+    helm:
+      valueFiles:
+        - values.yaml
+      {{- range .extraValuesFiles }}
+        - {{ . }}
+      {{- end }}
   destination:
     server: https://kubernetes.default.svc
     namespace: {{ .namespace }}
