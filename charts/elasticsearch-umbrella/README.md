@@ -125,7 +125,7 @@ A Helm chart for Kubernetes
 | data.volume.storage_class | string | `"standard"` | Storage class for statefulSet volumes |
 | global.elastic_config."cluster.name" | string | `"es"` | Elasticsearch cluster.name and should be unique per cluster in the namespace. Note that it should be the same as elasticsearch-data.elastic_config."cluster.name" so both subcharts belong to the same cluster. |
 | global.masterFullname | string | `"es-master"` | Fullname of the master, necessary to connect |
-| global.metrics.enabled | bool | `true` |  |
+| global.metrics.enabled | bool | `false` |  |
 | global.metrics.prometheus.annotations | object | `{}` | Annotations to include in the ServiceMonitor |
 | global.metrics.prometheus.labels.release | string | `"prometheus"` |  |
 | global.metrics.serviceMonitor.interval | string | `""` | Elasticsearch cluster serviceMonitor |

@@ -7,7 +7,7 @@ global:
 
   metrics: 
     # -- Enable global metrics
-    enabled: true
+    enabled: false
     prometheus: 
       # -- Annotations to include in the ServiceMonitor
       annotations: {}
