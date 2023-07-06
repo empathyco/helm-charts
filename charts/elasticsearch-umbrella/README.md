@@ -1,6 +1,6 @@
 # elasticsearch-umbrella
 
-![Version: 0.8.6](https://img.shields.io/badge/Version-0.8.6-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 7.17.2](https://img.shields.io/badge/AppVersion-7.17.2-informational?style=flat-square)
+![Version: 0.8.12](https://img.shields.io/badge/Version-0.8.12-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 7.17.2](https://img.shields.io/badge/AppVersion-7.17.2-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -8,10 +8,10 @@ A Helm chart for Kubernetes
 
 | Repository | Name | Version |
 |------------|------|---------|
-|  | client(elasticsearch-deployment) | 0.8.6 |
-|  | master(elasticsearch-statefulset) | 0.8.6 |
-|  | data(elasticsearch-statefulset) | 0.8.6 |
-|  | index(elasticsearch-statefulset) | 0.8.6 |
+|  | client(elasticsearch-deployment) | 0.8.12 |
+|  | master(elasticsearch-statefulset) | 0.8.12 |
+|  | data(elasticsearch-statefulset) | 0.8.12 |
+|  | index(elasticsearch-statefulset) | 0.8.12 |
 
 ## Values
 
@@ -28,6 +28,9 @@ A Helm chart for Kubernetes
 | client.elastic_config."node.ml" | string | `"false"` | Elasticsearch ml node role |
 | client.elastic_config."transport.tcp.compress" | string | `"true"` | Elasticsearch enable compression between nodes |
 | client.enabled | bool | `true` | Enabling or disabling client nodes |
+| client.extraInitContainers | list | `[]` | Extra initContainers to be run after the ones needed by Elasticsearch |
+| client.extraVolumeMounts | list | `[]` | Extra volume to mount to the Elasticsearch container. Those must be first specified in the extraVolumes field. |
+| client.extraVolumes | list | `[]` | Extra volumes, these can be later mounted on the extraInitContainers or to the Elasticsearch container. |
 | client.fullnameOverride | string | `""` | Overrides the clusterName and nodeGroup when used in the naming of resources. This should only be used when using a single nodeGroup, otherwise you will have name conflicts |
 | client.image.pullPolicy | string | `"IfNotPresent"` | The Kubernetes imagePullPolicy value |
 | client.image.repository | string | `"empathyco/elasticsearch"` | Docker repository for Elasticsearch image |
@@ -38,6 +41,7 @@ A Helm chart for Kubernetes
 | client.ingress.enabled | bool | `false` | Enable Kubernetes Ingress to expose Elasticsearch pods |
 | client.ingress.hosts | list | `[]` | Host and path for Kubernetes Ingress. See values.yaml for an example |
 | client.ingress.tls | list | `[]` | TLS secret for exposing Elasticsearch with https. See values.yaml for an example |
+| client.initContainersResources | object | `{}` | Set up resources of default Elasticsearch initContainers (same for all) |
 | client.nameOverride | string | `""` | Overrides the clusterName when used in the naming of resources |
 | client.nodeSelector | object | `{}` | Configurable nodeSelector so that you can target specific nodes for your Elasticsearch cluster |
 | client.podAnnotations | object | `{}` | Configurable annotations applied to all Elasticsearch pods |
@@ -46,6 +50,8 @@ A Helm chart for Kubernetes
 | client.podSecurityPolicy.name | string | `""` | The name of the podSecurityPolicy to use. If not set and create is true, a name is generated using the fullname template |
 | client.podSecurityPolicy.spec | object | `{}` | Spec to apply to the podSecurityPolicy. See values.yaml for an example |
 | client.prometheus.annotations | object | `{"app":"prometheus-operator","release":"prometheus"}` | Annotations to include in the ServiceMonitor |
+| client.prometheus.command[0] | string | `"/bin/elasticsearch_exporter"` |  |
+| client.prometheus.command[1] | string | `"--es.uri=http://127.0.0.1:9200"` |  |
 | client.prometheus.enabled | bool | `false` | Deploy a ServiceMonitor for Prometheus scrapping |
 | client.prometheus.exporter.image | string | `"prometheuscommunity/elasticsearch-exporter:v1.3.0"` | Exporter image to deploy as a sidecar container |
 | client.prometheus.resources.requests.cpu | string | `"100m"` |  |
@@ -74,6 +80,9 @@ A Helm chart for Kubernetes
 | data.elastic_config."node.ml" | string | `"false"` | Elasticsearch ml node role |
 | data.elastic_config."transport.tcp.compress" | string | `"true"` | Elasticsearch enable compression between nodes |
 | data.enabled | bool | `true` | Enabling or disabling data nodes |
+| data.extraInitContainers | list | `[]` | Extra initContainers to be run after the ones needed by Elasticsearch |
+| data.extraVolumeMounts | list | `[]` | Extra volume to mount to the Elasticsearch container. Those must be first specified in the extraVolumes field. |
+| data.extraVolumes | list | `[]` | Extra volumes, these can be later mounted on the extraInitContainers or to the Elasticsearch container. |
 | data.fullnameOverride | string | `""` | Overrides the clusterName and nodeGroup when used in the naming of resources. This should only be used when using a single nodeGroup, otherwise you will have name conflicts |
 | data.image.pullPolicy | string | `"IfNotPresent"` | The Kubernetes imagePullPolicy value |
 | data.image.repository | string | `"empathyco/elasticsearch"` | Docker repository for Elasticsearch image |
@@ -84,6 +93,7 @@ A Helm chart for Kubernetes
 | data.ingress.enabled | bool | `false` | Enable Kubernetes Ingress to expose Elasticsearch pods |
 | data.ingress.hosts | list | `[]` | Host and path for Kubernetes Ingress. See values.yaml for an example |
 | data.ingress.tls | list | `[]` | TLS secret for exposing Elasticsearch with https. See values.yaml for an example |
+| data.initContainersResources | object | `{}` | Set up resources of default Elasticsearch initContainers (same for all) |
 | data.isMaster | bool | `false` | This property indicates its the master |
 | data.nameOverride | string | `""` | Overrides the clusterName when used in the naming of resources |
 | data.nodeSelector | object | `{}` | Configurable nodeSelector so that you can target specific nodes for your Elasticsearch cluster |
@@ -93,6 +103,8 @@ A Helm chart for Kubernetes
 | data.podSecurityPolicy.name | string | `""` | The name of the podSecurityPolicy to use. If not set and create is true, a name is generated using the fullname template |
 | data.podSecurityPolicy.spec | object | `{}` | Spec to apply to the podSecurityPolicy. See values.yaml for an example |
 | data.prometheus.annotations | object | `{"app":"prometheus-operator","release":"prometheus"}` | Annotations to include in the ServiceMonitor |
+| data.prometheus.command[0] | string | `"/bin/elasticsearch_exporter"` |  |
+| data.prometheus.command[1] | string | `"--es.uri=http://127.0.0.1:9200"` |  |
 | data.prometheus.enabled | bool | `false` | Deploy a ServiceMonitor for Prometheus scrapping |
 | data.prometheus.exporter.image | string | `"prometheuscommunity/elasticsearch-exporter:v1.3.0"` | Exporter image to deploy as a sidecar container |
 | data.prometheus.resources.requests.cpu | string | `"100m"` |  |
@@ -113,6 +125,13 @@ A Helm chart for Kubernetes
 | data.volume.storage_class | string | `"standard"` | Storage class for statefulSet volumes |
 | global.elastic_config."cluster.name" | string | `"es"` | Elasticsearch cluster.name and should be unique per cluster in the namespace. Note that it should be the same as elasticsearch-data.elastic_config."cluster.name" so both subcharts belong to the same cluster. |
 | global.masterFullname | string | `"es-master"` | Fullname of the master, necessary to connect |
+| global.metrics.enabled | bool | `true` |  |
+| global.metrics.prometheus.annotations | object | `{}` | Annotations to include in the ServiceMonitor |
+| global.metrics.prometheus.labels.release | string | `"prometheus"` |  |
+| global.metrics.serviceMonitor.interval | string | `""` | Elasticsearch cluster serviceMonitor |
+| global.metrics.serviceMonitor.metricRelabelings | list | `[]` |  |
+| global.metrics.serviceMonitor.relabelings | list | `[]` |  |
+| global.metrics.serviceMonitor.scrapeTimeout | string | `""` |  |
 | index.affinityOverride | object | `{}` |  |
 | index.busybox.image | string | `"busybox:1.31"` | Image for busybox initContainers (sysctlInitContainer in official Elasticsearch Helm chart) |
 | index.elastic_config | object | `{"bootstrap.memory_lock":"true","logger.org.elasticsearch.discovery.gce":"TRACE","network.bind_host":"0.0.0.0","node.attr.type":"index","node.data":"true","node.ingest":"true","node.master":"false","node.ml":"false","transport.tcp.compress":"true"}` | Elasticsearch configuration added in a configMap and passed to the Elasticsearch pods as Env. Vars. |
@@ -126,6 +145,9 @@ A Helm chart for Kubernetes
 | index.elastic_config."node.ml" | string | `"false"` | Elasticsearch ml node role |
 | index.elastic_config."transport.tcp.compress" | string | `"true"` | Elasticsearch enable compression between nodes |
 | index.enabled | bool | `true` | Enabling or disabling index nodes |
+| index.extraInitContainers | list | `[]` | Extra initContainers to be run after the ones needed by Elasticsearch |
+| index.extraVolumeMounts | list | `[]` | Extra volume to mount to the Elasticsearch container. Those must be first specified in the extraVolumes field. |
+| index.extraVolumes | list | `[]` | Extra volumes, these can be later mounted on the extraInitContainers or to the Elasticsearch container. |
 | index.fullnameOverride | string | `""` | Overrides the clusterName and nodeGroup when used in the naming of resources. This should only be used when using a single nodeGroup, otherwise you will have name conflicts |
 | index.image.pullPolicy | string | `"IfNotPresent"` | The Kubernetes imagePullPolicy value |
 | index.image.repository | string | `"empathyco/elasticsearch"` | Docker repository for Elasticsearch image |
@@ -136,6 +158,7 @@ A Helm chart for Kubernetes
 | index.ingress.enabled | bool | `false` | Enable Kubernetes Ingress to expose Elasticsearch pods |
 | index.ingress.hosts | list | `[]` | Host and path for Kubernetes Ingress. See values.yaml for an example |
 | index.ingress.tls | list | `[]` | TLS secret for exposing Elasticsearch with https. See values.yaml for an example |
+| index.initContainersResources | object | `{}` | Set up resources of default Elasticsearch initContainers (same for all) |
 | index.isMaster | bool | `false` | This property indicates its the master |
 | index.nameOverride | string | `""` | Overrides the clusterName when used in the naming of resources |
 | index.nodeSelector | object | `{}` | Configurable nodeSelector so that you can target specific nodes for your Elasticsearch cluster |
@@ -145,7 +168,9 @@ A Helm chart for Kubernetes
 | index.podSecurityPolicy.name | string | `""` | The name of the podSecurityPolicy to use. If not set and create is true, a name is generated using the fullname template |
 | index.podSecurityPolicy.spec | object | `{}` | Spec to apply to the podSecurityPolicy. See values.yaml for an example |
 | index.prometheus.annotations | object | `{"app":"prometheus-operator","release":"prometheus"}` | Annotations to include in the ServiceMonitor |
-| index.prometheus.enabled | bool | `false` | Deploy a ServiceMonitor for Prometheus scrapping |
+| index.prometheus.command[0] | string | `"/bin/elasticsearch_exporter"` |  |
+| index.prometheus.command[1] | string | `"--es.uri=http://127.0.0.1:9200"` |  |
+| index.prometheus.enabled | bool | `true` | Deploy a ServiceMonitor for Prometheus scrapping |
 | index.prometheus.exporter.image | string | `"prometheuscommunity/elasticsearch-exporter:v1.3.0"` | Exporter image to deploy as a sidecar container |
 | index.prometheus.resources.requests.cpu | string | `"100m"` |  |
 | index.prometheus.resources.requests.memory | string | `"128Mi"` |  |
@@ -175,6 +200,9 @@ A Helm chart for Kubernetes
 | master.elastic_config."node.ml" | string | `"false"` | Elasticsearch ml node role |
 | master.elastic_config."transport.tcp.compress" | string | `"true"` | Elasticsearch enable compression between nodes |
 | master.enabled | bool | `true` | Enabling or disabling master nodes |
+| master.extraInitContainers | list | `[]` | Extra initContainers to be run after the ones needed by Elasticsearch |
+| master.extraVolumeMounts | list | `[]` | Extra volume to mount to the Elasticsearch container. Those must be first specified in the extraVolumes field. |
+| master.extraVolumes | list | `[]` | Extra volumes, these can be later mounted on the extraInitContainers or to the Elasticsearch container. |
 | master.fullnameOverride | string | `""` | Overrides the clusterName and nodeGroup when used in the naming of resources. This should only be used when using a single nodeGroup, otherwise you will have name conflicts |
 | master.image.pullPolicy | string | `"IfNotPresent"` | The Kubernetes imagePullPolicy value |
 | master.image.repository | string | `"empathyco/elasticsearch"` | Docker repository for Elasticsearch image |
@@ -185,6 +213,7 @@ A Helm chart for Kubernetes
 | master.ingress.enabled | bool | `false` | Enable Kubernetes Ingress to expose Elasticsearch pods |
 | master.ingress.hosts | list | `[]` | Host and path for Kubernetes Ingress. See values.yaml for an example |
 | master.ingress.tls | list | `[]` | TLS secret for exposing Elasticsearch with https. See values.yaml for an example |
+| master.initContainersResources | object | `{}` | Set up resources of default Elasticsearch initContainers (same for all) |
 | master.isMaster | bool | `true` | This property indicates its the master |
 | master.nameOverride | string | `""` | Overrides the clusterName when used in the naming of resources |
 | master.nodeSelector | object | `{}` | Configurable nodeSelector so that you can target specific nodes for your Elasticsearch cluster |
@@ -194,7 +223,8 @@ A Helm chart for Kubernetes
 | master.podSecurityPolicy.create | bool | `false` | Create a podSecurityPolicy with minimal permissions to run this Helm chart. Be sure to also set rbac.create to true, otherwise Role and RoleBinding won't be created. |
 | master.podSecurityPolicy.name | string | `""` | The name of the podSecurityPolicy to use. If not set and create is true, a name is generated using the fullname template |
 | master.podSecurityPolicy.spec | object | `{}` | Spec to apply to the podSecurityPolicy. See values.yaml for an example |
-| master.prometheus.annotations | object | `{"app":"prometheus-operator","release":"prometheus"}` | Annotations to include in the ServiceMonitor |
+| master.prometheus.command[0] | string | `"/bin/elasticsearch_exporter"` |  |
+| master.prometheus.command[1] | string | `"--es.uri=http://127.0.0.1:9200"` |  |
 | master.prometheus.dashboard.enabled | bool | `true` |  |
 | master.prometheus.dashboard.namespace | string | `"monitoring"` |  |
 | master.prometheus.enabled | bool | `false` | Deploy a ServiceMonitor for Prometheus scrapping |

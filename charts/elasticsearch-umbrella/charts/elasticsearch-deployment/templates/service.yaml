@@ -16,12 +16,6 @@ spec:
       targetPort: transport
       protocol: TCP
       name: transport
-{{- if .Values.prometheus.enabled }}
-    - port: 9114
-      targetPort: metrics
-      protocol: TCP
-      name: metrics
-{{ end }}
   selector:
     {{- include "deployment.selectorLabels" . | nindent 4 }}
 {{ end }}

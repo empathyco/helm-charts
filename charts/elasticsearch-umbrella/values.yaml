@@ -5,6 +5,22 @@ global:
   # -- Fullname of the master, necessary to connect
   masterFullname: es-master
 
+  metrics: 
+    # -- Enable global metrics
+    enabled: true
+    prometheus: 
+      # -- Annotations to include in the ServiceMonitor
+      annotations: {}
+      labels: 
+        release: prometheus
+    serviceMonitor: 
+      # -- Elasticsearch cluster serviceMonitor
+      interval: ""
+      scrapeTimeout: "" 
+      metricRelabelings: []
+      relabelings: []
+  
+
 master:
   # -- Enabling or disabling master nodes
   enabled: true
@@ -86,10 +102,7 @@ master:
     dashboard:
       enabled: true
       namespace: monitoring
-    # -- Annotations to include in the ServiceMonitor
-    annotations: 
-      release: prometheus
-      app: prometheus-operator
+   
     exporter:
     # -- Exporter image to deploy as a sidecar container
       image: prometheuscommunity/elasticsearch-exporter:v1.3.0

@@ -70,10 +70,6 @@ prometheus:
   dashboard:
     enabled: true
     namespace: monitoring
-  # -- Annotations to include in the ServiceMonitor
-  annotations: 
-    release: prometheus
-    app: prometheus-operator
   exporter:
   # -- Exporter image to deploy as a sidecar container
     image: prometheuscommunity/elasticsearch-exporter:v1.3.0
