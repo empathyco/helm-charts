@@ -1,0 +1,59 @@
+{{- if $.Values.global.metrics.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "elasticsearch.fullname" . }}-exporter
+  {{- with .Values.global.metrics.prometheus.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  labels:
+    {{- include "elasticsearch.labels" . | nindent 4 }}
+    {{- toYaml .Values.global.metrics.prometheus.labels  | nindent 4 }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: 9114
+      targetPort: metrics
+      protocol: TCP
+      name: metrics
+  selector:
+    app.kubernetes.io/instance: {{ .Release.Name }}
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ include "elasticsearch.fullname" . }}
+  {{- with .Values.global.metrics.prometheus.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  labels:
+    {{- include "elasticsearch.labels" . | nindent 4 }}
+    {{- toYaml .Values.global.metrics.prometheus.labels  | nindent 4 }}
+spec:
+  jobLabel: app
+  endpoints:
+  - honorLabels: true
+    port: metrics
+    {{- with .Values.global.metrics.serviceMonitor.interval }}
+    interval: {{ . }}
+    {{- end }}
+    {{- with .Values.global.metrics.serviceMonitor.scrapeTimeout  }}
+    scrapeTimeout: {{ . }}
+    {{- end }}
+    {{- with .Values.global.metrics.serviceMonitor.metricRelabelings }}
+    metricRelabelings:
+      {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.global.metrics.serviceMonitor.relabelings }}
+    relabelings:
+      {{- toYaml . | nindent 8 }}
+    {{- end }}
+  selector:
+    matchLabels:
+      {{- include "elasticsearch.selectorLabels" . | nindent 6 }}
+  namespaceSelector:
+    matchNames:
+    - {{ .Release.Namespace }}
+{{- end }}
