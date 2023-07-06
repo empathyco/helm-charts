@@ -65,6 +65,5 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 Selector labels
 */}}
 {{- define "elasticsearch.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "elasticsearch.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
