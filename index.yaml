@@ -581,6 +581,34 @@ entries:
   elasticsearch-umbrella:
   - apiVersion: v2
     appVersion: 7.17.2
+    created: "2023-07-06T13:24:16.682639917Z"
+    dependencies:
+    - alias: master
+      name: elasticsearch-statefulset
+      repository: ""
+      version: 0.8.12
+    - alias: data
+      name: elasticsearch-statefulset
+      repository: ""
+      version: 0.8.12
+    - alias: index
+      name: elasticsearch-statefulset
+      repository: ""
+      version: 0.8.12
+    - alias: client
+      name: elasticsearch-deployment
+      repository: ""
+      version: 0.8.12
+    description: A Helm chart for Kubernetes
+    digest: 1f42f69b052311b0da1e5e791c75cf318d304b28ec2e0f9bd6f40d07409521a9
+    icon: https://helm.elastic.co/icons/elasticsearch.png
+    name: elasticsearch-umbrella
+    type: application
+    urls:
+    - https://github.com/empathyco/helm-charts/releases/download/elasticsearch-umbrella-0.8.12/elasticsearch-umbrella-0.8.12.tgz
+    version: 0.8.12
+  - apiVersion: v2
+    appVersion: 7.17.2
     created: "2023-05-23T11:10:09.101650218Z"
     dependencies:
     - alias: master
@@ -1326,4 +1354,4 @@ entries:
     urls:
     - https://github.com/empathyco/helm-charts/releases/download/yace-exporter-0.1.0/yace-exporter-0.1.0.tgz
     version: 0.1.0
-generated: "2023-06-27T14:47:22.57754594Z"
+generated: "2023-07-06T13:24:16.682952319Z"
