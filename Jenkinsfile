@@ -17,6 +17,11 @@ pipeline {
                 HELM_EXPERIMENTAL_OCI = 1
                 HELM_REPO = 'https://harbor.internal.shared.empathy.co/chartrepo/empathyco'
                 HELM_REPO_URL="harbor.internal.shared.empathy.co/platform/public-charts"
+
+                // Pipe ("|") separeted list of helm charts that are needed to be pushed to harbor. The rest will be available in the repo as public charts.
+                // E.g:
+                // HELM_CHARTS_TO_HARBOR="elasticsearch-umbrella|cerebro"
+                HELM_CHARTS_TO_HARBOR="elasticsearch-umbrella"
             }
             steps {
                 script {
@@ -24,13 +29,13 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: 'harbor-credentials', usernameVariable: 'username', passwordVariable: 'password')]) {
                         sh '''
                             helm registry login ${HELM_REPO_URL} --username ${username} --password ${password}
-                            for element in $(ls ./charts)
+                            for chart in $(ls -1 ./charts | grep -E ${HELM_CHARTS_TO_HARBOR})
                             do
-                                VERSION=$(yq eval .version ./charts/${element}/Chart.yaml)
-                                helm lint ./charts/${element}
-                                helm cm-push ./charts/${element} ${HELM_REPO} -v ${VERSION} -u ${username} -p ${password}
-                                helm chart save ./charts/${element} ${HELM_REPO_URL}/${element}:${VERSION}-chart
-                                helm chart push ${HELM_REPO_URL}/${element}:${VERSION}-chart
+                                VERSION=$(yq eval .version ./charts/${chart}/Chart.yaml)
+                                helm lint ./charts/${chart}
+                                helm cm-push ./charts/${chart} ${HELM_REPO} -v ${VERSION} -u ${username} -p ${password}
+                                helm chart save ./charts/${chart} ${HELM_REPO_URL}/${chart}:${VERSION}-chart
+                                helm chart push ${HELM_REPO_URL}/${chart}:${VERSION}-chart
                             done
                         '''
                     }
