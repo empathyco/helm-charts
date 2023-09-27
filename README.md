@@ -37,4 +37,5 @@ Following the list complete list of supported Helm Charts:
 * devlake
 * elasticsearch-umbrella
 * imagepullsecret-patcher
+* networkpolicies
 * yace-exporter

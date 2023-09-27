@@ -1,0 +1,25 @@
+# Default values for networkpolicies.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+nameOverride: ""
+fullnameOverride: ""
+egressRules: []
+ingressRules: []
+dns: 
+  namespace: kube-system
+  app: kube-dns
+aws:
+  enabled: false
+  dns: false
+  s3: false
+  kinesis: false
+  sqs: false
+  sns: false
+  redis: false
+  redisCIDR: 0.0.0.0/0
+  redisPort: 6379
+mongoAtlas:
+  enabled: false
+  cidr: 0.0.0.0/0
+  port: 27017
+    
