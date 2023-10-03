@@ -30,11 +30,7 @@ We are open to contributors, you can contribute to Empathy Helm Charts through c
 Following the list complete list of supported Helm Charts:
 
 * argocd-app-bootstrap
-* backstage
 * cerebro
-* cloud-cost-report
 * deadman-switch
-* devlake
 * elasticsearch-umbrella
 * imagepullsecret-patcher
-* yace-exporter
