@@ -15,4 +15,4 @@ jobs:
       working-directory: charts/yace-exporter
       publicRepo: true
     secrets:
-      GH_TOKEN: ${{ secrets.SUPPORT_TOKEN }}
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
