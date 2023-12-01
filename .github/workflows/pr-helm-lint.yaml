@@ -27,7 +27,7 @@ jobs:
           path: main
 
       - name: "Install Helm"
-        uses: azure/setup-helm@v3
+        uses: azure/setup-helm@v3.5
         with:
           version: "${{ env.HELM_VERSION }}"
 
