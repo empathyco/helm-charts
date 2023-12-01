@@ -101,7 +101,7 @@ jobs:
           ${GITHUB_WORKSPACE}/gomplate -f ${GITHUB_WORKSPACE}/docs/README.tpl -o ${GITHUB_WORKSPACE}/README.md
 
       - name: "Commit updated README.md to the branch if changed"
-        uses: stefanzweifel/git-auto-commit-action@v4
+        uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "[Automatic] - Update chart list"
           file_pattern: README.md
