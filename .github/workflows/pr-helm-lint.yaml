@@ -37,7 +37,7 @@ jobs:
           chmod u+x gomplate
 
       - name: "Get Helm Charts changed"
-        uses: masesgroup/retrieve-changed-files@v2
+        uses: masesgroup/retrieve-changed-files@v3
         id: updated_files
         with:
           format: csv
