@@ -31,6 +31,5 @@ Following the list complete list of supported Helm Charts:
 
 * argocd-app-bootstrap
 * cerebro
-* deadman-switch
 * elasticsearch-umbrella
 * imagepullsecret-patcher
