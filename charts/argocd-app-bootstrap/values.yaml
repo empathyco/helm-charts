@@ -25,6 +25,7 @@ projects:
 #    applications:
 #      - name: app-name
 #        enabled: true
+#        deleteAppResourcesOnAppDeletion: false
 #        extraValuesFiles:
 #          - extra-values-file.yaml
 #        namespace: my-namespace
