@@ -9,6 +9,10 @@ metadata:
   namespace: argocd
   labels:
     {{- toYaml (merge (default (dict) .labels) (index $.Values.projects $projectName).labels) | nindent 4}}
+  {{- if .deleteAppResourcesOnAppDeletion }}
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  {{- end }}
 spec:
   project: "{{ $projectName }}"
   syncPolicy:
