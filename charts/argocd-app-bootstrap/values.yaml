@@ -33,3 +33,5 @@ projects:
 #          enabled: true
 #          selfHeal: true
 #          prune: true
+#       extraSyncOptions:
+#         - ServerSideApply=true
