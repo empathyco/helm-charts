@@ -10,6 +10,10 @@ global:
     clusterResourceWhitelist: []
     destinations: []
     sourceRepos: []
+  appSpec:
+    extraSyncOptions: {}
+      #CreateNamespace: true
+      #ServerSideApply: true
 
 projects:
   global-project-settings:

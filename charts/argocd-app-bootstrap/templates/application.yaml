@@ -25,9 +25,8 @@ spec:
       labels:
         {{- toYaml (merge (default (dict) .labels) (index $.Values.projects $projectName).labels) | nindent 8}}
     syncOptions:
-    - CreateNamespace=true
-    {{- with .extraSyncOptions }}
-    {{- toYaml . | nindent 4 }}
+    {{- range $syncOptionKey,$syncOptionValue := (merge (default (dict) .extraSyncOptions) $.Values.global.appSpec.extraSyncOptions) }}
+      - {{ $syncOptionKey }}={{ $syncOptionValue }}
     {{- end }}
     retry:
       limit: 6
