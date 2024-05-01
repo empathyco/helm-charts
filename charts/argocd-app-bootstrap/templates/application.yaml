@@ -54,7 +54,7 @@ spec:
       {{- range .extraValuesFiles }}
         - {{ . }}
       {{- end }}
-    {{- end -}}
+    {{- end }}
   destination:
     server: https://kubernetes.default.svc
     namespace: {{ .namespace }}
