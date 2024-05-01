@@ -29,6 +29,13 @@ projects:
 #    applications:
 #      - name: app-name
 #        enabled: true
+#        isExternalApp: true
+#        externalRepoURL: external-repo-URL
+#        externalTargetRevision: external-repo-URL
+#        externalPath: path
+#        externalValuesFiles:
+#          - values.yaml
+#          - extra-values-file.yaml
 #        deleteAppResourcesOnAppDeletion: false
 #        extraValuesFiles:
 #          - extra-values-file.yaml
