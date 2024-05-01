@@ -35,6 +35,16 @@ spec:
         factor: 2
         maxDuration: 3m0s
   source:
+    {{- if .isExternalApp }}
+    repoURL: "{{ .externalRepoURL }}"
+    targetRevision: "{{ .externalTargetRevision }}"
+    path: {{ .externalPath }}
+    helm:
+      valueFiles:
+      {{- range .externalValuesFiles }}
+        - {{ . }}
+      {{- end }}  
+    {{- else }}
     repoURL: "{{ $.Values.repoURL }}"
     targetRevision: "{{ $.Values.targetRevision }}"
     path: {{ $.Values.projectsRoot }}/applications/{{ $projectName }}/{{ $appName }}
@@ -44,6 +54,7 @@ spec:
       {{- range .extraValuesFiles }}
         - {{ . }}
       {{- end }}
+    {{- end -}}
   destination:
     server: https://kubernetes.default.svc
     namespace: {{ .namespace }}
