@@ -23,26 +23,26 @@ projects:
       destinations: []
       sourceRepos: []
     adminGroups: []
-#  my-project:
-#    adminGroups:
-#      - admin@example.com
-#    applications:
-#      - name: app-name
-#        enabled: true
-#        isExternalApp: true
-#        externalRepoURL: external-repo-URL
-#        externalTargetRevision: external-repo-URL
-#        externalPath: path
-#        externalValuesFiles:
-#          - values.yaml
-#          - extra-values-file.yaml
-#        deleteAppResourcesOnAppDeletion: false
-#        extraValuesFiles:
-#          - extra-values-file.yaml
-#        namespace: my-namespace
-#        autoSync:
-#          enabled: true
-#          selfHeal: true
-#          prune: true
-#       extraSyncOptions:
-#         - ServerSideApply=true
+    # applications:
+    #   - name: app-name
+    #     enabled: true
+    #     isExternalApp: true
+    #     externalRepoURL: external-repo-URL
+    #     externalTargetRevision: external-repo-URL
+    #     externalPath: path
+    #     externalValuesFiles:
+    #       - values.yaml
+    #       - extra-values-file.yaml
+    #     parameters:
+    #       - name: "example"
+    #         value: "example"
+    #     deleteAppResourcesOnAppDeletion: false
+    #     extraValuesFiles:
+    #       - extra-values-file.yaml
+    #     namespace: my-namespace
+    #     autoSync:
+    #       enabled: true
+    #       selfHeal: true
+    #       prune: true
+    #     extraSyncOptions:
+    #       ServerSideApply: true
