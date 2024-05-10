@@ -23,6 +23,17 @@ projects:
       destinations: []
       sourceRepos: []
     adminGroups: []
+    syncWindows:
+      # - kind: allow
+      #   schedule: "45 7 * * 1-5" 
+      #   duration: "10h"
+      #   timezone: "Europe/Madrid"
+      #   manualSync: true
+      # - kind: deny
+      #   schedule: "45 11 * * 5-6" 
+      #   duration: "6h"
+      #   timezone: "Europe/Madrid"
+      #   manualSync: true
     # applications:
     #   - name: app-name
     #     enabled: true

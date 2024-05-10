@@ -26,5 +26,9 @@ spec:
 {{- with $projectSettings.extraRoles }}
   {{- toYaml . | nindent 4 }}
 {{- end }}
+{{- with $projectSettings.syncWindows }}
+  syncWindows:
+    {{- toYaml . | nindent 2 }}
+{{- end }}
 ---
 {{- end }}
