@@ -51,7 +51,7 @@ spec:
     {{- else }}
     repoURL: "{{ $.Values.repoURL }}"
     targetRevision: "{{ $.Values.targetRevision }}"
-    path: {{ $.Values.projectsRoot }}/applications/{{ $projectName }}/{{ $appName }}
+    path: {{ .chartPath | default (printf "%s/applications/%s/%s" $.Values.projectsRoot $projectName $appName) }}
     helm:
       valueFiles:
         - values.yaml
