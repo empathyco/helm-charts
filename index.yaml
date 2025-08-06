@@ -13,6 +13,15 @@ entries:
   argocd-app-bootstrap:
   - apiVersion: v1
     appVersion: 1.0.0
+    created: "2025-08-06T14:54:21.645229081Z"
+    description: Helm chart to automatically provision ArgoCD application and projects
+    digest: 9a0d8f04e9921791ba59669ee0058e8249a7338a628c13bf605153e129ee64ee
+    name: argocd-app-bootstrap
+    urls:
+    - https://github.com/empathyco/helm-charts/releases/download/argocd-app-bootstrap-1.0.20/argocd-app-bootstrap-1.0.20.tgz
+    version: 1.0.20
+  - apiVersion: v1
+    appVersion: 1.0.0
     created: "2024-05-10T07:59:35.519671721Z"
     description: Helm chart to automatically provision ArgoCD application and projects
     digest: 0334ebc1d39d819546d55c12a3c5dc8f66cb5776239ab9ebe4221b83695b42e0
@@ -1417,4 +1426,4 @@ entries:
     urls:
     - https://github.com/empathyco/helm-charts/releases/download/yace-exporter-0.1.0/yace-exporter-0.1.0.tgz
     version: 0.1.0
-generated: "2024-05-10T07:59:35.51995931Z"
+generated: "2025-08-06T14:54:21.645496355Z"
