@@ -64,7 +64,7 @@ spec:
       {{- end }}
     {{- end }}
   destination:
-    server: https://kubernetes.default.svc
+    server:  {{ .destinationCluster | default "https://kubernetes.default.svc"}}
     namespace: {{ .namespace }}
   {{- with .ignoreDifferences }}
   ignoreDifferences:
