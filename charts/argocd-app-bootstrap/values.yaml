@@ -57,3 +57,11 @@ projects:
     #       prune: true
     #     extraSyncOptions:
     #       ServerSideApply: true
+    #     # Optional. When set, the Application is rendered with a `sources:` list
+    #     # (multi-source) instead of a single `source:`. The main source stays first
+    #     # and each listed entry becomes an extra source used to load value files,
+    #     # referenced from helm.valueFiles as $<ref>/<relative-path>.
+    #     extraValueSources:
+    #       - repoURL: external-values-repo-URL
+    #         targetRevision: main
+    #         ref: values
