@@ -34,35 +34,25 @@ spec:
         duration: 5s
         factor: 2
         maxDuration: 3m0s
-  source:
-    {{- if .isExternalApp }}
-    repoURL: "{{ .externalRepoURL }}"
-    targetRevision: "{{ .externalTargetRevision }}"
-    path: {{ .externalPath }}
-    helm:
-      valueFiles:
-      {{- range .externalValuesFiles }}
-        - {{ . }}
-      {{- end }}  
-      {{- if .parameters }}
-      parameters:
-        {{- .parameters | toYaml | nindent 8 }}
-      {{- end }}
-    {{- else }}
-    repoURL: "{{ $.Values.repoURL }}"
-    targetRevision: "{{ $.Values.targetRevision }}"
-    path: {{ .chartPath | default (printf "%s/applications/%s/%s" $.Values.projectsRoot $projectName $appName) }}
-    helm:
-      valueFiles:
-        - values.yaml
-      {{- range .extraValuesFiles }}
-        - {{ . }}
-      {{- end }}
-      {{- if .parameters }}
-      parameters:
-        {{- .parameters | toYaml | nindent 8 }}
-      {{- end }}
+  {{- $sourceCtx := dict "app" . "projectName" $projectName "appName" $appName "root" $ }}
+  {{- if .extraValueSources }}
+  {{- $baseSource := include "argocd-app-bootstrap.applicationSource" $sourceCtx | trim | splitList "\n" }}
+  sources:
+    - {{ index $baseSource 0 }}
+    {{- range $lineIdx, $line := $baseSource }}
+    {{- if gt $lineIdx 0 }}
+      {{- printf "\n%s" ($line | indent 6) }}
     {{- end }}
+    {{- end }}
+    {{- range .extraValueSources }}
+    - repoURL: "{{ .repoURL }}"
+      targetRevision: "{{ .targetRevision | default $.Values.targetRevision }}"
+      ref: {{ .ref | default "values" }}
+    {{- end }}
+  {{- else }}
+  source:
+    {{- include "argocd-app-bootstrap.applicationSource" $sourceCtx | trim | nindent 4 }}
+  {{- end }}
   destination:
     server:  {{ .destinationCluster | default "https://kubernetes.default.svc"}}
     namespace: {{ .namespace }}
